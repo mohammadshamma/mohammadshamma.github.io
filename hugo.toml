@@ -1,4 +1,26 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = "Mohammad Shamma's Page"
 theme = "hugo-blog-awesome"
+
+[params]
+  goToTop = true
+
+[params.author]
+  avatar = "avatar.jpg" # put the file in assets folder; also ensure that image has same height and width
+  # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
+  intro = "Mohammad Shamma's Page"
+  name = "Mohammad Shamma"
+  description = "I write about software."
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/mohammadshamma"
+
+[[params.socialIcons]]
+name = "twitter"
+url = "https://twitter.com/mohammadshamma"
+
+[[params.socialIcons]]
+name = "Rss"
+url = "index.xml"
