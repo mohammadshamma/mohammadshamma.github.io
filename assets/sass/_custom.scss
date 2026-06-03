@@ -1,0 +1,298 @@
+//////////////// Portfolio /////////////////
+// Project card grid used by the /portfolio list page and the homepage
+// "Selected work" strip. Reuses theme variables defined in main.scss.
+
+// External-link (arrow-up-right) icon, used as a CSS mask so it inherits the
+// element's `currentColor`. URL-encoded inline SVG (no extra HTTP request).
+$icon-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'/%3E%3Cpolyline points='7 7 17 7 17 17'/%3E%3C/svg%3E");
+
+.portfolio-intro {
+    margin-bottom: $spacing-full;
+    color: $gray;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: $spacing-half;
+    margin: $spacing-half 0 $spacing-full;
+
+    @include media-query($on-mobile) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.portfolio-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid $smoke;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    background-color: $white;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-3px);
+        border-color: $text-link-blue;
+        box-shadow: 0 6px 20px rgba(13, 18, 43, 0.08);
+        color: inherit;
+    }
+
+    .portfolio-card-media {
+        line-height: 0;
+
+        img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+    }
+
+    .portfolio-card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: $spacing-half;
+    }
+
+    .portfolio-card-title {
+        margin: 0.4rem 0 0.3rem;
+        @include relative-font-size(1.15);
+    }
+
+    .portfolio-card-desc {
+        margin: 0 0 0.8rem;
+        color: $gray;
+        @include relative-font-size(0.95);
+    }
+
+    .portfolio-card-more {
+        margin-top: auto;
+        color: $text-link-blue;
+        font-weight: $bold-weight;
+        @include relative-font-size(0.9);
+    }
+}
+
+// Platform badge ("Web app", "iOS app", ...)
+.platform-badge {
+    display: inline-block;
+    // The card body is a flex column, whose default `align-items: stretch`
+    // would otherwise stretch the badge to the full card width.
+    align-self: flex-start;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background-color: $light;
+    color: $gray;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    @include relative-font-size(0.72);
+    font-weight: $bold-weight;
+}
+
+// Tech tag pills
+.tech-tags {
+    list-style: none;
+    margin: 0 0 0.8rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .tech-tag {
+        margin: 0;
+        padding: 1px 9px;
+        border: 1px solid $smoke;
+        border-radius: 999px;
+        color: $gray;
+        @include relative-font-size(0.78);
+
+        &:before {
+            content: none;
+        }
+    }
+}
+
+// Detail page — breadcrumb (Home / Portfolio / Project), driven by .Ancestors.
+.breadcrumb {
+    margin-bottom: $spacing-full;
+    @include relative-font-size(0.875);
+    color: $gray;
+
+    ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4em;
+    }
+
+    li {
+        margin: 0;
+
+        &:before {
+            content: none;
+        }
+    }
+
+    a {
+        color: $gray;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $text-link-blue;
+            text-decoration: underline;
+        }
+    }
+
+    li[aria-current="page"] {
+        color: inherit;
+        font-weight: $bold-weight;
+    }
+
+    .sep {
+        color: $smoke;
+    }
+}
+
+// Detail page (single)
+.portfolio-detail-media {
+    margin: $spacing-half 0;
+    line-height: 0;
+
+    img {
+        width: 100%;
+        border-radius: 8px;
+    }
+}
+
+.portfolio-cta-wrap {
+    margin: $spacing-half 0 $spacing-full;
+}
+
+// Scoped under `.page-content` to outrank the theme's `.page-content a`
+// link-color rule, which would otherwise tint the label the same blue as the
+// button background and make it invisible.
+.page-content a.portfolio-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 8px;
+    background-color: $text-link-blue;
+    color: $white;
+    font-weight: $bold-weight;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover,
+    &:focus {
+        background-color: $text-link-blue-active;
+        color: $white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(13, 18, 43, 0.18);
+    }
+
+    // Replace the theme's floating unicode "↗" (.page-content a[target=_blank]::after,
+    // equal specificity, so this later rule wins) with a properly-weighted,
+    // text-sized external-link icon. `currentColor` makes it match the label in
+    // both light and dark mode automatically.
+    &::after {
+        content: "";
+        position: static;
+        bottom: auto;
+        width: 1em;
+        height: 1em;
+        flex: none;
+        background-color: currentColor;
+        -webkit-mask: $icon-external center / contain no-repeat;
+        mask: $icon-external center / contain no-repeat;
+        transition: transform 0.15s ease;
+    }
+
+    &:hover::after,
+    &:focus::after {
+        transform: translate(2px, -2px);
+    }
+}
+
+//////////////// Portfolio — dark mode /////////////////
+// Mirrors the theme's _dark.scss strategy (html.dark + prefers-color-scheme).
+@mixin portfolio-dark-mode {
+    .portfolio-intro,
+    .portfolio-card .portfolio-card-desc,
+    .tech-tags .tech-tag {
+        color: $dark-gray;
+    }
+
+    .portfolio-card {
+        background-color: $dark-light;
+        border-color: $dark-smoke;
+
+        &:hover,
+        &:focus {
+            border-color: $dark-text-link-blue;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .portfolio-card-more {
+            color: $dark-text-link-blue;
+        }
+    }
+
+    .platform-badge {
+        background-color: $dark-black;
+        color: $dark-gray;
+    }
+
+    .tech-tags .tech-tag {
+        border-color: $dark-smoke;
+    }
+
+    .breadcrumb {
+        color: $dark-gray;
+
+        a {
+            color: $dark-gray;
+
+            &:hover,
+            &:focus {
+                color: $dark-text-link-blue;
+            }
+        }
+
+        .sep {
+            color: $dark-smoke;
+        }
+    }
+
+    // Match the elevated specificity used in light mode (see `.page-content
+    // a.portfolio-cta` above) so the theme's dark link color can't win.
+    .page-content a.portfolio-cta {
+        background-color: $dark-text-link-blue;
+        color: $dark-black;
+
+        &:hover,
+        &:focus {
+            background-color: $dark-text-link-blue-active;
+            color: $dark-black;
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.light) {
+        @include portfolio-dark-mode;
+    }
+}
+
+html.dark {
+    @include portfolio-dark-mode;
+}

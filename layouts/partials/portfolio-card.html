@@ -1,0 +1,25 @@
+{{/*
+  portfolio-card.html — a single project card.
+  Context (.) is a portfolio project page. Used by the portfolio list page and
+  the homepage "Selected work" strip so the card markup stays in one place.
+*/}}
+<a class="portfolio-card" href="{{ .RelPermalink }}">
+    {{ with .Params.image }}
+    {{ with $.Resources.GetMatch . }}
+    <div class="portfolio-card-media">
+        <img src="{{ (.Resize "600x webp").RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+    </div>
+    {{ end }}
+    {{ end }}
+    <div class="portfolio-card-body">
+        {{ with .Params.platform }}<span class="platform-badge">{{ . }}</span>{{ end }}
+        <h3 class="portfolio-card-title">{{ .Title }}</h3>
+        {{ with .Params.description }}<p class="portfolio-card-desc">{{ . }}</p>{{ end }}
+        {{ with .Params.tech }}
+        <ul class="tech-tags">
+            {{ range . }}<li class="tech-tag">{{ . }}</li>{{ end }}
+        </ul>
+        {{ end }}
+        <span class="portfolio-card-more">View project &rarr;</span>
+    </div>
+</a>

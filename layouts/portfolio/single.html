@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="wrapper post">
+    <main class="page-content" aria-label="Content">
+        <article>
+            {{/* Native Hugo breadcrumb (Home / Portfolio / Project) via .Ancestors */}}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    {{ range .Ancestors.Reverse }}
+                    <li><a href="{{ .RelPermalink }}">{{ if .IsHome }}Home{{ else }}{{ .LinkTitle }}{{ end }}</a></li>
+                    <li class="sep" aria-hidden="true">/</li>
+                    {{ end }}
+                    <li aria-current="page">{{ .LinkTitle }}</li>
+                </ol>
+            </nav>
+            <header class="header">
+                {{ with .Params.platform }}<span class="platform-badge">{{ . }}</span>{{ end }}
+                <h1 class="header-title">{{ .Title }}</h1>
+                {{ with .Params.tech }}
+                <ul class="tech-tags">
+                    {{ range . }}<li class="tech-tag">{{ . }}</li>{{ end }}
+                </ul>
+                {{ end }}
+            </header>
+
+            {{ with .Params.image }}
+            {{ with $.Resources.GetMatch . }}
+            <div class="portfolio-detail-media">
+                <img src="{{ (.Resize "1200x webp").RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+            </div>
+            {{ end }}
+            {{ end }}
+
+            {{ with .Params.externalUrl }}
+            <p class="portfolio-cta-wrap">
+                {{/* The theme auto-appends a ↗ glyph to external (target=_blank)
+                     links in .page-content, so we don't add one here. */}}
+                <a class="portfolio-cta" href="{{ . }}" target="_blank" rel="noopener">
+                    {{ $.Params.externalLabel | default "Visit site" }}
+                </a>
+            </p>
+            {{ end }}
+
+            <div class="page-content">
+                {{ .Content }}
+            </div>
+        </article>
+    </main>
+</div>
+{{ end }}
