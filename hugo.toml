@@ -1,10 +1,21 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://blog.negfeed.com/'
 languageCode = 'en-us'
 title = "Mohammad Shamma's Page"
 theme = "hugo-blog-awesome"
 
 [params]
   goToTop = true
+  mainSections = ['posts'] # keeps the portfolio out of the homepage "recent posts" list
+
+[[menu.main]]
+  name = 'Home'
+  pageRef = '/'
+  weight = 10
+
+[[menu.main]]
+  name = 'Portfolio'
+  pageRef = '/portfolio'
+  weight = 20
 
 [params.author]
   avatar = "avatar.jpg" # put the file in assets folder; also ensure that image has same height and width
@@ -18,9 +29,5 @@ name = "github"
 url = "https://github.com/mohammadshamma"
 
 [[params.socialIcons]]
-name = "twitter"
-url = "https://twitter.com/mohammadshamma"
-
-[[params.socialIcons]]
-name = "Rss"
-url = "index.xml"
+name = "linkedin"
+url = "https://www.linkedin.com/in/mohammadshamma/"
