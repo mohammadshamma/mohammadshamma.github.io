@@ -3,6 +3,10 @@ languageCode = 'en-us'
 title = "Mohammad Shamma's Page"
 theme = "hugo-blog-awesome"
 
+[services]
+  [services.googleAnalytics]
+    id = 'G-RZ2LNRDTNZ' # GA4 Measurement ID
+
 [params]
   goToTop = true
   mainSections = ['posts'] # keeps the portfolio out of the homepage "recent posts" list
