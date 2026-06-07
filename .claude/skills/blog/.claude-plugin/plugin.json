@@ -1,0 +1,6 @@
+{
+  "name": "blog",
+  "description": "Hugo blog authoring & publishing workflow for blog.negfeed.com",
+  "version": "1.0.0",
+  "author": { "name": "Mohammad Shamma", "email": "mohammadshamma@gmail.com" }
+}
