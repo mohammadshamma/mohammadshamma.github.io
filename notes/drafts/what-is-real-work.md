@@ -7,27 +7,29 @@ title = 'What Is "Real Work," Actually?'
 <!-- Draft. Lives in notes/drafts/ and is NOT published.
      When ready: move to content/posts/what-is-real-work.md and set draft = false. -->
 
-Picture two people watching the same engineer through a glass wall.
+Picture two people watching the same engineer work through the same day.
 
-The first observer sees eight hours of furious typing. Code scrolls. The
-keyboard never stops. Files open and close. By any visible measure, this is a
-person *working* — and working hard.
+The first observer sees the hands. Keys clatter. Code scrolls up the screen.
+Files open, fill with lines, and close. Functions appear; tests turn green. By
+this account it was a productive day — you could measure it in commits, in
+lines, in the sheer sustained motion of someone clearly *working*.
 
-The second observer sees something else entirely. They watched the same
-engineer spend the morning staring at a wall, then write three sentences and
-sketch one diagram. Three sentences and a diagram, and then they went to lunch.
+The second observer never looks at the keyboard. They watch the decisions.
+They see the engineer reject the obvious approach in the first ten minutes
+because it would have coupled two systems that need to stay independent. They
+see the moment a single question — *what happens when this runs twice?* — quietly
+kills an entire design and forces a better one. They see the trade picked, the
+trade refused, the constraint noticed early enough to matter. By this account
+the day's real output was a handful of decisions, and the typing was just the
+exhaust.
 
-Now: which of these two people did more real work?
+Same engineer. Same day. Same chair. Now: which observer watched the real work?
 
-The trick is that they're watching the same person on two different days. And
-the honest answer — the one that took me years to be able to say out loud — is
-that the three sentences and the diagram were the better day's work. They
-aligned five engineers who had been quietly building five different things.
-They turned a month of likely rework into a week of agreement. The eight hours
-of typing produced a feature; the three sentences produced *the right feature,
-built once.*
-
-But only one of those days *looked* like work.
+Most of us, if we're honest, were trained to trust the first observer. Effort
+you can see *feels* like the work. But the second observer is the one watching
+the thing that was actually hard to do and actually expensive to get wrong. The
+code was the easy part. It was always the easy part. We just had a hard time
+seeing past the part that moved.
 
 ## The gap was always there
 
