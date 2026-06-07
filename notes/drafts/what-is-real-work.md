@@ -63,11 +63,6 @@ doc in two days. That document — not the code — is what shipped the project.
 "I used AI to write the document, not the code, and that's why we shipped."
 Keep this tight; the full case study is its own post.]
 
-[TODO: the Gemini CLI refactor as a second beat — a single high-level comment
-drove a fast, sweeping abstraction. The thinking was the input; the
-implementation fell out of it. Decide whether this belongs here or stays in the
-"Lego to concrete" post so I don't double-spend the anecdote.]
-
 When typing got cheap, the typing stopped being the work, and what was *left*
 was the thing that was always the actual job: deciding what should exist, and
 getting people to agree it should exist. AI didn't move the line between busywork
