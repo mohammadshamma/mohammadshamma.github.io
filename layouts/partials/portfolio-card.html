@@ -4,8 +4,8 @@
   the homepage "Selected work" strip so the card markup stays in one place.
 */}}
 <a class="portfolio-card" href="{{ .RelPermalink }}">
-    {{ with .Params.image }}
-    {{ with $.Resources.GetMatch . }}
+    {{ if and .Params.image (not .Params.hideCardImage) (ne .Params.cardImage false) }}
+    {{ with $.Resources.GetMatch .Params.image }}
     <div class="portfolio-card-media">
         <img src="{{ (.Resize "600x webp").RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
     </div>
