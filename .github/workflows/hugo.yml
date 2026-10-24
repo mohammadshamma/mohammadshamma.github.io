@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Pin to the Hugo version verified locally. Bump as needed.
-      HUGO_VERSION: 0.162.1
+      HUGO_VERSION: 0.168.0
     steps:
       - name: Install Hugo CLI (extended, for SCSS)
         run: |
