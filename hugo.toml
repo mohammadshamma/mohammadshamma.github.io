@@ -1,5 +1,5 @@
 baseURL = 'https://blog.negfeed.com/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = "Mohammad Shamma's Page"
 theme = "hugo-blog-awesome"
 
