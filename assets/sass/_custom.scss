@@ -190,6 +190,30 @@ $icon-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     margin: $spacing-half 0 $spacing-full;
 }
 
+// Framed interactive artifact page (/artifacts/<slug>/)
+.artifact-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-half;
+
+    @include media-query($on-mobile) {
+        padding: 0;
+    }
+}
+
+.artifact-frame {
+    display: block;
+    width: 100%;
+    min-height: 920px;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+}
+
+.artifact-shell ~ .footer {
+    margin-top: 2.5em;
+}
+
 // Scoped under `.page-content` to outrank the theme's `.page-content a`
 // link-color rule, which would otherwise tint the label the same blue as the
 // button background and make it invisible.
