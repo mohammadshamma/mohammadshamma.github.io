@@ -31,7 +31,7 @@ theme = "hugo-blog-awesome"
   # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
   intro = "Mohammad Shamma's Page"
   name = "Mohammad Shamma"
-  description = "I write about software."
+  description = "I aspire to write about software, but I end up vibecoding."
 
 [[params.socialIcons]]
 name = "github"
