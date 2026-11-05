@@ -1,5 +1,8 @@
 {{- define "main" -}}
 <div class="artifact-shell">
+    <nav class="breadcrumb artifact-back" aria-label="Breadcrumb">
+        <a href="{{ .CurrentSection.RelPermalink }}">&larr; All {{ .CurrentSection.Title }}</a>
+    </nav>
     {{- $slug := strings.TrimPrefix "/" .RelPermalink | strings.TrimSuffix "/" -}}
     {{- with resources.Get (printf "%s/index.html" $slug) -}}
     {{- $embed := . | resources.Copy (printf "%s/embed.html" $slug) -}}
