@@ -1,0 +1,1 @@
+{{- with resources.Get (printf "%s/index.html" (strings.TrimPrefix "/" .RelPermalink | strings.TrimSuffix "/")) -}}{{- .Content | safeHTML -}}{{- end -}}

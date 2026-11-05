@@ -12,7 +12,14 @@
     {{ end }}
     {{ end }}
     <div class="portfolio-card-body">
-        {{ with .Params.platform }}<span class="platform-badge">{{ . }}</span>{{ end }}
+        {{ if or .Params.platform (and (eq .Section "artifacts") (not .Date.IsZero)) }}
+        <div class="portfolio-card-meta">
+            {{ with .Params.platform }}<span class="platform-badge">{{ . }}</span>{{ end }}
+            {{ if and (eq .Section "artifacts") (not .Date.IsZero) }}
+            <time class="portfolio-card-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            {{ end }}
+        </div>
+        {{ end }}
         <h3 class="portfolio-card-title">{{ .Title }}</h3>
         {{ with .Params.description }}<p class="portfolio-card-desc">{{ . }}</p>{{ end }}
         {{ with .Params.tech }}
@@ -20,6 +27,6 @@
             {{ range . }}<li class="tech-tag">{{ . }}</li>{{ end }}
         </ul>
         {{ end }}
-        <span class="portfolio-card-more">View project &rarr;</span>
+        <span class="portfolio-card-more">{{ .Params.cardCta | default "View project" }} &rarr;</span>
     </div>
 </a>
