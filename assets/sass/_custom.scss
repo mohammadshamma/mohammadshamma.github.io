@@ -58,6 +58,20 @@ $icon-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
         padding: $spacing-half;
     }
 
+    .portfolio-card-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .portfolio-card-date {
+        color: $gray;
+        @include relative-font-size(0.78);
+        font-variant-numeric: tabular-nums;
+    }
+
     .portfolio-card-title {
         margin: 0.4rem 0 0.3rem;
         @include relative-font-size(1.15);
@@ -228,6 +242,7 @@ $icon-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 @mixin portfolio-dark-mode {
     .portfolio-intro,
     .portfolio-card .portfolio-card-desc,
+    .portfolio-card .portfolio-card-date,
     .tech-tags .tech-tag {
         color: $dark-gray;
     }

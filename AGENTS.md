@@ -25,6 +25,7 @@ hugo server -D                            # local dev at http://localhost:1313 (
 hugo --gc --minify                        # production build → public/ (matches the CI build)
 hugo new posts/my-post-title.md           # new blog post from archetypes/default.md
 hugo new portfolio/my-project/index.md    # new portfolio entry from archetypes/portfolio.md (page bundle)
+hugo new artifacts/my-artifact/index.md   # new interactive artifact bundle from archetypes/artifacts.md
 ```
 
 Use the **extended** Hugo build (required for the SCSS in `assets/sass/`). CI pins `HUGO_VERSION` in `.github/workflows/hugo.yml`; keep local Hugo at or near that version and bump the pin together when upgrading.
@@ -35,10 +36,11 @@ Pushing to `master` triggers `.github/workflows/hugo.yml`, which builds with Hug
 
 ## Architecture
 
-Two content sections, each with distinct rendering:
+Three content sections, each with distinct rendering:
 
-- **`content/posts/`** — standard blog posts, rendered by the theme. `mainSections = ['posts']` in `hugo.toml` is what scopes the homepage "Recent Posts" list to posts only, deliberately keeping portfolio entries off it.
-- **`content/portfolio/`** — project showcase, rendered by **local layout overrides** in `layouts/portfolio/` (`list.html`, `single.html`) plus the shared `layouts/partials/portfolio-card.html`. Each project is a **page bundle** (`my-project/index.md` + optional `cover.png` in the same folder). The card partial is shared by the portfolio list page so card markup lives in one place.
+- **`content/posts/`** — standard blog posts, rendered by the theme. `mainSections = ['posts']` in `hugo.toml` is what scopes the homepage "Recent Posts" list to posts only, deliberately keeping portfolio and artifact entries off it.
+- **`content/portfolio/`** — project showcase, rendered by **local layout overrides** in `layouts/portfolio/` (`list.html`, `single.html`) plus the shared `layouts/_partials/portfolio-card.html`. Each project is a **page bundle** (`my-project/index.md` + optional `cover.png` in the same folder). The card partial is shared by the portfolio and artifacts list pages so card markup lives in one place.
+- **`content/artifacts/`** — self-contained interactive HTML artifacts, rendered on `/artifacts/` by `layouts/artifacts/list.html` + `layouts/_partials/portfolio-card.html` (showing the creation `date` alongside the `platform` badge). Each artifact has a page bundle (`content/artifacts/my-artifact/index.md` + optional `preview.png`) and its raw HTML file at `assets/artifacts/my-artifact/index.html` (`layouts/artifacts/single.html` outputs that asset directly at `/artifacts/my-artifact/`).
 
 Layouts in this repo (`layouts/`) override the theme submodule's templates — Hugo resolves the project's `layouts/` ahead of the theme. `layouts/index.html` is a full override of the homepage. Don't edit files under `themes/hugo-blog-awesome/` (submodule, upstream-owned); override in `layouts/` or `assets/` instead.
 
