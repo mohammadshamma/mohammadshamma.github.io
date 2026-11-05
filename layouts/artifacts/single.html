@@ -1,1 +1,66 @@
-{{- with resources.Get (printf "%s/index.html" (strings.TrimPrefix "/" .RelPermalink | strings.TrimSuffix "/")) -}}{{- .Content | safeHTML -}}{{- end -}}
+{{- define "main" -}}
+<div class="artifact-shell">
+    {{- $slug := strings.TrimPrefix "/" .RelPermalink | strings.TrimSuffix "/" -}}
+    {{- with resources.Get (printf "%s/index.html" $slug) -}}
+    {{- $embed := . | resources.Copy (printf "%s/embed.html" $slug) -}}
+    <iframe
+        id="artifact-frame"
+        class="artifact-frame"
+        src="{{ $embed.RelPermalink }}"
+        title="{{ $.Title }}"
+        scrolling="no"
+    ></iframe>
+    {{- end -}}
+</div>
+<script>
+(() => {
+    const frame = document.getElementById("artifact-frame");
+    if (!frame) return;
+
+    const syncThemeToFrame = () => {
+        try {
+            const doc = frame.contentDocument;
+            if (!doc || !doc.documentElement) return;
+            const isDark = document.documentElement.classList.contains("dark") ||
+                (!document.documentElement.classList.contains("light") &&
+                 window.matchMedia("(prefers-color-scheme: dark)").matches);
+            doc.documentElement.classList.toggle("dark", isDark);
+            doc.documentElement.classList.toggle("light", !isDark);
+            if (frame.contentWindow && typeof frame.contentWindow.__applyHostTheme === "function") {
+                frame.contentWindow.__applyHostTheme(isDark);
+            }
+        } catch (_) {}
+    };
+
+    const syncHeight = () => {
+        try {
+            const doc = frame.contentDocument;
+            if (!doc || !doc.body) return;
+            const h = Math.ceil(doc.body.getBoundingClientRect().height) || doc.body.scrollHeight;
+            if (h > 0) frame.style.height = h + "px";
+        } catch (_) {}
+    };
+
+    frame.addEventListener("load", () => {
+        syncThemeToFrame();
+        syncHeight();
+        try {
+            const doc = frame.contentDocument;
+            if (doc && doc.body && "ResizeObserver" in window) {
+                new ResizeObserver(syncHeight).observe(doc.body);
+            }
+            if (doc) {
+                doc.querySelectorAll("a[href]").forEach((a) => {
+                    if (!a.getAttribute("target")) a.setAttribute("target", "_top");
+                });
+            }
+        } catch (_) {}
+    });
+
+    new MutationObserver(syncThemeToFrame).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+    });
+})();
+</script>
+{{- end -}}
