@@ -1,0 +1,14 @@
+{{- /*
+  meta/description.html — resolves the best plain-text meta description for a page.
+*/ -}}
+{{- $description := "" -}}
+{{- if .Params.description -}}
+  {{- $description = trim .Params.description "\n" -}}
+{{- else if and .IsPage .Summary -}}
+  {{- $description = trim (.Summary | plainify | htmlUnescape) "\n" -}}
+{{- else if .Site.Params.description -}}
+  {{- $description = trim .Site.Params.description "\n" -}}
+{{- else if .Site.Params.author.description -}}
+  {{- $description = trim .Site.Params.author.description "\n" -}}
+{{- end -}}
+{{- return $description -}}

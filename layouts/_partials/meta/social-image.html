@@ -1,0 +1,136 @@
+{{- /*
+  meta/social-image.html — resolves the social preview image for a page and,
+  when backed by a Hugo image resource, produces a 1200x630 (1.91:1) JPEG card
+  so X/Twitter, iMessage, Slack, Discord, LinkedIn, Bluesky, and WhatsApp all
+  render a full-width preview card quickly and reliably.
+
+  Front-matter options:
+    socialImage  (string) — optional dedicated social-card image filename/path
+    image        (string) — page-bundle or asset image (e.g. "preview.png", "cover.png")
+    images       (slice)  — standard Hugo image list fallback
+    imageAnchor  (string) — crop anchor for 1200x630 Fill (default "Center"; e.g. "Top", "Smart")
+    imageAlt     (string) — accessible alt text for og:image:alt / twitter:image:alt
+
+  Returns an empty dict when no image exists, or a dict with:
+    permalink  (string) — absolute https URL
+    width      (int)    — pixel width (0 if static path)
+    height     (int)    — pixel height (0 if static path)
+    mediaType  (string) — MIME type (e.g. "image/jpeg")
+    alt        (string) — accessible image description
+    isLarge    (bool)   — true for summary_large_image cards
+*/ -}}
+{{- $result := dict -}}
+{{- $alt := .Params.imageAlt | default .Title | default .Site.Title -}}
+{{- $anchor := .Params.imageAnchor | default "Center" -}}
+{{- $res := false -}}
+{{- $staticURL := "" -}}
+{{- $isFallbackAvatar := false -}}
+
+{{- /* 1. Explicit front-matter image (`socialImage`, `image`, or `images[0]`) */ -}}
+{{- $candidate := "" -}}
+{{- with .Params.socialImage -}}
+  {{- $candidate = . -}}
+{{- else -}}
+  {{- with .Params.image -}}
+    {{- $candidate = . -}}
+  {{- else -}}
+    {{- with .Params.images -}}
+      {{- if gt (len .) 0 -}}
+        {{- $candidate = index . 0 -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $candidate -}}
+  {{- with .Resources.GetMatch $candidate -}}
+    {{- $res = . -}}
+  {{- else -}}
+    {{- with resources.Get $candidate -}}
+      {{- $res = . -}}
+    {{- else -}}
+      {{- if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") -}}
+        {{- $staticURL = $candidate -}}
+      {{- else if fileExists (printf "static/%s" (strings.TrimPrefix "/" $candidate)) -}}
+        {{- $staticURL = $candidate | absURL -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 2. Automatic page-bundle image discovery (*preview*, *feature*, *cover*, *thumbnail*) */ -}}
+{{- if and (not $res) (not $staticURL) .IsPage -}}
+  {{- $imgs := .Resources.ByType "image" -}}
+  {{- range slice "*preview*" "*feature*" "*cover*" "*thumbnail*" -}}
+    {{- if not $res -}}
+      {{- with $imgs.GetMatch . -}}
+        {{- $res = . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 3. Site-level ogimage fallback, then author avatar (small summary card) */ -}}
+{{- if and (not $res) (not $staticURL) -}}
+  {{- with .Site.Params.ogimage -}}
+    {{- with resources.Get . -}}
+      {{- $res = . -}}
+    {{- else -}}
+      {{- $staticURL = . | absURL -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with .Site.Params.author.avatar -}}
+      {{- with resources.Get . -}}
+        {{- $res = . -}}
+        {{- $isFallbackAvatar = true -}}
+        {{- $alt = $.Site.Params.author.name | default $.Site.Title -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $res -}}
+  {{- if and (eq $res.MediaType.MainType "image") (ne $res.MediaType.SubType "svg") -}}
+    {{- if $isFallbackAvatar -}}
+      {{- $thumb := $res.Fill "400x400 Center jpg q85" -}}
+      {{- $result = dict
+        "permalink" $thumb.Permalink
+        "width" $thumb.Width
+        "height" $thumb.Height
+        "mediaType" $thumb.MediaType.Type
+        "alt" $alt
+        "isLarge" false
+      -}}
+    {{- else -}}
+      {{- $card := $res.Fill (printf "1200x630 %s jpg q85" $anchor) -}}
+      {{- $result = dict
+        "permalink" $card.Permalink
+        "width" $card.Width
+        "height" $card.Height
+        "mediaType" $card.MediaType.Type
+        "alt" $alt
+        "isLarge" true
+      -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $result = dict
+      "permalink" $res.Permalink
+      "width" 0
+      "height" 0
+      "mediaType" $res.MediaType.Type
+      "alt" $alt
+      "isLarge" (not $isFallbackAvatar)
+    -}}
+  {{- end -}}
+{{- else if $staticURL -}}
+  {{- $result = dict
+    "permalink" $staticURL
+    "width" 0
+    "height" 0
+    "mediaType" ""
+    "alt" $alt
+    "isLarge" true
+  -}}
+{{- end -}}
+
+{{- return $result -}}

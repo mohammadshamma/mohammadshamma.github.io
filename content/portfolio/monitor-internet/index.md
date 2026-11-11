@@ -8,6 +8,7 @@ tech: ["Network monitoring", "ISP accountability", "LLM-built", "Go"]
 externalUrl: "https://github.com/mohammadshamma/monitor-internet"
 externalLabel: "View on GitHub"
 image: "cover.png"
+imageAnchor: "Top"
 hideCardImage: true
 ---
 

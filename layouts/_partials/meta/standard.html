@@ -1,0 +1,23 @@
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{{- $fullTitle := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) }}
+<title itemprop="name">{{ $fullTitle }}</title>
+<meta itemprop="name" content="{{ $fullTitle }}" />
+<meta name="application-name" content="{{ $fullTitle }}" />
+
+{{- $description := partial "meta/description.html" . -}}
+{{- with $description }}
+<meta name="description" content="{{ . }}">
+<meta itemprop="description" content="{{ . }}" />
+{{- end }}
+
+<meta name="language" content="{{ .Site.Language.Locale }}" />
+{{- range .AllTranslations }}
+  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.Label }}" />
+{{- end }}
+
+{{- with partial "meta/social-image.html" . }}
+<meta itemprop="image" content="{{ .permalink }}" />
+{{- end }}
