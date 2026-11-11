@@ -131,17 +131,34 @@
 
     html.is-embedded body.bm-app {
       block-size: var(--embed-height, 680px);
+      padding: 0;
     }
 
     .bm-shell {
       inline-size: 100%;
-      max-inline-size: 72rem;
       block-size: 100%;
       margin-inline: auto;
       display: flex;
       flex-direction: column;
       gap: 0.625rem;
       min-block-size: 0;
+    }
+
+    html.is-embedded .bm-shell {
+      inline-size: min(calc(100% - 3rem), 1104px);
+    }
+
+    @media (max-width: 600px) {
+      html.is-embedded .bm-shell {
+        inline-size: 100%;
+      }
+
+      html.is-embedded .bm-header-card,
+      html.is-embedded .bm-map-card,
+      html.is-embedded .bm-sidebar > div {
+        border-radius: 0;
+        border-inline: 0;
+      }
     }
 
     .bm-workbench {
@@ -223,7 +240,7 @@
 <body class="bm-app bg-[var(--background)] text-[var(--foreground)] antialiased px-4 pb-2 pt-1.5 md:px-6 md:pb-3 md:pt-1.5 select-none">
   <div class="bm-shell">
     <!-- Compact Header Card -->
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 shrink-0">
+    <div class="bm-header-card bg-[var(--card)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 shrink-0">
       <div class="min-w-0">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">
