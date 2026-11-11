@@ -218,7 +218,8 @@ $icon-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 .artifact-frame {
     display: block;
     width: 100%;
-    min-height: 920px;
+    min-height: unquote("min(920px, calc(100vh - 8.5rem))");
+    min-height: unquote("min(920px, calc(100dvh - 8.5rem))");
     border: 0;
     background: transparent;
     overflow: hidden;

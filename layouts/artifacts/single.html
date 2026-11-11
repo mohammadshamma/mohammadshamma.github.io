@@ -40,12 +40,26 @@
             const doc = frame.contentDocument;
             if (!doc || !doc.body) return;
             const h = Math.ceil(doc.body.getBoundingClientRect().height) || doc.body.scrollHeight;
-            if (h > 0) frame.style.height = h + "px";
+            if (h > 0) {
+                frame.style.minHeight = "0px";
+                frame.style.height = h + "px";
+            }
+        } catch (_) {}
+    };
+
+    const syncViewportToFrame = () => {
+        try {
+            if (!frame.contentWindow || typeof frame.contentWindow.__applyHostViewport !== "function") return;
+            const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+            const top = Math.max(0, frame.getBoundingClientRect().top + window.scrollY);
+            frame.contentWindow.__applyHostViewport(Math.max(320, Math.floor(vh - top - 16)));
+            syncHeight();
         } catch (_) {}
     };
 
     frame.addEventListener("load", () => {
         syncThemeToFrame();
+        syncViewportToFrame();
         syncHeight();
         try {
             const doc = frame.contentDocument;
@@ -59,6 +73,11 @@
             }
         } catch (_) {}
     });
+
+    window.addEventListener("resize", syncViewportToFrame, { passive: true });
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", syncViewportToFrame, { passive: true });
+    }
 
     new MutationObserver(syncThemeToFrame).observe(document.documentElement, {
         attributes: true,
