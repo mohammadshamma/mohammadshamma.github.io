@@ -35,8 +35,26 @@
         } catch (_) {}
     };
 
+    let isMaximized = false;
+
+    const setOutsideInert = (inert) => {
+        Array.from(document.body.children).forEach((el) => {
+            if (!el.contains(frame) && el.tagName !== "SCRIPT") {
+                el.inert = inert;
+            }
+        });
+        const backNav = frame.parentElement && frame.parentElement.querySelector(".artifact-back");
+        if (backNav) backNav.inert = inert;
+    };
+
     const syncHeight = () => {
         try {
+            if (isMaximized) {
+                const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+                frame.style.minHeight = "0px";
+                frame.style.height = Math.ceil(vh) + "px";
+                return;
+            }
             const doc = frame.contentDocument;
             if (!doc || !doc.body) return;
             const h = Math.ceil(doc.body.getBoundingClientRect().height) || doc.body.scrollHeight;
@@ -51,11 +69,46 @@
         try {
             if (!frame.contentWindow || typeof frame.contentWindow.__applyHostViewport !== "function") return;
             const vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+            const vw = (window.visualViewport && window.visualViewport.width) || window.innerWidth;
+            if (isMaximized) {
+                frame.contentWindow.__applyHostViewport(Math.max(240, Math.floor(vh)));
+                syncHeight();
+                return;
+            }
+            const isShortLandscape = vh <= 520 && vw > vh;
             const top = Math.max(0, frame.getBoundingClientRect().top + window.scrollY);
-            frame.contentWindow.__applyHostViewport(Math.max(320, Math.floor(vh - top - 16)));
+            const targetH = isShortLandscape
+                ? Math.max(240, Math.floor(vh))
+                : Math.max(320, Math.floor(vh - top - 16));
+            frame.contentWindow.__applyHostViewport(targetH);
             syncHeight();
         } catch (_) {}
     };
+
+    const setMaximized = (next) => {
+        const target = Boolean(next);
+        if (target === isMaximized) return isMaximized;
+        isMaximized = target;
+        frame.classList.toggle("is-maximized", isMaximized);
+        document.documentElement.classList.toggle("has-maximized-artifact", isMaximized);
+        setOutsideInert(isMaximized);
+        syncViewportToFrame();
+        try {
+            if (frame.contentWindow && typeof frame.contentWindow.__onHostMaximizedChange === "function") {
+                frame.contentWindow.__onHostMaximizedChange(isMaximized);
+            }
+        } catch (_) {}
+        return isMaximized;
+    };
+
+    window.__setArtifactMaximized = setMaximized;
+    window.__isArtifactMaximized = () => isMaximized;
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && isMaximized) {
+            setMaximized(false);
+        }
+    });
 
     frame.addEventListener("load", () => {
         syncThemeToFrame();

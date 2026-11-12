@@ -48,7 +48,8 @@ Every artifact must dynamically adapt to the browser viewport across both **widt
 
 - **Host bridge (`layouts/artifacts/single.html`):**
   - Toggles `html.dark` / `html.light` on the iframe root and calls `window.__applyHostTheme?.(isDark)` whenever the blog theme changes.
-  - Computes available above-the-fold height (`viewportHeight - frameTop - 16px`) on load and `window` / `visualViewport` resize, calls `window.__applyHostViewport?.(availableHeightPx)`, and syncs `iframe.style.height` to `document.body`'s height via `ResizeObserver`.
+  - Computes available height (`viewportHeight - frameTop - 16px`, or full `viewportHeight` on short `≤ 520px` landscape viewports so scrolling past the blog header fills the screen) on load and `window` / `visualViewport` resize, calls `window.__applyHostViewport?.(availableHeightPx)`, and syncs `iframe.style.height` to `document.body`'s height via `ResizeObserver`.
+  - Exposes `window.__setArtifactMaximized(bool)` / `window.__isArtifactMaximized()` (calling `window.__onHostMaximizedChange?.(bool)` inside the iframe and marking outside blog chrome `inert`) for optional 1-tap full-viewport expansion (`Esc` exits).
 - **Mandatory viewport-adaptation rules:**
   - Use `block-size: 100dvh` (`100vh` fallback) when standalone, and when framed (`window.self !== window.top`), bind the root app shell height to `--embed-height` updated via `window.__applyHostViewport` (plus initial same-origin `window.parent` / `window.frameElement` measurement so the first paint has no jump).
   - Never hardcode fixed desktop heights (e.g., `920px`) or unconstrained vertical card stacks that push toolbars, sliders, tour controls, or inspectors below the fold when the browser height shrinks.
