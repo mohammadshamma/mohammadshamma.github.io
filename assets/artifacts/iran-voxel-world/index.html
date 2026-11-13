@@ -11,7 +11,7 @@
   />
   <style>
 .atlas-app {
-  --atlas-bg: #1b110a;
+  --atlas-bg: #17100b;
   --atlas-surface: rgba(28, 19, 13, 0.91);
   --atlas-surface-solid: #21160e;
   --atlas-border: rgba(238, 204, 144, 0.42);
@@ -271,7 +271,7 @@ html.light .pill-btn--accent {
   color: #07474e;
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .tool-btn:hover:not([aria-pressed="true"]),
   .pill-btn:hover:not([aria-pressed="true"]),
   .tour-nav-btn:hover,
@@ -982,6 +982,25 @@ html.light .help-dialog::backdrop, html.light .landmarks-dialog::backdrop {
     inline-size: min(17.5rem, 42vw) !important;
     max-block-size: calc(100% - 3.1rem) !important;
     padding: 0.55rem 0.70rem !important;
+  }
+}
+
+@media (pointer: coarse) and (max-height: 520px) and (orientation: landscape) {
+  .tool-btn, .pill-btn {
+    position: relative;
+  }
+  .tool-btn::after, .pill-btn::after {
+    content: "";
+    position: absolute;
+    inset-block: -6px;
+    inset-inline: -3px;
+  }
+  .tour-nav-btn, .icon-close-btn {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+  #time-slider {
+    block-size: 44px !important;
   }
 }
 </style>
@@ -5056,7 +5075,7 @@ ${n?"@layer popover-polyfill {":""}
   }
 ${n?"}":""}
 `}var Si=null;function Vs(n){const t=Ug();if(Si===null)try{Si=new CSSStyleSheet,Si.replaceSync(t)}catch{Si=!1}if(Si===!1){const e=document.createElement("style");e.textContent=t,n instanceof Document?n.head.prepend(e):n.prepend(e)}else n.adoptedStyleSheets=[Si,...n.adoptedStyleSheets]}function Ng(){if(typeof window>"u")return;window.ToggleEvent=window.ToggleEvent||ss;function n(l){return l?.includes(":popover-open")&&(l=l.replace(Dg,"$1.\\:popover-open")),l}Vn(Document.prototype,"querySelector",n),Vn(Document.prototype,"querySelectorAll",n),Vn(Element.prototype,"querySelector",n),Vn(Element.prototype,"querySelectorAll",n),Vn(Element.prototype,"matches",n),Vn(Element.prototype,"closest",n),Vn(DocumentFragment.prototype,"querySelectorAll",n),Object.defineProperties(HTMLElement.prototype,{popover:{enumerable:!0,configurable:!0,get(){if(!this.hasAttribute("popover"))return null;const l=(this.getAttribute("popover")||"").toLowerCase();return l===""||l=="auto"?"auto":l=="hint"?"hint":"manual"},set(l){l===null?this.removeAttribute("popover"):this.setAttribute("popover",l)}},showPopover:{enumerable:!0,configurable:!0,value(l={}){Ha(this)}},hidePopover:{enumerable:!0,configurable:!0,value(){ki(this,!0,!0)}},togglePopover:{enumerable:!0,configurable:!0,value(l={}){return typeof l=="boolean"&&(l={force:l}),Oi.get(this)==="showing"&&l.force===void 0||l.force===!1?ki(this,!0,!0):(l.force===void 0||l.force===!0)&&Ha(this),Oi.get(this)==="showing"}}});const t=Element.prototype.attachShadow;t&&Object.defineProperties(Element.prototype,{attachShadow:{enumerable:!0,configurable:!0,writable:!0,value(l){const c=t.call(this,l);return Vs(c),c}}});const e=HTMLElement.prototype.attachInternals;e&&Object.defineProperties(HTMLElement.prototype,{attachInternals:{enumerable:!0,configurable:!0,writable:!0,value(){const l=e.call(this);return l.shadowRoot&&Vs(l.shadowRoot),l}}});const i=new WeakMap;function r(l){Object.defineProperties(l.prototype,{popoverTargetElement:{enumerable:!0,configurable:!0,set(c){if(c===null)this.removeAttribute("popovertarget"),i.delete(this);else if(c instanceof Element)this.setAttribute("popovertarget",""),i.set(this,c);else throw new TypeError("popoverTargetElement must be an element or null")},get(){if(this.localName!=="button"&&this.localName!=="input"||this.localName==="input"&&this.type!=="reset"&&this.type!=="image"&&this.type!=="button"||this.disabled||this.form&&this.type==="submit")return null;const c=i.get(this);if(c&&c.isConnected)return c;if(c&&!c.isConnected)return i.delete(this),null;const d=zi(this),h=this.getAttribute("popovertarget");return(d instanceof Document||d instanceof Xl)&&h&&d.getElementById(h)||null}},popoverTargetAction:{enumerable:!0,configurable:!0,get(){const c=(this.getAttribute("popovertargetaction")||"").toLowerCase();return c==="show"||c==="hide"?c:"toggle"},set(c){this.setAttribute("popovertargetaction",c)}}})}r(HTMLButtonElement),r(HTMLInputElement);const s=l=>{if(l.defaultPrevented)return;const c=l.composedPath(),d=c[0];if(!(d instanceof Element)||d?.shadowRoot)return;const h=zi(d);if(!(h instanceof Xl||h instanceof Document))return;const u=c.find(m=>{var g;return(g=m.matches)==null?void 0:g.call(m,"[popovertargetaction],[popovertarget]")});if(u){Eg(u),l.preventDefault();return}},a=l=>{const c=l.key,d=l.target;!l.defaultPrevented&&d&&(c==="Escape"||c==="Esc")&&Qn(d.ownerDocument,!0,!0)};(l=>{l.addEventListener("click",s),l.addEventListener("keydown",a),l.addEventListener("pointerdown",Vl),l.addEventListener("pointerup",Vl)})(document),Vs(document)}Lg()||Ng();const Fg=Object.freeze(Object.defineProperty({__proto__:null},Symbol.toStringTag,{value:"Module"}));function Bg(){return typeof HTMLButtonElement<"u"&&"command"in HTMLButtonElement.prototype&&"source"in((globalThis.CommandEvent||{}).prototype||{})}function Og(){document.addEventListener("invoke",g=>{g.type=="invoke"&&g.isTrusted&&(g.stopImmediatePropagation(),g.preventDefault())},!0),document.addEventListener("command",g=>{g.type=="command"&&g.isTrusted&&(g.stopImmediatePropagation(),g.preventDefault())},!0);function n(g,_,p=!0){Object.defineProperty(g,_,{...Object.getOwnPropertyDescriptor(g,_),enumerable:p})}function t(g){return g&&typeof g.getRootNode=="function"?g.getRootNode():g&&g.parentNode?t(g.parentNode):g}const e=new WeakMap,i=new WeakMap;class r extends Event{constructor(_,p={}){super(_,p);const{source:f,command:w}=p;if(f!=null&&!(f instanceof Element))throw new TypeError("source must be an element");e.set(this,f||null),i.set(this,w!==void 0?String(w):"")}get[Symbol.toStringTag](){return"CommandEvent"}get source(){if(!e.has(this))throw new TypeError("illegal invocation");const _=e.get(this);if(!(_ instanceof Element))return null;const p=t(_);return p!==t(this.target||document)?p.host:_}get command(){if(!i.has(this))throw new TypeError("illegal invocation");return i.get(this)}get action(){throw new Error("CommandEvent#action was renamed to CommandEvent#command")}get invoker(){throw new Error("CommandEvent#invoker was renamed to CommandEvent#source")}}n(r.prototype,"source"),n(r.prototype,"command");class s extends Event{constructor(_,p={}){throw super(_,p),new Error("InvokeEvent has been deprecated, it has been renamed to `CommandEvent`")}}const a=new WeakMap;function o(g){Object.defineProperties(g.prototype,{commandForElement:{enumerable:!0,configurable:!0,set(_){if(this.hasAttribute("invokeaction"))throw new TypeError("Element has deprecated `invokeaction` attribute, replace with `command`");if(this.hasAttribute("invoketarget"))throw new TypeError("Element has deprecated `invoketarget` attribute, replace with `commandfor`");if(_===null)this.removeAttribute("commandfor"),a.delete(this);else if(_ instanceof Element){this.setAttribute("commandfor","");const p=t(_);t(this)===p||p===this.ownerDocument?a.set(this,_):a.delete(this)}else throw new TypeError("commandForElement must be an element or null")},get(){if(this.localName!=="button")return null;if(this.hasAttribute("invokeaction")||this.hasAttribute("invoketarget"))return console.warn("Element has deprecated `invoketarget` or `invokeaction` attribute, use `commandfor` and `command` instead"),null;if(this.disabled)return null;if(this.form&&this.getAttribute("type")!=="button")return console.warn("Element with `commandFor` is a form participant. It should explicitly set `type=button` in order for `commandFor` to work"),null;const _=a.get(this);if(_)return _.isConnected?_:(a.delete(this),null);const p=t(this),f=this.getAttribute("commandfor");return(p instanceof Document||p instanceof ShadowRoot)&&f&&p.getElementById(f)||null}},command:{enumerable:!0,configurable:!0,get(){const _=this.getAttribute("command")||"";if(_.startsWith("--"))return _;const p=_.toLowerCase();switch(p){case"show-modal":case"close":case"toggle-popover":case"hide-popover":case"show-popover":return p}return""},set(_){this.setAttribute("command",_)}},invokeAction:{enumerable:!1,configurable:!0,get(){throw new Error("invokeAction is deprecated. It has been renamed to command")},set(_){throw new Error("invokeAction is deprecated. It has been renamed to command")}},invokeTargetElement:{enumerable:!1,configurable:!0,get(){throw new Error("invokeTargetElement is deprecated. It has been renamed to command")},set(_){throw new Error("invokeTargetElement is deprecated. It has been renamed to command")}}})}const l=new WeakMap;Object.defineProperties(HTMLElement.prototype,{oncommand:{enumerable:!0,configurable:!0,get(){return d.takeRecords(),l.get(this)||null},set(g){const _=l.get(this)||null;_&&this.removeEventListener("command",_),l.set(this,typeof g=="object"||typeof g=="function"?g:null),typeof g=="function"&&this.addEventListener("command",g)}}});function c(g){for(const _ of g)_.oncommand=new Function("event",_.getAttribute("oncommand"))}const d=new MutationObserver(g=>{for(const _ of g){const{target:p}=_;_.type==="childList"?c(p.querySelectorAll("[oncommand]")):c([p])}});d.observe(document,{subtree:!0,childList:!0,attributeFilter:["oncommand"]}),c(document.querySelectorAll("[oncommand]"));function h(g){if(g.defaultPrevented||g.type!=="click")return;const _=g.target.closest("button[invoketarget], button[invokeaction], input[invoketarget], input[invokeaction]");if(_&&(console.warn("Elements with `invoketarget` or `invokeaction` are deprecated and should be renamed to use `commandfor` and `command` respectively"),_.matches("input")))throw new Error("Input elements no longer support `commandfor`");const p=g.target.closest("button[commandfor], button[command]");if(!p)return;if(p.form&&p.getAttribute("type")!=="button")throw g.preventDefault(),new Error("Element with `commandFor` is a form participant. It should explicitly set `type=button` in order for `commandFor` to work. In order for it to act as a Submit button, it must not have command or commandfor attributes");if(p.hasAttribute("command")!==p.hasAttribute("commandfor")){const S=p.hasAttribute("command")?"command":"commandfor",P=p.hasAttribute("command")?"commandfor":"command";throw new Error(`Element with ${S} attribute must also have a ${P} attribute to function.`)}if(p.command!=="show-popover"&&p.command!=="hide-popover"&&p.command!=="toggle-popover"&&p.command!=="show-modal"&&p.command!=="close"&&!p.command.startsWith("--")){console.warn(`"${p.command}" is not a valid command value. Custom commands must begin with --`);return}const f=p.commandForElement;if(!f)return;const w=new r("command",{command:p.command,source:p,cancelable:!0});if(f.dispatchEvent(w),w.defaultPrevented)return;const E=w.command.toLowerCase();if(f.popover){const S=!f.matches(":popover-open");S&&(E==="toggle-popover"||E==="show-popover")?f.showPopover({source:p}):!S&&E==="hide-popover"&&f.hidePopover()}else if(f.localName==="dialog"){const S=!f.hasAttribute("open");S&&E==="show-modal"?f.showModal():!S&&E==="close"&&f.close()}}function u(g){g.addEventListener("click",h,!0)}function m(g,_){const p=g.prototype.attachShadow;g.prototype.attachShadow=function(w){const E=p.call(this,w);return _(E),E};const f=g.prototype.attachInternals;g.prototype.attachInternals=function(){const w=f.call(this);return w.shadowRoot&&_(w.shadowRoot),w}}o(HTMLButtonElement),m(HTMLElement,g=>{u(g),d.observe(g,{attributeFilter:["oncommand"]}),c(g.querySelectorAll("[oncommand]"))}),u(document),Object.assign(globalThis,{CommandEvent:r,InvokeEvent:s})}Bg()||Og();const zg=Object.freeze(Object.defineProperty({__proto__:null},Symbol.toStringTag,{value:"Module"}));
-const GEO_VECTORS = {"mainlandPoly":[[37.344,53.914],[37.332,54.192],[37.47,54.699],[37.778,54.9],[38.051,55.381],[38.1,55.578],[38.08,56.272],[38.191,56.324],[38.249,56.441],[38.216,57.194],[38.13,57.308],[37.973,57.354],[37.83,57.981],[37.783,58.109],[37.666,58.262],[37.635,58.387],[37.688,58.55],[37.652,58.65],[37.683,58.815],[37.511,59.302],[37.334,59.367],[37.253,59.455],[36.963,60.063],[36.638,60.341],[36.643,61.12],[36.572,61.17],[36.433,61.16],[36.099,61.212],[35.977,61.153],[35.868,61.252],[35.659,61.239],[35.514,61.279],[35.312,61.189],[35.272,61.1],[35.094,61.15],[34.922,61.07],[34.856,61.08],[34.71,60.958],[34.654,60.951],[34.518,60.726],[34.319,60.889],[34.307,60.643],[34.095,60.486],[33.842,60.527],[33.712,60.486],[33.639,60.511],[33.588,60.574],[33.539,60.907],[33.505,60.917],[33.138,60.561],[32.995,60.577],[32.249,60.829],[31.877,60.788],[31.495,60.821],[31.382,61.66],[31.285,61.755],[31.073,61.814],[30.913,61.811],[30.832,61.784],[29.859,60.843],[29.373,61.318],[29.265,61.338],[28.792,61.623],[28.547,61.89],[28.415,62.353],[28.235,62.565],[28.244,62.758],[28.002,62.74],[27.497,62.812],[27.266,62.753],[27.218,62.915],[27.252,63.167],[27.208,63.256],[27.125,63.305],[27.078,63.242],[26.879,63.25],[26.838,63.186],[26.65,63.158],[26.644,62.787],[26.561,62.439],[26.491,62.312],[26.357,62.239],[26.369,62.126],[26.318,62.089],[26.226,61.842],[25.843,61.754],[25.751,61.662],[25.202,61.588],[25.102,61.412],[25.282,60.664],[25.414,60.588],[25.437,60.511],[25.312,60.4],[25.384,60.025],[25.362,59.897],[25.401,59.818],[25.403,59.616],[25.481,59.456],[25.417,59.046],[25.555,58.798],[25.592,58.203],[25.692,57.937],[25.653,57.796],[25.725,57.733],[25.792,57.335],[26.037,57.206],[26.159,57.201],[26.371,57.104],[26.68,57.072],[26.905,56.982],[27.09,56.813],[27.2,56.356],[27.143,56.118],[27.038,55.941],[26.978,55.65],[26.771,55.424],[26.786,55.294],[26.505,54.759],[26.509,54.645],[26.697,54.247],[26.732,54.069],[26.726,53.706],[26.852,53.507],[26.943,53.455],[27.142,52.983],[27.323,52.692],[27.493,52.603],[27.617,52.476],[27.717,52.192],[27.824,52.031],[27.864,51.589],[28.131,51.279],[28.219,51.276],[28.512,51.094],[28.726,51.062],[28.87,50.867],[28.928,50.843],[29.063,50.876],[29.147,50.675],[29.212,50.646],[29.42,50.65],[29.921,50.169],[30.199,50.072],[30.209,49.983],[30.029,49.555],[30.13,49.43],[30.307,49.054],[30.374,49.002],[30.407,49.096],[30.375,49.19],[30.413,49.247],[30.472,49.225],[30.509,49.13],[30.507,49.002],[30.45,49.037],[30.397,48.917],[30.328,48.891],[30.121,48.919],[30.062,48.87],[30.028,48.671],[29.962,48.546],[30.038,48.435],[30.188,48.401],[30.285,48.331],[30.321,48.226],[30.417,48.148],[30.466,48.015],[30.99,48.011],[31.002,47.679],[31.401,47.679],[31.794,47.83],[32.151,47.512],[32.424,47.371],[32.474,47.285],[32.467,47.121],[32.929,46.377],[32.958,46.113],[33.087,46.081],[33.23,46.146],[33.416,46.02],[33.47,45.981],[33.492,45.873],[33.61,45.879],[33.603,45.738],[33.925,45.473],[33.971,45.397],[34.216,45.543],[34.415,45.438],[34.582,45.501],[34.574,45.638],[34.798,45.678],[35.029,45.921],[35.128,46.134],[35.197,46.155],[35.322,46.112],[35.477,45.975],[35.608,45.995],[35.673,46.037],[35.744,46.263],[35.773,46.273],[35.821,46.167],[35.822,45.776],[35.977,45.562],[36.015,45.362],[36.356,45.241],[36.397,45.207],[36.409,45.112],[36.472,45.053],[36.698,45.019],[36.799,44.881],[37.135,44.765],[37.29,44.794],[37.435,44.574],[37.658,44.545],[37.71,44.59],[37.872,44.336],[37.88,44.223],[37.908,44.211],[38.334,44.45],[38.386,44.299],[38.701,44.257],[38.836,44.272],[38.934,44.171],[38.994,44.145],[39.145,44.178],[39.218,44.079],[39.377,44.023],[39.422,44.389],[39.667,44.456],[39.769,44.587],[39.65,44.817],[39.254,45.141],[39.139,45.336],[39.006,45.48],[38.869,46.17],[38.913,46.318],[38.904,46.555],[39.148,46.853],[39.18,46.989],[39.424,47.338],[39.649,47.773],[39.684,47.996],[39.399,48.322],[39.312,48.136],[39.241,48.104],[39.172,48.125],[39.099,48.274],[39.019,48.292],[38.935,48.05],[38.854,47.996],[38.724,48.205],[38.613,48.306],[38.586,48.417],[38.411,48.593],[38.435,48.869],[38.015,48.925],[37.668,49.081],[37.52,49.372],[37.407,50.13],[37.34,50.214],[37.149,50.338],[37.014,50.533],[36.743,51.119],[36.615,51.762],[36.622,52.19],[36.93,53.768],[36.93,53.915],[36.853,53.679],[36.818,53.769],[36.818,53.97],[36.901,54.024]],"qeshmPoly":[[26.859,56.188],[26.739,56.095],[26.639,55.954],[26.67,55.894],[26.669,55.848],[26.624,55.675],[26.556,55.543],[26.521,55.424],[26.531,55.312],[26.577,55.295],[26.596,55.296],[26.586,55.347],[26.75,55.763],[26.795,55.785],[26.869,55.747],[26.886,55.758],[26.848,55.907],[26.921,56.074],[26.941,56.214],[26.89,56.279]],"hormuzPoly":[[27.012,56.52],[26.995,56.592],[26.935,56.605],[26.885,56.555],[26.898,56.482],[26.965,56.475]],"kishPoly":[[26.605,53.859],[26.609,54.081],[26.535,54.121],[26.465,54.066],[26.465,53.873],[26.531,53.825]],"khargPoly":[[29.306,50.281],[29.295,50.372],[29.195,50.362],[29.184,50.271]],"caspianPoly":[[39.72,53.458],[39.669,53.472],[39.608,53.582],[39.547,53.603],[39.536,53.39],[39.609,53.236],[39.432,53.125],[39.347,53.124],[39.265,53.157],[39.317,53.203],[39.341,53.336],[39.305,53.475],[39.216,53.617],[39.21,53.705],[39.103,53.724],[38.949,53.869],[37.928,53.823],[37.414,53.898],[36.901,54.024],[36.85,54.016],[36.818,53.97],[36.818,53.769],[36.853,53.679],[36.93,53.915],[36.93,53.768],[36.622,52.19],[36.615,51.762],[36.743,51.119],[37.014,50.533],[37.149,50.338],[37.34,50.214],[37.407,50.13],[37.497,49.47],[37.601,49.171],[37.668,49.081],[37.89,48.96],[38.393,48.871],[38.839,48.854],[39.134,49.014],[39.085,49.112],[39.004,49.121],[39.03,49.166],[39.285,49.269],[39.349,49.363],[39.608,49.324],[39.72,49.368]],"persianGulfPoly":[[26.1,57.204],[26.278,56.425],[26.327,56.43],[26.356,56.379],[26.235,56.306],[26.207,56.164],[25.794,55.941],[25.498,55.523],[25.35,55.381],[25.35,52.65],[27.477,49.219],[27.493,49.237],[27.737,48.8],[27.801,48.833],[27.896,48.809],[28.133,48.626],[28.449,48.499],[28.763,48.339],[28.979,48.184],[29.156,48.12],[29.575,48.12],[29.573,48.143],[30.042,48.12],[29.939,48.454],[30.028,48.671],[30.036,48.832],[30.121,48.919],[30.328,48.891],[30.397,48.917],[30.45,49.037],[30.507,49.002],[30.51,49.131],[30.472,49.224],[30.412,49.247],[30.375,49.19],[30.407,49.096],[30.374,49.002],[30.307,49.054],[30.13,49.43],[30.029,49.555],[30.209,49.983],[30.199,50.071],[29.921,50.169],[29.42,50.65],[29.212,50.646],[29.147,50.675],[29.063,50.876],[28.928,50.843],[28.87,50.867],[28.726,51.062],[28.512,51.094],[28.219,51.276],[28.132,51.279],[27.864,51.589],[27.824,52.031],[27.717,52.192],[27.617,52.476],[27.493,52.603],[27.324,52.691],[27.142,52.982],[26.943,53.455],[26.852,53.507],[26.726,53.706],[26.733,54.069],[26.697,54.247],[26.509,54.645],[26.505,54.759],[26.557,54.896],[26.786,55.294],[26.771,55.424],[26.978,55.65],[27.038,55.941],[27.143,56.118],[27.2,56.356],[27.128,56.728],[26.994,56.91],[26.801,57.036],[26.372,57.104]],"gulfOfOmanPoly":[[25.104,61.406],[24.38,60.982],[24.38,56.729],[24.716,56.49],[25.019,56.373],[25.569,56.363],[25.651,56.298],[25.804,56.374],[26.278,56.425],[26.1,57.204],[26.037,57.206],[25.792,57.335],[25.725,57.733],[25.653,57.796],[25.692,57.936],[25.592,58.203],[25.555,58.798],[25.418,59.046],[25.482,59.456],[25.403,59.616],[25.401,59.818],[25.362,59.897],[25.384,60.025],[25.312,60.4],[25.437,60.51],[25.413,60.588],[25.282,60.664]],"straitBridgePoly":[[26.75,55.55],[26.75,56.95],[25.35,56.95],[25.35,55.55]],"urmiaPoly":[[37.742,45.666],[37.701,45.747],[37.578,45.755],[37.426,45.858],[37.341,45.831],[37.288,45.663],[37.135,45.536],[37.149,45.449],[37.227,45.365],[37.438,45.292],[37.764,45.234],[37.885,45.087],[37.988,45.08],[38.045,45.155],[38.108,45.188],[38.144,45.171],[38.144,45.015],[38.193,45.026],[38.264,45.106],[38.264,45.357],[38.173,45.458],[38.073,45.487],[37.806,45.436],[37.754,45.483]],"iranRiversNE":{"Qezel Owzan":[[[35.902,47.272],[35.945,47.406],[36.013,47.459],[36,47.89],[36.015,48.121],[36.042,48.166],[36.095,48.178],[36.128,48.14],[36.163,47.996],[36.22,47.927],[36.288,47.941],[36.477,47.828],[36.511,47.836],[36.882,47.601],[37.073,47.749],[37.138,47.77],[37.224,47.749],[37.375,47.814],[37.425,47.806],[37.515,47.941],[37.521,48.047],[37.467,48.256],[37.36,48.233],[37.247,48.325],[37.262,48.39],[37.223,48.471],[37.153,48.499],[37.063,48.712],[36.815,49.052],[36.753,49.225],[36.756,49.36],[36.882,49.49]],[[35.599,46.783],[35.671,46.756],[35.809,46.845],[35.85,46.838],[35.902,47.27]]],"Helmand":[[[31.204,61.604],[31.066,61.667],[30.95,61.804],[30.813,61.784],[30.734,61.825],[30.56,61.832],[30.432,61.812],[30.351,61.861],[30.309,61.932],[30.283,62.099],[30.17,62.428],[30.169,62.559],[30.258,62.873],[30.262,63.063],[30.428,63.301]]],"Harirud":[[[34.384,63.278],[34.398,63.183],[34.253,62.894],[34.299,62.627],[34.271,62.308],[34.308,62.168],[34.294,62.084],[34.362,61.931],[34.417,61.535],[34.482,61.403],[34.626,61.254],[34.685,61.12],[34.815,61.065],[34.933,61.074],[35.102,61.147],[35.193,61.096],[35.257,61.102],[35.301,61.187],[35.39,61.195],[35.548,61.29],[35.672,61.231],[35.77,61.256],[35.894,61.241],[35.971,61.129],[36.124,61.224],[36.357,61.146],[36.565,61.187],[36.693,61.153],[36.706,61.119],[36.809,61.085],[36.912,60.894],[37.052,60.773],[37.114,60.766],[37.206,60.694],[37.241,60.629],[37.456,60.492],[37.555,60.512],[37.826,60.338],[37.933,60.311],[38.111,60.132]]],"Aras":[[[39.973,44.464],[39.831,44.598],[39.793,44.691],[39.637,44.809],[39.625,44.872],[39.435,44.957],[39.351,45.087],[39.214,45.152],[39.201,45.311],[39.053,45.434],[39.004,45.438],[38.863,46.126],[38.925,46.378],[38.89,46.553],[39.156,46.851],[39.19,47.02],[39.309,47.102],[39.38,47.291],[39.477,47.407],[39.515,47.541],[39.681,47.823],[39.687,47.935],[39.803,48.003],[39.816,48.064],[39.881,48.114],[39.893,48.243],[39.994,48.441]]],"Shatt al Arab":[[[30.968,47.469],[30.785,47.62],[30.744,47.729],[30.585,47.756],[30.488,47.874],[30.448,48.13],[30.324,48.2],[30.313,48.305],[30.203,48.408],[30.146,48.381],[30.002,48.453],[29.961,48.532]]]}};
+const GEO_VECTORS = {"mainlandPoly":[[37.344,53.914],[37.332,54.192],[37.47,54.699],[37.778,54.9],[38.051,55.381],[38.1,55.578],[38.08,56.272],[38.191,56.324],[38.249,56.441],[38.216,57.194],[38.13,57.308],[37.973,57.354],[37.83,57.981],[37.783,58.109],[37.666,58.262],[37.635,58.387],[37.688,58.55],[37.652,58.65],[37.683,58.815],[37.511,59.302],[37.334,59.367],[37.253,59.455],[36.963,60.063],[36.638,60.341],[36.643,61.12],[36.572,61.17],[36.433,61.16],[36.099,61.212],[35.977,61.153],[35.868,61.252],[35.659,61.239],[35.514,61.279],[35.312,61.189],[35.272,61.1],[35.094,61.15],[34.922,61.07],[34.856,61.08],[34.71,60.958],[34.654,60.951],[34.518,60.726],[34.319,60.889],[34.307,60.643],[34.095,60.486],[33.842,60.527],[33.712,60.486],[33.639,60.511],[33.588,60.574],[33.539,60.907],[33.505,60.917],[33.138,60.561],[32.995,60.577],[32.249,60.829],[31.877,60.788],[31.495,60.821],[31.382,61.66],[31.285,61.755],[31.073,61.814],[30.913,61.811],[30.832,61.784],[29.859,60.843],[29.373,61.318],[29.265,61.338],[28.792,61.623],[28.547,61.89],[28.415,62.353],[28.235,62.565],[28.244,62.758],[28.002,62.74],[27.497,62.812],[27.266,62.753],[27.218,62.915],[27.252,63.167],[27.208,63.256],[27.125,63.305],[27.078,63.242],[26.879,63.25],[26.838,63.186],[26.65,63.158],[26.644,62.787],[26.561,62.439],[26.491,62.312],[26.357,62.239],[26.369,62.126],[26.318,62.089],[26.226,61.842],[25.843,61.754],[25.751,61.662],[25.202,61.588],[25.102,61.412],[25.282,60.664],[25.414,60.588],[25.437,60.511],[25.312,60.4],[25.384,60.025],[25.362,59.897],[25.401,59.818],[25.403,59.616],[25.481,59.456],[25.417,59.046],[25.555,58.798],[25.592,58.203],[25.692,57.937],[25.653,57.796],[25.725,57.733],[25.792,57.335],[26.037,57.206],[26.159,57.201],[26.371,57.104],[26.68,57.072],[26.905,56.982],[27.09,56.813],[27.2,56.356],[27.143,56.118],[27.038,55.941],[26.978,55.65],[26.771,55.424],[26.786,55.294],[26.505,54.759],[26.509,54.645],[26.697,54.247],[26.732,54.069],[26.726,53.706],[26.852,53.507],[26.943,53.455],[27.142,52.983],[27.323,52.692],[27.493,52.603],[27.617,52.476],[27.717,52.192],[27.824,52.031],[27.864,51.589],[28.131,51.279],[28.219,51.276],[28.512,51.094],[28.726,51.062],[28.87,50.867],[28.928,50.843],[29.063,50.876],[29.147,50.675],[29.212,50.646],[29.42,50.65],[29.921,50.169],[30.199,50.072],[30.209,49.983],[30.029,49.555],[30.13,49.43],[30.307,49.054],[30.374,49.002],[30.407,49.096],[30.375,49.19],[30.413,49.247],[30.472,49.225],[30.509,49.13],[30.507,49.002],[30.45,49.037],[30.397,48.917],[30.328,48.891],[30.121,48.919],[30.062,48.87],[30.028,48.671],[29.962,48.546],[30.038,48.435],[30.188,48.401],[30.285,48.331],[30.321,48.226],[30.417,48.148],[30.466,48.015],[30.99,48.011],[31.002,47.679],[31.401,47.679],[31.794,47.83],[32.151,47.512],[32.424,47.371],[32.474,47.285],[32.467,47.121],[32.929,46.377],[32.958,46.113],[33.087,46.081],[33.23,46.146],[33.416,46.02],[33.47,45.981],[33.492,45.873],[33.61,45.879],[33.603,45.738],[33.925,45.473],[33.971,45.397],[34.216,45.543],[34.415,45.438],[34.582,45.501],[34.574,45.638],[34.798,45.678],[35.029,45.921],[35.128,46.134],[35.197,46.155],[35.322,46.112],[35.477,45.975],[35.608,45.995],[35.673,46.037],[35.744,46.263],[35.773,46.273],[35.821,46.167],[35.822,45.776],[35.977,45.562],[36.015,45.362],[36.356,45.241],[36.397,45.207],[36.409,45.112],[36.472,45.053],[36.698,45.019],[36.799,44.881],[37.135,44.765],[37.29,44.794],[37.435,44.574],[37.658,44.545],[37.71,44.59],[37.872,44.336],[37.88,44.223],[37.908,44.211],[38.334,44.45],[38.386,44.299],[38.701,44.257],[38.836,44.272],[38.934,44.171],[38.994,44.145],[39.145,44.178],[39.218,44.079],[39.377,44.023],[39.422,44.389],[39.667,44.456],[39.769,44.587],[39.65,44.817],[39.254,45.141],[39.139,45.336],[39.006,45.48],[38.869,46.17],[38.913,46.318],[38.904,46.555],[39.148,46.853],[39.18,46.989],[39.424,47.338],[39.649,47.773],[39.684,47.996],[39.399,48.322],[39.312,48.136],[39.241,48.104],[39.172,48.125],[39.099,48.274],[39.019,48.292],[38.935,48.05],[38.854,47.996],[38.724,48.205],[38.613,48.306],[38.586,48.417],[38.411,48.593],[38.435,48.869],[38.015,48.925],[37.668,49.081],[37.52,49.372],[37.407,50.13],[37.34,50.214],[37.149,50.338],[37.014,50.533],[36.743,51.119],[36.615,51.762],[36.622,52.19],[36.93,53.768],[36.93,53.915],[36.853,53.679],[36.818,53.769],[36.818,53.97],[36.901,54.024]],"qeshmPoly":[[26.714,56.06],[26.639,55.954],[26.67,55.894],[26.669,55.848],[26.624,55.675],[26.556,55.543],[26.521,55.424],[26.531,55.312],[26.577,55.295],[26.596,55.296],[26.586,55.347],[26.75,55.763],[26.795,55.785],[26.869,55.747],[26.886,55.758],[26.848,55.907],[26.915,56.06]],"hormuzPoly":[[27.012,56.52],[26.995,56.592],[26.935,56.605],[26.885,56.555],[26.898,56.482],[26.965,56.475]],"kishPoly":[[26.605,53.859],[26.609,54.081],[26.535,54.121],[26.465,54.066],[26.465,53.873],[26.531,53.825]],"khargPoly":[[29.306,50.281],[29.295,50.372],[29.195,50.362],[29.184,50.271]],"caspianPoly":[[39.72,53.458],[39.669,53.472],[39.608,53.582],[39.547,53.603],[39.536,53.39],[39.609,53.236],[39.432,53.125],[39.347,53.124],[39.265,53.157],[39.317,53.203],[39.341,53.336],[39.305,53.475],[39.216,53.617],[39.21,53.705],[39.103,53.724],[38.949,53.869],[37.928,53.823],[37.414,53.898],[36.901,54.024],[36.85,54.016],[36.818,53.97],[36.818,53.769],[36.853,53.679],[36.93,53.915],[36.93,53.768],[36.622,52.19],[36.615,51.762],[36.743,51.119],[37.014,50.533],[37.149,50.338],[37.34,50.214],[37.407,50.13],[37.497,49.47],[37.601,49.171],[37.668,49.081],[37.89,48.96],[38.393,48.871],[38.839,48.854],[39.134,49.014],[39.085,49.112],[39.004,49.121],[39.03,49.166],[39.285,49.269],[39.349,49.363],[39.608,49.324],[39.72,49.368]],"persianGulfPoly":[[26.1,57.204],[26.278,56.425],[26.327,56.43],[26.356,56.379],[26.235,56.306],[26.207,56.164],[25.794,55.941],[25.498,55.523],[25.35,55.381],[25.35,52.65],[27.477,49.219],[27.493,49.237],[27.737,48.8],[27.801,48.833],[27.896,48.809],[28.133,48.626],[28.449,48.499],[28.763,48.339],[28.979,48.184],[29.156,48.12],[29.575,48.12],[29.573,48.143],[30.042,48.12],[29.939,48.454],[30.028,48.671],[30.036,48.832],[30.121,48.919],[30.328,48.891],[30.397,48.917],[30.45,49.037],[30.507,49.002],[30.51,49.131],[30.472,49.224],[30.412,49.247],[30.375,49.19],[30.407,49.096],[30.374,49.002],[30.307,49.054],[30.13,49.43],[30.029,49.555],[30.209,49.983],[30.199,50.071],[29.921,50.169],[29.42,50.65],[29.212,50.646],[29.147,50.675],[29.063,50.876],[28.928,50.843],[28.87,50.867],[28.726,51.062],[28.512,51.094],[28.219,51.276],[28.132,51.279],[27.864,51.589],[27.824,52.031],[27.717,52.192],[27.617,52.476],[27.493,52.603],[27.324,52.691],[27.142,52.982],[26.943,53.455],[26.852,53.507],[26.726,53.706],[26.733,54.069],[26.697,54.247],[26.509,54.645],[26.505,54.759],[26.557,54.896],[26.786,55.294],[26.771,55.424],[26.978,55.65],[27.038,55.941],[27.143,56.118],[27.2,56.356],[27.128,56.728],[26.994,56.91],[26.801,57.036],[26.372,57.104]],"gulfOfOmanPoly":[[25.104,61.406],[24.38,60.982],[24.38,56.729],[24.716,56.49],[25.019,56.373],[25.569,56.363],[25.651,56.298],[25.804,56.374],[26.278,56.425],[26.1,57.204],[26.037,57.206],[25.792,57.335],[25.725,57.733],[25.653,57.796],[25.692,57.936],[25.592,58.203],[25.555,58.798],[25.418,59.046],[25.482,59.456],[25.403,59.616],[25.401,59.818],[25.362,59.897],[25.384,60.025],[25.312,60.4],[25.437,60.51],[25.413,60.588],[25.282,60.664]],"straitBridgePoly":[[27.32,55.45],[27.32,57.05],[25.35,57.05],[25.35,55.45]],"urmiaPoly":[[37.742,45.666],[37.701,45.747],[37.578,45.755],[37.426,45.858],[37.341,45.831],[37.288,45.663],[37.135,45.536],[37.149,45.449],[37.227,45.365],[37.438,45.292],[37.764,45.234],[37.885,45.087],[37.988,45.08],[38.045,45.155],[38.108,45.188],[38.144,45.171],[38.144,45.015],[38.193,45.026],[38.264,45.106],[38.264,45.357],[38.173,45.458],[38.073,45.487],[37.806,45.436],[37.754,45.483]],"iranRiversNE":{"Qezel Owzan":[[[35.902,47.272],[35.945,47.406],[36.013,47.459],[36,47.89],[36.015,48.121],[36.042,48.166],[36.095,48.178],[36.128,48.14],[36.163,47.996],[36.22,47.927],[36.288,47.941],[36.477,47.828],[36.511,47.836],[36.882,47.601],[37.073,47.749],[37.138,47.77],[37.224,47.749],[37.375,47.814],[37.425,47.806],[37.515,47.941],[37.521,48.047],[37.467,48.256],[37.36,48.233],[37.247,48.325],[37.262,48.39],[37.223,48.471],[37.153,48.499],[37.063,48.712],[36.815,49.052],[36.753,49.225],[36.756,49.36],[36.882,49.49]],[[35.599,46.783],[35.671,46.756],[35.809,46.845],[35.85,46.838],[35.902,47.27]]],"Helmand":[[[31.204,61.604],[31.066,61.667],[30.95,61.804],[30.813,61.784],[30.734,61.825],[30.56,61.832],[30.432,61.812],[30.351,61.861],[30.309,61.932],[30.283,62.099],[30.17,62.428],[30.169,62.559],[30.258,62.873],[30.262,63.063],[30.428,63.301]]],"Harirud":[[[34.384,63.278],[34.398,63.183],[34.253,62.894],[34.299,62.627],[34.271,62.308],[34.308,62.168],[34.294,62.084],[34.362,61.931],[34.417,61.535],[34.482,61.403],[34.626,61.254],[34.685,61.12],[34.815,61.065],[34.933,61.074],[35.102,61.147],[35.193,61.096],[35.257,61.102],[35.301,61.187],[35.39,61.195],[35.548,61.29],[35.672,61.231],[35.77,61.256],[35.894,61.241],[35.971,61.129],[36.124,61.224],[36.357,61.146],[36.565,61.187],[36.693,61.153],[36.706,61.119],[36.809,61.085],[36.912,60.894],[37.052,60.773],[37.114,60.766],[37.206,60.694],[37.241,60.629],[37.456,60.492],[37.555,60.512],[37.826,60.338],[37.933,60.311],[38.111,60.132]]],"Aras":[[[39.973,44.464],[39.831,44.598],[39.793,44.691],[39.637,44.809],[39.625,44.872],[39.435,44.957],[39.351,45.087],[39.214,45.152],[39.201,45.311],[39.053,45.434],[39.004,45.438],[38.863,46.126],[38.925,46.378],[38.89,46.553],[39.156,46.851],[39.19,47.02],[39.309,47.102],[39.38,47.291],[39.477,47.407],[39.515,47.541],[39.681,47.823],[39.687,47.935],[39.803,48.003],[39.816,48.064],[39.881,48.114],[39.893,48.243],[39.994,48.441]]],"Shatt al Arab":[[[30.968,47.469],[30.785,47.62],[30.744,47.729],[30.585,47.756],[30.488,47.874],[30.448,48.13],[30.324,48.2],[30.313,48.305],[30.203,48.408],[30.146,48.381],[30.002,48.453],[29.961,48.532]]]}};
 // 01_config_materials.js — Projection, Noise, Iranian Voxel Palette & Face-Culled AO Mesher
 
 const GEO = {
@@ -5071,7 +5090,7 @@ const GRID = {
   gridD: 304,
   halfW: 164,
   halfD: 152,
-  maxHeight: 74,
+  maxHeight: 84,
   seaLevelY: 10,     // Persian Gulf & Gulf of Oman (0 m ASL)
   caspianLevelY: 7   // Caspian Sea depression (-28 m BSL)
 };
@@ -5280,7 +5299,8 @@ const Mat = {
   PlinthBronzeStep: 65,
   QanatChannel: 66,
   RoseTileShiraz: 67,
-  CoralSand: 68
+  CoralSand: 68,
+  EndorheicSaltRim: 69
 };
 
 function hexToRgb01(hex) {
@@ -5362,11 +5382,12 @@ const MAT_DEFS = {
   [Mat.PlinthBronzeStep]: { hex: 0x382c22, jitter: 0.025, plinth: true },
   [Mat.QanatChannel]: { hex: 0xc8ae84, jitter: 0.03, hydro: [0.12, 0.92, 0.99] },
   [Mat.RoseTileShiraz]: { hex: 0xdc5884, jitter: 0.03, emissive: [0.22, 0.06, 0.12] },
-  [Mat.CoralSand]: { hex: 0xebd9b8, jitter: 0.03, hydro: [0.22, 0.80, 0.78] }
+  [Mat.CoralSand]: { hex: 0xebd9b8, jitter: 0.03, hydro: [0.22, 0.80, 0.78] },
+  [Mat.EndorheicSaltRim]: { hex: 0xeee5dc, jitter: 0.025, hydro: [0.92, 0.68, 0.90] }
 };
 
-const MAT_PROPS = new Array(72);
-for (let i = 0; i < 72; i++) {
+const MAT_PROPS = new Array(74);
+for (let i = 0; i < 74; i++) {
   const d = MAT_DEFS[i] || { hex: 0x888888 };
   MAT_PROPS[i] = {
     rgb: hexToRgb01(d.hex),
@@ -5379,15 +5400,15 @@ for (let i = 0; i < 72; i++) {
   };
 }
 
-// Hypsometric color ramp for Elevation lens (-28m Caspian y=7 up to 5,610m Damavand y=60)
+// Hypsometric color ramp for Elevation lens (-28m Caspian y=7 up to 5,610m Damavand y=51.5)
 const ELEV_STOPS = [
   { y: 7.0, rgb: [0.12, 0.42, 0.68] },   // -28m Caspian coastal depression
   { y: 10.5, rgb: [0.30, 0.72, 0.62] },  // 0-150m Khuzestan / Gulf littoral
   { y: 14.5, rgb: [0.84, 0.91, 0.56] },  // 250-900m Lut / Kavir / Sistan basins
   { y: 21.0, rgb: [0.95, 0.74, 0.38] },  // 1,000-1,800m Iranian Plateau
-  { y: 31.0, rgb: [0.82, 0.44, 0.26] },  // 2,000-3,400m Zagros & Alborz ridges
-  { y: 42.0, rgb: [0.64, 0.55, 0.56] },  // 3,500-4,500m High Alpine crests
-  { y: 54.0, rgb: [0.97, 0.98, 1.00] }   // 4,800-5,610m Sabalan & Damavand snow cones
+  { y: 29.0, rgb: [0.82, 0.44, 0.26] },  // 2,000-3,400m Zagros & Alborz ridges
+  { y: 34.5, rgb: [0.68, 0.57, 0.58] },  // 3,500-4,300m High Alpine crests
+  { y: 40.5, rgb: [0.97, 0.98, 1.00] }   // 4,500-5,610m Sabalan & Damavand snow cones
 ];
 
 function sampleElevRamp(worldY) {
@@ -5423,11 +5444,18 @@ function evaluateVoxelLensColor(matId, worldY, eraId, lens, activeEraFilter = 0)
       return [base[0] * 0.72, base[1] * 0.72, base[2] * 0.74];
     }
     const ramp = sampleElevRamp(worldY);
+    if (matId === Mat.AlpineSnow || matId === Mat.GlacierIce || matId === Mat.SulfurFumarole) {
+      return [
+        ramp[0] * 0.92 + base[0] * 0.08,
+        ramp[1] * 0.92 + base[1] * 0.08,
+        ramp[2] * 0.92 + base[2] * 0.08
+      ];
+    }
     if (eraId > 0) {
       return [
-        ramp[0] * 0.65 + base[0] * 0.35,
-        ramp[1] * 0.65 + base[1] * 0.35,
-        ramp[2] * 0.65 + base[2] * 0.35
+        ramp[0] * 0.68 + base[0] * 0.32,
+        ramp[1] * 0.68 + base[1] * 0.32,
+        ramp[2] * 0.68 + base[2] * 0.32
       ];
     }
     return ramp;
@@ -5818,8 +5846,8 @@ const LANDMARKS = [
     padLon: 51.34,
     realElevationM: 1190,
     footprintRadius: 5.8,
-    camOffset: [-8.8, 11.0, 15.6],
-    lookOffset: [0.0, 2.7, 0.0],
+    camOffset: [4.2, 10.2, 15.2],
+    lookOffset: [-0.2, 2.7, 0.2],
     pinAnchorDY: 5.8,
     pinNudge: [-24, 8],
     summary: 'Nestled along the southern piedmont of the Alborz range beneath snow-crowned Tochal and Damavand, Tehran pairs Hossein Amanat’s sweeping white-marble Azadi Tower with the Qajar tilework courts of Golestan Palace.',
@@ -5842,10 +5870,10 @@ const LANDMARKS = [
     realElevationM: 5610,
     footprintRadius: 5.2,
     isSummitPad: true,
-    camOffset: [12.4, 16.2, 19.6],
-    lookOffset: [0.0, 9.4, 0.0],
-    pinAnchorDY: 15.2,
-    pinNudge: [24, -12],
+    camOffset: [1.8, 17.6, 19.6],
+    lookOffset: [0.0, 9.8, -0.2],
+    pinAnchorDY: 15.0,
+    pinNudge: [26, -4],
     summary: 'Celebrated in Ferdowsi’s Shahnameh as where Arash the Archer loosed his boundary arrow, Mount Damavand rises 5,610 meters above the Alborz crest between the Caspian cloud forests and scarlet Lar poppy meadows.',
     architecturalNote: 'A glaciated basalt-and-snow stratovolcano cone crowned by bright yellow sulfur fumarole vents and billowing steam plumes above organic scarlet Lar Valley wild poppy pastures.'
   },
@@ -5865,8 +5893,8 @@ const LANDMARKS = [
     padLon: 49.02,
     realElevationM: 1050,
     footprintRadius: 5.2,
-    camOffset: [8.8, 10.8, 14.6],
-    lookOffset: [0.0, 2.8, -0.2],
+    camOffset: [7.6, 14.2, 12.2],
+    lookOffset: [-0.2, 2.6, -0.2],
     pinAnchorDY: 5.8,
     pinNudge: [20, -14],
     summary: 'Clinging to a steep misty amphitheater in the Talesh Mountains above the Caspian littoral, Masuleh weaves ochre timber-and-adobe homes into ancient broadleaf Hyrcanian forests.',
@@ -5888,8 +5916,8 @@ const LANDMARKS = [
     padLon: 55.17,
     realElevationM: 55,
     footprintRadius: 5.0,
-    camOffset: [-10.8, 13.4, 16.8],
-    lookOffset: [0.0, 4.8, 0.0],
+    camOffset: [-12.2, 13.2, 15.6],
+    lookOffset: [0.2, 4.8, 0.0],
     pinAnchorDY: 7.4,
     pinNudge: [4, -10],
     summary: 'Commanding the Turkmen Sahra plains near ancient Jorjan, Sultan Qabus ibn Voshmgir’s 53-meter mausoleum tower inaugurated Iran’s golden age of geometric brick engineering.',
@@ -5980,10 +6008,10 @@ const LANDMARKS = [
     padLon: 47.20,
     realElevationM: 2150,
     footprintRadius: 5.4,
-    camOffset: [-9.2, 11.8, 15.2],
-    lookOffset: [0.0, 2.3, 0.0],
+    camOffset: [12.8, 13.8, 1.8],
+    lookOffset: [-0.6, 2.0, 0.0],
     pinAnchorDY: 5.4,
-    pinNudge: [16, 10],
+    pinNudge: [26, 16],
     summary: 'Built atop a travertine volcanic crater mound fed by a bottomless thermal spring, Takht-e Soleyman housed Adur Gushnasp, the supreme Zoroastrian royal warrior fire of the Sasanian Empire.',
     architecturalNote: 'An oval stone wall studded with semicircular bastions encircles the deep turquoise artesian crater lake, Khosrow’s vaulted brick West Iwan, and the chahartaq sanctuary with its eternal flame.'
   },
@@ -6026,8 +6054,8 @@ const LANDMARKS = [
     padLon: 47.44,
     realElevationM: 1320,
     footprintRadius: 5.5,
-    camOffset: [-9.2, 11.2, 15.2],
-    lookOffset: [0.0, 2.8, -0.4],
+    camOffset: [-6.4, 15.2, 11.4],
+    lookOffset: [0.6, 2.2, 0.0],
     pinAnchorDY: 6.0,
     pinNudge: [-16, 0],
     summary: 'Guarding the ancient Khorasan Highway gate through the central Zagros, Kermanshah pairs Darius the Great’s trilingual Rosetta Stone of cuneiform at Bisotun with Taq-e Bostan’s Sasanian grottos.',
@@ -6144,8 +6172,8 @@ const LANDMARKS = [
     padLon: 52.45,
     realElevationM: 1500,
     footprintRadius: 5.2,
-    camOffset: [-9.2, 11.0, 14.8],
-    lookOffset: [0.0, 2.3, 0.0],
+    camOffset: [1.6, 13.6, -12.6],
+    lookOffset: [0.6, 1.7, 1.5],
     pinAnchorDY: 5.2,
     pinNudge: [-28, 14],
     summary: 'City of Hafez, Saadi, nightingales, and orange blossoms, Shiraz pairs axial chaharbagh paradise gardens and Qajar rose-tiled arcades with the hypersaline pink waters of Lake Maharlu.',
@@ -6191,8 +6219,8 @@ const LANDMARKS = [
     padLon: 58.36,
     realElevationM: 1060,
     footprintRadius: 5.4,
-    camOffset: [-9.4, 11.8, 15.4],
-    lookOffset: [0.0, 2.6, 0.0],
+    camOffset: [-12.8, 12.8, 8.2],
+    lookOffset: [0.4, 2.5, 0.0],
     pinAnchorDY: 5.6,
     pinNudge: [-14, 12],
     summary: 'Watered by ancient fault-spring qanats on the southern rim of the Lut Desert, Arg-e Bam stands as the world’s largest fortified adobe city ringed by emerald Mazafati date-palm groves.',
@@ -6234,10 +6262,10 @@ const LANDMARKS = [
     lat: 30.60,
     lon: 61.33,
     padLat: 30.60,
-    padLon: 61.28,
+    padLon: 61.14,
     realElevationM: 485,
     footprintRadius: 5.4,
-    camOffset: [10.2, 11.2, 15.0],
+    camOffset: [9.8, 11.0, 14.6],
     lookOffset: [0.0, 2.4, 0.0],
     pinAnchorDY: 5.6,
     pinNudge: [-10, -6],
@@ -6362,14 +6390,17 @@ function evalMonotonicProfile(profile, progress) {
   return last[1];
 }
 
-// Enforce open marine channels in Strait of Hormuz & Khuran Strait so Bandar Abbas, Qeshm & Hormuz never fuse!
+const HORMUZ_CENTER = project(26.95, 56.54);
+
+// Enforce a full 360° open turquoise marine channel around Hormuz Island & Khuran Strait so Bandar Abbas, Qeshm & Hormuz never fuse!
 function isHormuzChannelCarve(x, z) {
   const { lat, lon } = unproject(x, z);
-  if (lat < 26.70 || lat > 27.20 || lon < 55.45 || lon > 56.70) return false;
-  if (pointInPoly(x, z, QESHM_PROJ) || pointInPoly(x, z, HORMUZ_PROJ)) return false;
-  // Trim any mainland peninsula overhang south of 27.10°N between 56.10°E and 56.68°E so Hormuz & NE Qeshm have >= 2.8 voxels of open sea!
-  if (lon >= 56.08 && lon <= 56.68 && lat < 27.105) return true;
-  if (lon >= 55.50 && lon < 56.08 && lat < 26.985) return true;
+  if (lat < 26.68 || lat > 27.34 || lon < 55.45 || lon > 56.90) return false;
+  if (pointInPoly(x, z, HORMUZ_PROJ) || pointInPoly(x, z, QESHM_PROJ)) return false;
+  const dHormuz = Math.hypot(x - HORMUZ_CENTER.x, z - HORMUZ_CENTER.z);
+  if (dHormuz < 7.8) return true;
+  if (lon >= 56.06 && lon <= 56.84 && lat < 27.26) return true;
+  if (lon >= 55.48 && lon < 56.06 && lat < 26.985) return true;
   return false;
 }
 
@@ -6443,10 +6474,10 @@ const RIVER_PATHS_GEO = [
     profile: [[0.0, 10.6], [0.55, 10.2], [1.0, 10.0]],
     pts: [[30.95, 48.02], [30.44, 48.18], [30.18, 48.42], [29.92, 48.62]]
   },
-  // Zayandeh Rud (Zard-Kuh -> Isfahan Si-o-se-pol -> Gavkhouni terminal marsh)
+  // Zayandeh Rud (Zard-Kuh -> Isfahan Si-o-se-pol at y=19 -> Gavkhouni terminal marsh at y=14)
   {
-    name: 'Zayandeh Rud', width: 0.96, fertileW: 3.5,
-    profile: [[0.0, 21.5], [0.42, 16.4], [0.60, 15.8], [1.0, 14.0]],
+    name: 'Zayandeh Rud', width: 1.02, fertileW: 3.8,
+    profile: [[0.0, 23.0], [0.42, 19.4], [0.58, 19.0], [1.0, 14.0]],
     pts: [[32.48, 50.18], [32.42, 50.78], [32.52, 51.28], [32.64, 51.68], [32.56, 52.14], [32.34, 52.54], [32.16, 52.82]]
   },
   // Qezel Owzan -> Sefid Rud (Kurdistan -> Zanjan -> Manjil Alborz gorge -> Caspian delta at y=7!)
@@ -6455,40 +6486,40 @@ const RIVER_PATHS_GEO = [
     profile: [[0.0, 19.5], [0.50, 15.5], [0.74, 11.2], [0.90, 8.2], [1.0, 7.2]],
     pts: [[35.65, 47.10], [36.35, 47.68], [37.05, 47.92], [36.92, 48.65], [36.76, 49.42], [37.08, 49.68], [37.42, 49.98]]
   },
-  // Aras (NW border river past St. Thaddeus / Jolfa -> Moghan plain)
+  // Aras (NW valley inset cleanly inside outer border bank so zero exterior plinth waterfalls occur!)
   {
-    name: 'Aras', width: 0.92, fertileW: 2.6,
-    profile: [[0.0, 17.5], [0.55, 13.8], [1.0, 10.2]],
-    pts: [[39.62, 44.78], [39.15, 45.45], [38.92, 46.15], [39.12, 46.88], [39.48, 47.55], [39.62, 47.95]]
+    name: 'Aras', width: 0.88, fertileW: 2.6,
+    profile: [[0.0, 18.0], [0.55, 14.2], [1.0, 10.6]],
+    pts: [[39.48, 44.82], [39.02, 45.45], [38.80, 46.15], [39.00, 46.88], [39.34, 47.52], [39.46, 47.88]]
   },
-  // Aji Chay (Sabalan/Tabriz -> Lake Urmia at y=16)
+  // Aji Chay (Sabalan/Tabriz -> Lake Urmia plateau at y=19)
   {
     name: 'Aji Chay', width: 0.78, fertileW: 2.8,
-    profile: [[0.0, 19.5], [0.48, 17.2], [1.0, 16.0]],
+    profile: [[0.0, 22.0], [0.48, 19.8], [1.0, 19.0]],
     pts: [[38.02, 47.35], [38.12, 46.42], [37.95, 45.92], [37.78, 45.55]]
   },
-  // Zarrineh Rud (Saqqez -> southern Lake Urmia at y=16)
+  // Zarrineh Rud (Saqqez -> southern Lake Urmia plateau at y=19)
   {
     name: 'Zarrineh Rud', width: 0.80, fertileW: 3.0,
-    profile: [[0.0, 19.5], [0.55, 17.2], [1.0, 16.0]],
+    profile: [[0.0, 21.8], [0.55, 19.8], [1.0, 19.0]],
     pts: [[36.28, 46.52], [36.68, 46.42], [37.05, 46.02], [37.28, 45.68]]
   },
   // Atrak & Gorgan (NE Kopet Dag -> Turkmen Sahra / Gonbad -> Caspian Sea at y=7!)
   {
     name: 'Atrak', width: 0.82, fertileW: 2.8,
     profile: [[0.0, 17.5], [0.55, 11.5], [1.0, 7.4]],
-    pts: [[37.22, 58.35], [37.55, 57.25], [37.78, 56.05], [37.58, 54.85], [37.42, 54.05]]
+    pts: [[37.22, 58.35], [37.55, 57.25], [37.72, 56.05], [37.54, 54.85], [37.40, 54.12]]
   },
   {
     name: 'Gorgan', width: 0.84, fertileW: 3.6,
     profile: [[0.0, 13.5], [0.45, 9.8], [1.0, 7.4]],
     pts: [[37.42, 55.85], [37.20, 55.12], [37.04, 54.52], [36.98, 54.02]]
   },
-  // Harirud (Eastern Khorasan border river)
+  // Harirud (Eastern Khorasan river inset cleanly west of exterior border cliff!)
   {
-    name: 'Harirud', width: 0.82, fertileW: 2.4,
-    profile: [[0.0, 16.5], [1.0, 13.2]],
-    pts: [[35.02, 61.12], [35.65, 61.18], [36.22, 61.16], [36.54, 61.15]]
+    name: 'Harirud', width: 0.80, fertileW: 2.4,
+    profile: [[0.0, 16.5], [1.0, 13.4]],
+    pts: [[35.02, 60.94], [35.65, 60.98], [36.20, 60.96], [36.48, 60.92]]
   },
   // Kor River (Zagros -> Marvdasht / Persepolis plain -> Lake Bakhtegan at y=15)
   {
@@ -6522,9 +6553,9 @@ const ENDORHEIC_ELLIPSES = [
   // 3. Gavkhouni terminal salt pan SE of Isfahan
   { id: 'gavkhouni', kind: 'salt_lake', lat: 32.16, lon: 52.86, rLat: 0.20, rLon: 0.29, rot: -0.35, crustMul: 1.46 },
   // 4. Lake Maharlu (Enlarged vivid rose-magenta Dunaliella lake SE of Shiraz!)
-  { id: 'maharlu', kind: 'pink_lake', lat: 29.42, lon: 52.84, rLat: 0.22, rLon: 0.34, rot: -0.48, crustMul: 1.34 },
-  // 5. Lake Bakhtegan & Tashk (Fars elongated salt lakes)
-  { id: 'bakhtegan', kind: 'lake', lat: 29.42, lon: 53.92, rLat: 0.19, rLon: 0.56, rot: -0.36, crustMul: 1.30 },
+  { id: 'maharlu', kind: 'pink_lake', lat: 29.18, lon: 52.76, rLat: 0.25, rLon: 0.42, rot: -0.35, crustMul: 1.34 },
+  // 5. Lake Bakhtegan & Tashk (Fars elongated hypersaline lakes)
+  { id: 'bakhtegan', kind: 'salt_lake', lat: 29.42, lon: 53.92, rLat: 0.19, rLon: 0.56, rot: -0.36, crustMul: 1.30 },
   // 6. Hamun Wetlands (Centered cleanly inside Iranian Sistan north of Shahr-e Sukhteh!)
   { id: 'hamun_puzak', kind: 'hamun', lat: 31.08, lon: 61.26, rLat: 0.31, rLon: 0.35, rot: 0.18, crustMul: 1.26 },
   { id: 'hamun_sabari', kind: 'hamun', lat: 31.28, lon: 61.16, rLat: 0.22, rLon: 0.26, rot: -0.22, crustMul: 1.22 },
@@ -6537,10 +6568,11 @@ const ENDORHEIC_ELLIPSES = [
   rz: lk.rLat * LAT_SCALE
 }));
 
-// 7 Iconic Persian Qanat Chains (Continuous cyan alignments in Hydrology + dense mother-well spoil rings every 1.7 voxels!)
+// 8 Iconic Persian Qanat Chains (Continuous cyan alignments in Hydrology + dense mother-well spoil rings every 1.7 voxels!)
 const QANAT_CHAINS = [
   { name: 'Zarch Qanat (Yazd)', from: [31.42, 54.00], to: [31.86, 54.35] },
   { name: 'Fahraj Qanat (Yazd)', from: [31.46, 54.88], to: [31.87, 54.44] },
+  { name: 'Ardakan–Kharanaq Qanat (North Yazd)', from: [32.30, 54.68], to: [31.94, 54.40] },
   { name: 'Qasabeh Qanat (Bam)', from: [28.78, 57.74], to: [29.07, 58.33] },
   { name: 'Gonabad Qanat', from: [33.90, 58.44], to: [34.62, 58.80] },
   { name: 'Fin Qanat (Kashan)', from: [33.58, 51.14], to: [34.14, 51.54] },
@@ -6713,8 +6745,8 @@ function sampleIranElevation(lat, lon, x, z) {
     h += starDuneZone * (1.2 + duneCrest * 3.8);
   }
 
-  if (h > 48) {
-    h = 48 + 14 * Math.tanh((h - 48) / 14);
+  if (h > 34.2) {
+    h = 34.2 + 3.6 * Math.tanh((h - 34.2) / 3.6);
   }
   return clamp(h, GRID.caspianLevelY + 1.0, GRID.maxHeight - 8);
 }
@@ -6741,12 +6773,12 @@ function sampleHydrology(x, z, lat, lon) {
       isLake: !isCauseway,
       isCauseway,
       lakeKind: isNorthBloom ? 'urmia_north' : 'lake',
-      waterY: 16,
+      waterY: 19,
       bedDepth: urmiaDist > 1.8 ? 2 : 1,
       isSaltRim: false,
       isPinkRim: false,
       lakeBlend: 1.0,
-      lakeTargetY: 16.0,
+      lakeTargetY: 19.0,
       riverDistRatio: 99,
       fertile: 0
     };
@@ -6758,19 +6790,19 @@ function sampleHydrology(x, z, lat, lon) {
       isLake: false,
       isCauseway: false,
       lakeKind: null,
-      waterY: 16,
+      waterY: 19,
       bedDepth: 1,
       isSaltRim: urmiaDist >= 0.55,
       isPinkRim: urmiaDist < 0.55,
       lakeBlend: 1.0,
-      lakeTargetY: 16.15,
+      lakeTargetY: 19.15,
       riverDistRatio: 99,
       fertile: 0.25
     };
   }
 
-  let bestLakeBlend = urmiaDist < 3.1 ? smooth01(clamp(1 - (urmiaDist - 1.30) / 1.80, 0, 1)) : 0;
-  let bestLakeTargetY = 16.3;
+  let bestLakeBlend = urmiaDist < 4.6 ? smooth01(clamp(1 - (urmiaDist - 1.30) / 3.30, 0, 1)) : 0;
+  let bestLakeTargetY = 19.35;
 
   // 2. Elliptical Endorheic Lakes (Namak, Gavkhouni, Maharlu, Bakhtegan, Hamun, Lipar)
   for (const lk of ENDORHEIC_ELLIPSES) {
@@ -7019,17 +7051,21 @@ function buildIranMacroTerrain() {
     const rawY = sampleIranElevation(lm.padLat, lm.padLon, p.x, p.z);
     let padTopY;
     if (lm.isSummitPad) {
-      padTopY = 27;
+      padTopY = 38; // Damavand base sits cleanly above Alborz crest (37.8) and rises to worldY ~ 53.3!
     } else if (lm.isIsland || lm.isCoastal) {
       padTopY = seaLevelY + 1;
     } else if (lm.isRiverBridge) {
-      padTopY = 17; // Isfahan Maidan at y=18, Zayandeh Rud water at y=16!
+      padTopY = 20; // Isfahan Maidan lifted onto sunlit plateau at y=21, Zayandeh Rud water at y=19!
     } else if (lm.id === 'gonbad') {
       padTopY = caspianLevelY + 3;
+    } else if (lm.id === 'masuleh') {
+      padTopY = 17; // Forested Talesh mountain amphitheater above Qezel Owzan & Caspian littoral!
+    } else if (lm.id === 'sistan') {
+      padTopY = 13; // Low Helmand delta plain right beside Hamun wetlands (y=12)!
     } else if (lm.id === 'persepolis') {
       padTopY = 19; // Flat Marvdasht plain slightly above Shiraz & Lake Maharlu!
     } else if (lm.id === 'shiraz') {
-      padTopY = 17; // Shiraz basin gently above Lake Maharlu (y=15)!
+      padTopY = 16; // Shiraz basin sitting cleanly beside vivid pink Lake Maharlu (y=15)!
     } else {
       padTopY = Math.max(seaLevelY + 1, Math.round(rawY));
     }
@@ -7084,10 +7120,11 @@ function buildIranMacroTerrain() {
       // Cutaway Northern Sea: Caspian Sea (-28 m BSL -> caspianLevelY = 7)
       if (inCaspian) {
         const shoreDist = Math.abs(signedLandDist(wx, wz));
-        const depth = shoreDist < 2.4 ? 1 : shoreDist < 6.5 ? 2 : 3;
+        const cutawayRim = distToPolyRing(wx, wz, CASPIAN_PROJ);
+        const depth = cutawayRim < 2.2 ? 3 : (shoreDist < 2.4 ? 1 : shoreDist < 6.5 ? 2 : 3);
         const bedY = Math.max(2, caspianLevelY - depth);
         for (let y = 2; y <= bedY; y++) {
-          grid.set(gx, y, gz, y === bedY ? Mat.SeafloorSand : getStrataMaterial(y, gx, gz));
+          grid.set(gx, y, gz, cutawayRim < 2.2 || y === bedY ? Mat.SeafloorSand : getStrataMaterial(y, gx, gz));
         }
         surfaceY[cellIdx] = bedY;
         waterYMap[cellIdx] = caspianLevelY;
@@ -7099,10 +7136,14 @@ function buildIranMacroTerrain() {
       if (inSouthSea) {
         const shoreDist = Math.abs(signedLandDist(wx, wz));
         const isOmanDeep = lon > 56.9 && shoreDist > 2.2;
-        const depth = shoreDist < 2.2 ? 1 : shoreDist < 5.5 ? 2 : isOmanDeep ? 4 : 3;
+        const nearOuterCutaway = (!isIranLand(wx, wz - 1.4) && !isSouthernSea(wx, wz - 1.4)) ||
+          (!isIranLand(wx, wz + 1.4) && !isSouthernSea(wx, wz + 1.4)) ||
+          (!isIranLand(wx - 1.4, wz) && !isSouthernSea(wx - 1.4, wz)) ||
+          (!isIranLand(wx + 1.4, wz) && !isSouthernSea(wx + 1.4, wz));
+        const depth = nearOuterCutaway ? (isOmanDeep ? 5 : 4) : (shoreDist < 2.2 ? 1 : shoreDist < 5.5 ? 2 : isOmanDeep ? 4 : 3);
         const bedY = Math.max(2, seaLevelY - depth);
         for (let y = 2; y <= bedY; y++) {
-          grid.set(gx, y, gz, y === bedY ? Mat.SeafloorSand : getStrataMaterial(y, gx, gz));
+          grid.set(gx, y, gz, nearOuterCutaway || y === bedY ? Mat.SeafloorSand : getStrataMaterial(y, gx, gz));
         }
         surfaceY[cellIdx] = bedY;
         waterYMap[cellIdx] = seaLevelY;
@@ -7134,12 +7175,24 @@ function buildIranMacroTerrain() {
         const dx = wx - pad.cx;
         const dz = wz - pad.cz;
         const d = Math.hypot(dx, dz);
-        const blendSpan = pad.isSummitPad ? 5.2 : pad.isIsland ? 1.6 : 3.8;
+        const blendSpan = pad.isSummitPad ? 7.2
+          : pad.isIsland ? 1.3
+            : pad.id === 'isfahan' ? 8.5
+              : (pad.id === 'masuleh' || pad.id === 'sistan') ? 7.2
+                : (pad.id === 'gonbad' || pad.id === 'bisotun' || pad.id === 'persepolis' || pad.id === 'yazd') ? 5.8
+                  : 4.2;
         if (d < pad.footprintRadius + blendSpan) {
-          const innerR = pad.footprintRadius * 0.88;
-          const t = d <= innerR ? 1 : clamp(1 - (d - innerR) / (pad.footprintRadius * 0.12 + blendSpan), 0, 1);
+          const innerMul = pad.id === 'tehran' ? 0.98 : pad.id === 'shiraz' ? 0.80 : 0.88;
+          const innerR = pad.footprintRadius * innerMul;
+          const t = d <= innerR ? 1 : clamp(1 - (d - innerR) / (pad.footprintRadius * (1 - innerMul) + blendSpan), 0, 1);
           const s = smooth01(t);
-          elev = elev * (1 - s) + pad.padTopY * s;
+          if ((insideSolidPad || insideBridgePad) && d > innerR) {
+            // Preserve already-leveled solid/bridge monument pad against neighbor summit aprons (e.g., Damavand next to Tehran)!
+          } else if (d > innerR && !pad.isRiverBridge && (hydro.isLake || hydro.isPinkRim || hydro.isSaltRim)) {
+            elev = Math.min(elev, hydro.lakeTargetY + 0.30);
+          } else {
+            elev = elev * (1 - s) + pad.padTopY * s;
+          }
           if (d <= innerR) {
             if (pad.isRiverBridge) insideBridgePad = true;
             else insideSolidPad = true;
@@ -7148,26 +7201,26 @@ function buildIranMacroTerrain() {
         // Camera Sightline & SW Golden-Hour Sun Clearance: prevent macro ridges from occluding closeup views or casting dark hill shadows across sunlit facades!
         if (!pad.isSummitPad) {
           const along = dx * pad.rayUX + dz * pad.rayUZ;
-          if (along > pad.footprintRadius * 0.7 && along < pad.camHorizLen + 6.5) {
+          if (along > pad.footprintRadius * 0.65 && along < pad.camHorizLen + 7.5) {
             const perp = Math.abs(-dx * pad.rayUZ + dz * pad.rayUX);
-            const corridorHalfW = 8.2;
+            const corridorHalfW = 10.2;
             if (perp < corridorHalfW) {
-              const rayProgress = clamp((along - pad.footprintRadius * 0.7) / (pad.camHorizLen + 2.0), 0, 1);
-              const maxAllowedY = pad.padTopY + 1.2 + rayProgress * Math.max(2.5, pad.camOffset[1] * 0.45);
+              const rayProgress = clamp((along - pad.footprintRadius * 0.65) / (pad.camHorizLen + 2.0), 0, 1);
+              const maxAllowedY = pad.padTopY + 0.9 + rayProgress * Math.max(2.4, pad.camOffset[1] * 0.44);
               if (elev > maxAllowedY) {
                 const wPerp = smooth01(1 - perp / corridorHalfW);
                 elev = elev * (1 - wPerp) + maxAllowedY * wPerp;
               }
             }
           }
-          // SW Afternoon Sun Corridor (sunDirXZ ~ [-0.86, +0.50]) so Tabriz, Bam & heritage facades glow in direct 16:00 sunlight!
+          // Wide SW Afternoon Sun Corridor (sunDirXZ ~ [-0.86, +0.50]) so Tabriz, Isfahan, Bam & heritage facades glow in direct sunlight!
           const sunUX = -0.864, sunUZ = 0.503;
           const alongSun = dx * sunUX + dz * sunUZ;
-          if (alongSun > pad.footprintRadius * 0.80 && alongSun < 16.5) {
+          if (alongSun > pad.footprintRadius * 0.65 && alongSun < 22.0) {
             const perpSun = Math.abs(-dx * sunUZ + dz * sunUX);
-            const sunHalfW = 6.8;
+            const sunHalfW = 9.6;
             if (perpSun < sunHalfW) {
-              const maxSunY = pad.padTopY + 1.3 + Math.max(0, alongSun - pad.footprintRadius * 0.80) * 0.46;
+              const maxSunY = pad.padTopY + 0.9 + Math.max(0, alongSun - pad.footprintRadius * 0.65) * 0.36;
               if (elev > maxSunY) {
                 const wSun = smooth01(1 - perpSun / sunHalfW);
                 elev = elev * (1 - wSun) + maxSunY * wSun;
@@ -7207,13 +7260,15 @@ function buildIranMacroTerrain() {
       const minLandY = inCaspianCoast ? caspianLevelY + 1 : seaLevelY + 1;
       let topY = Math.max(minLandY, Math.round(elev));
 
-      // Carve Isfahan Zayandeh Rud channel cleanly across the foreground of the Isfahan pad (z = cz + 1.5..3.2)!
+      // Carve Isfahan Zayandeh Rud channel cleanly across the foreground of the Isfahan pad (z = cz + 1.05..3.65, wide flanking reaches)!
       const isfahanPos = project(32.66, 51.68);
-      const inIsfahanRiverSlot = wz >= isfahanPos.z + 1.25 && wz <= isfahanPos.z + 3.25 && Math.abs(wx - isfahanPos.x) <= 6.2;
+      const inIsfahanRiverSlot = wz >= isfahanPos.z + 1.05 && wz <= isfahanPos.z + 3.65 && Math.abs(wx - isfahanPos.x) <= 7.8;
+      // Always preserve >= 1.35-voxel outer border wall for inland rivers (except true sea mouths at Caspian & Arvand/Mond Gulf)
+      const allowRiverCarve = hydro.isRiver && (landDist >= 1.35 || inCaspianCoast || (lat < 30.6 && lon < 51.8));
 
-      if (!insideSolidPad && (hydro.isLake || inIsfahanRiverSlot || (hydro.isRiver && (!insideBridgePad || inIsfahanRiverSlot)))) {
+      if (!insideSolidPad && (hydro.isLake || inIsfahanRiverSlot || (allowRiverCarve && (!insideBridgePad || inIsfahanRiverSlot)))) {
         const wY = inIsfahanRiverSlot
-          ? (landmarkGroundY.get('isfahan') || 18) - 2
+          ? (landmarkGroundY.get('isfahan') || 21) - 2
           : hydro.waterY;
         const bedDepth = inIsfahanRiverSlot ? 1 : hydro.bedDepth;
         const bedY = Math.max(3, Math.floor(wY) - bedDepth);
@@ -7227,9 +7282,11 @@ function buildIranMacroTerrain() {
         }
         surfaceY[cellIdx] = bedY;
         waterYMap[cellIdx] = wY;
-        const wKind = inIsfahanRiverSlot || hydro.isRiver
+        const wKind = inIsfahanRiverSlot
           ? 'river'
-          : hydro.lakeKind || 'lake';
+          : hydro.isLake
+            ? (hydro.lakeKind || 'lake')
+            : (hydro.isRiver ? 'river' : (hydro.lakeKind || 'lake'));
         waterCells.push({ gx, gz, waterY: wY, depth: bedDepth, kind: wKind });
         continue;
       }
@@ -7255,11 +7312,11 @@ function buildIranMacroTerrain() {
 
       if (hydro.isCauseway) {
         surfMat = Mat.PersepolisGreyStone;
-        topY = 17;
+        topY = 20;
       } else if (hydro.isPinkRim && topY <= hydro.waterY + 1) {
         surfMat = Mat.PinkSaltCrust;
       } else if (hydro.isSaltRim && topY <= hydro.waterY + 1) {
-        surfMat = Mat.KavirHaliteWhite;
+        surfMat = Mat.EndorheicSaltRim;
       } else if (hydro.isHamunReed && topY <= hydro.waterY + 1) {
         surfMat = Mat.ReedMarsh;
       } else if (hydro.isQanatRing && topY <= 34) {
@@ -7281,14 +7338,14 @@ function buildIranMacroTerrain() {
       } else if (inCaspianCoast && topY <= caspianLevelY + 2 && landDist < 2.2) {
         // Distinct exposed Caspian -28m dark littoral bench & coastal paddies!
         surfMat = landDist < 1.1 ? Mat.KavirWetMud : Mat.PaddyTerrace;
-      } else if (topY >= 41 || (topY >= 36 && (lat > 35.6 || gauss2(lat, lon, 32.3, 50.2, 1.5, 1.5) > 0.3) && nA > 0.38)) {
+      } else if (topY >= 36 || (topY >= 33 && (lat > 35.6 || gauss2(lat, lon, 32.3, 50.2, 1.5, 1.5) > 0.3 || Math.hypot(lat - 28.60, lon - 61.13) < 0.22) && nA > 0.36)) {
         const nearDamavandCrater = Math.hypot(lat - 35.98, lon - 52.22) < 0.085;
         surfMat = nearDamavandCrater ? Mat.SulfurFumarole : (nB > 0.74 ? Mat.GlacierIce : Mat.AlpineSnow);
       } else if (lon >= 51.86 && gauss2(lat, lon, 35.84, 52.08, 0.13, 0.18) > 0.48 && nB > 0.54) {
         // Organic Lar Valley wild poppies strictly east of 51.86°E (never behind Tehran!)
         surfMat = Mat.PoppyMeadow;
-      } else if (topY >= 30 && (Math.hypot(lat - 35.98, lon - 52.22) < 0.32 || Math.hypot(lat - 38.27, lon - 47.84) < 0.32 || Math.hypot(lat - 28.60, lon - 61.13) < 0.28)) {
-        surfMat = nA > 0.48 ? Mat.VolcanicBasalt : Mat.ZagrosSlate;
+      } else if (topY >= 31 && (Math.hypot(lat - 35.98, lon - 52.22) < 0.24 || Math.hypot(lat - 38.27, lon - 47.84) < 0.28 || Math.hypot(lat - 28.60, lon - 61.13) < 0.26)) {
+        surfMat = nA > 0.56 ? Mat.ZagrosSlate : Mat.ZagrosLimestone;
       } else if (lat > 36.15 && lon >= 48.65 && lon <= 55.35 && lat > getAlborzCrestLat(lon) - 0.12 && topY < 32) {
         if (topY <= caspianLevelY + 3 && nA > 0.36) {
           surfMat = Mat.PaddyTerrace;
@@ -7374,7 +7431,7 @@ function buildIranMacroTerrain() {
     const cgx = clamp(gx, 0, gridW - 1);
     const cgz = clamp(gz, 0, gridD - 1);
     if (pad.isSummitPad) {
-      landmarkGroundY.set(pad.id, 28);
+      landmarkGroundY.set(pad.id, 39);
     } else if (pad.isRiverBridge || pad.isIsland || pad.isCoastal) {
       landmarkGroundY.set(pad.id, pad.padTopY + 1);
     } else {
@@ -7471,7 +7528,7 @@ function buildGroundedPad(g, radiusMicro, topMat, skirtMat = Mat.StrataLimestone
       for (let x = 0; x < g.sizeX; x++) {
         const dx = x - cx, dz = z - cz;
         const dSq = dx * dx + dz * dz;
-        const crag = depthBelow > 2 ? hash2(x * 5 + 3, z * 7 + 11) * 0.65 : 0;
+        const crag = depthBelow >= 5 ? hash2(x * 5 + 3, z * 7 + 11) * 0.65 : 0;
         const r = Math.min(cx - 0.4, baseR + crag);
         if (dSq <= r * r) {
           const era = eraFn ? eraFn(x, z) : 0;
@@ -7557,8 +7614,8 @@ function buildTehran(info, cx, baseY, cz) {
   // Axial Turquoise Reflecting Pools & Cypress Gardens
   g.fillBox(7, PY, 24, 23, PY, 27, Mat.ReflectPoolTile);
   g.fillBox(13, PY, 12, 16, PY, 39, Mat.ReflectPoolTile);
-  g.fillBox(31, PY, 23, 36, PY, 36, Mat.ReflectPoolTile); // Golestan garden pool facing south!
-  for (const [tx, tz] of [[8, 16], [8, 35], [22, 16], [28, 25], [28, 34], [39, 25], [39, 34]]) {
+  g.fillBox(29, PY, 23, 34, PY, 36, Mat.ReflectPoolTile); // Golestan garden pool facing south!
+  for (const [tx, tz] of [[8, 16], [8, 35], [22, 16], [26, 25], [26, 34], [37, 25], [37, 34]]) {
     stampMicroCypress(g, tx, PY + 1, tz, 9, true);
   }
 
@@ -7601,9 +7658,11 @@ function buildTehran(info, cx, baseY, cz) {
         }
       }
     } else {
-      // Slender white-marble central tower crown with delicate turquoise geometric fretwork (NO cyan top block!)
-      const x0 = Math.round(ax - 2.8), x1 = Math.round(ax + 2.8);
-      const z0 = Math.round(az - 2.2), z1 = Math.round(az + 2.2);
+      // Slender waist-tapered white-marble central tower crown flaring subtly at upper observation turret!
+      const halfX = dy <= 23 ? 2.2 : 2.4;
+      const halfZ = 1.8;
+      const x0 = Math.round(ax - halfX), x1 = Math.round(ax + halfX);
+      const z0 = Math.round(az - halfZ), z1 = Math.round(az + halfZ);
       g.fillBox(x0, PY + 1 + dy, z0, x1, PY + 1 + dy, z1, Mat.WhiteMarbleAzadi);
       // Narrow 1-voxel central turquoise mosaic panel on north/south faces (dy = 17..21)
       if (dy >= 17 && dy <= 21) {
@@ -7634,20 +7693,20 @@ function buildTehran(info, cx, baseY, cz) {
   }
 
   // EAST: Golestan Palace — Shams-ol-Emareh Twin Tiled Towers & Mirror Iwan FACING SOUTH (+Z toward camera!)
-  // Qajar palace wing across northern court edge (x = 26..41, z = 12..20)
-  g.fillBox(26, PY + 1, 12, 41, PY + 7, 20, Mat.BakedBrickBuff);
-  for (let x = 27; x <= 40; x += 3) {
+  // Qajar palace wing across northern court edge (x = 24..39, z = 12..20)
+  g.fillBox(24, PY + 1, 12, 39, PY + 7, 20, Mat.BakedBrickBuff);
+  for (let x = 25; x <= 38; x += 3) {
     g.fillBox(x, PY + 2, 20, x + 1, PY + 5, 20, x % 2 === 0 ? Mat.HaftRangSaffron : Mat.HaftRangCobalt);
     g.set(x, PY + 3, 20, Mat.WarmWindow);
   }
   // Central Glittering Mirror-Work Iwan (Talar-e Ayeneh) facing +Z onto the turquoise pool!
-  g.fillBox(32, PY + 1, 18, 35, PY + 10, 21, Mat.HaftRangCobalt);
-  g.fillBox(33, PY + 2, 19, 34, PY + 8, 21, Mat.MirrorWorkSilver);
-  g.set(33, PY + 5, 21, Mat.ShrineLantern);
-  g.set(34, PY + 5, 21, Mat.ShrineLantern);
+  g.fillBox(30, PY + 1, 18, 33, PY + 10, 21, Mat.HaftRangCobalt);
+  g.fillBox(31, PY + 2, 19, 32, PY + 8, 21, Mat.MirrorWorkSilver);
+  g.set(31, PY + 5, 21, Mat.ShrineLantern);
+  g.set(32, PY + 5, 21, Mat.ShrineLantern);
 
-  // Twin 5-Story Shams-ol-Emareh Towers (x = 27..31 and x = 36..40) facing +Z with golden Kolah-Farangi kiosks!
-  for (const tx of [27, 36]) {
+  // Twin 5-Story Shams-ol-Emareh Towers (x = 25..29 and x = 34..38) facing +Z with golden Kolah-Farangi kiosks!
+  for (const tx of [25, 34]) {
     g.fillBox(tx, PY + 8, 14, tx + 4, PY + 18, 19, Mat.BakedBrickBuff);
     for (let ly = PY + 9; ly <= PY + 17; ly += 3) {
       g.fillBox(tx, ly, 19, tx + 4, ly, 19, Mat.HaftRangSaffron);
@@ -7655,9 +7714,15 @@ function buildTehran(info, cx, baseY, cz) {
       g.set(tx + 3, ly + 1, 19, Mat.WarmWindow);
       g.set(tx + 2, ly + 1, 19, Mat.SafavidTurquoise);
     }
-    // Open gilded Kolah-Farangi roof pavilion
-    g.fillBox(tx + 1, PY + 19, 15, tx + 3, PY + 21, 18, Mat.WarmWindow);
-    g.fillBox(tx, PY + 22, 14, tx + 4, PY + 23, 19, Mat.GoldLeaf);
+    // Delicate open 3x4 Kolah-Farangi lantern pavilion with slender golden finial!
+    g.set(tx + 1, PY + 19, 15, Mat.CedarWood);
+    g.set(tx + 3, PY + 19, 15, Mat.CedarWood);
+    g.set(tx + 1, PY + 19, 18, Mat.CedarWood);
+    g.set(tx + 3, PY + 19, 18, Mat.CedarWood);
+    g.fillBox(tx + 1, PY + 20, 15, tx + 3, PY + 20, 18, Mat.WarmWindow);
+    g.fillBox(tx + 1, PY + 21, 15, tx + 3, PY + 21, 18, Mat.GoldLeaf);
+    g.set(tx + 2, PY + 22, 16, Mat.GoldLeaf);
+    g.set(tx + 2, PY + 23, 16, Mat.GoldLeaf);
   }
 
   return buildVoxelMesh(g, { omitBottomAtZero: true });
@@ -7680,9 +7745,10 @@ function buildDamavand(info, cx, baseY, cz) {
 
       const angle = Math.atan2(dz, dx);
       const rib = Math.sin(angle * 9) * 1.1 + (vnoise(x * 0.24, z * 0.24) - 0.5) * 1.3;
-      // Organic winding Lar Valley pasture exclusively on the SW valley floor (no circular collar ring!)
-      const larMask = gauss2(z, x, 37.5, 16.5, 7.5, 9.5) + gauss2(z, x, 39.5, 25.5, 5.5, 7.0) * 0.7;
-      const isLarValley = larMask > 0.32 && r > 14.2;
+      // Organic winding Lar Valley pasture feathered smoothly across Damavand's S/SW flank (zero vertical cliff scar!)
+      const larMask = gauss2(z, x, 37.5, 19.5, 7.5, 10.5) + gauss2(z, x, 39.0, 29.5, 6.0, 8.5) * 0.85;
+      const larWeight = smooth01(clamp((r - 11.8) / 6.2, 0, 1)) * smooth01(clamp((larMask - 0.22) / 0.36, 0, 1));
+      const isLarValley = larWeight > 0.42 && r > 14.0;
 
       let coneH;
       if (r <= 3.6) {
@@ -7691,8 +7757,9 @@ function buildDamavand(info, cx, baseY, cz) {
         const normR = clamp((r - 3.6) / 20.6, 0, 1);
         coneH = Math.round(Math.pow(1 - normR, 1.48) * 57 + rib * (1 - normR));
       }
-      if (isLarValley) {
-        coneH = Math.max(0, Math.min(coneH, 1 + Math.round((24.2 - r) * 0.42)));
+      if (larWeight > 0) {
+        const larTarget = 1 + (24.2 - r) * 0.44;
+        coneH = Math.round(coneH * (1 - larWeight) + Math.min(coneH, larTarget) * larWeight);
       }
       coneH = Math.max(0, coneH);
 
@@ -7721,8 +7788,8 @@ function buildDamavand(info, cx, baseY, cz) {
   }
 
   // Nomad black-wool tent + warm hearth in scarlet Lar poppy meadow
-  g.fillBox(12, PY + 2, 37, 15, PY + 4, 39, Mat.ArmenianBlackTufa);
-  g.set(16, PY + 2, 38, Mat.EternalFlameTip);
+  g.fillBox(23, PY + 2, 38, 26, PY + 4, 40, Mat.ArmenianBlackTufa);
+  g.set(27, PY + 2, 39, Mat.EternalFlameTip);
 
   return buildVoxelMesh(g, { omitBottomAtZero: true });
 }
@@ -7734,14 +7801,31 @@ function buildMasuleh(info, cx, baseY, cz) {
   buildGroundedPad(g, 21.5, Mat.HyrcanianForest, Mat.StrataSandstone);
   const PY = PAD_Y;
 
-  // Curved forested amphitheater hillside rising from south (z=38) to north (z=6) and wrapping right cliff wall!
-  for (let z = 5; z <= 39; z++) {
-    for (let x = 5; x <= 40; x++) {
-      if (Math.hypot(x - 22.5, z - 22.5) > 20.6) continue;
-      const bowl = Math.max(0, (x - 29) * 0.45) + Math.max(0, (11 - x) * 0.35);
-      const slopeH = Math.round(clamp((37 - z) * 0.62 + bowl, 0, 20));
+  // Taper outer pad rim smoothly into broadleaf Hyrcanian forest canopy (zero cylindrical cliff drum!)
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const r = Math.hypot(x - 22.5, z - 22.5);
+      if (r > 18.4) {
+        const drop = Math.min(4, Math.ceil((r - 18.4) * 0.95));
+        for (let y = PY - drop + 1; y <= PY + 1; y++) g.set(x, y, z, Mat.Air);
+        if (r <= 22.4) {
+          g.set(x, PY - drop, z, (x + z) % 3 === 0 ? Mat.HyrcanianCanopyDark : Mat.HyrcanianForest);
+        }
+      }
+    }
+  }
+
+  // Curved forested amphitheater hillside tapering organically down to the outer pad rim (zero cylindrical drum wall!)
+  for (let z = 4; z <= 40; z++) {
+    for (let x = 4; x <= 41; x++) {
+      const r = Math.hypot(x - 22.5, z - 22.5);
+      if (r > 21.0) continue;
+      const edgeTaper = smooth01(clamp((21.0 - r) / 7.2, 0, 1));
+      const bowl = Math.max(0, (x - 29) * 0.32) + Math.max(0, (11 - x) * 0.28);
+      const rawSlope = clamp((37 - z) * 0.64 + bowl, 0, 20);
+      const slopeH = Math.round(rawSlope * (z < 18 && x >= 13 && x <= 30 ? Math.max(0.75, edgeTaper) : edgeTaper));
       for (let dy = 0; dy <= slopeH; dy++) {
-        const isTop = dy === slopeH;
+        const isTop = dy >= slopeH - 1;
         const m = isTop
           ? ((x + z) % 3 === 0 ? Mat.HyrcanianCanopyDark : Mat.HyrcanianForest)
           : Mat.StrataSandstone;
@@ -7810,7 +7894,7 @@ function buildMasuleh(info, cx, baseY, cz) {
   // Dense Multi-Tiered Hyrcanian Broadleaf Canopy clothing the right cliff wall, west ravine & misty ridge!
   const treeSpots = [
     [7, 26], [7, 18], [10, 11], [16, 8], [23, 8], [30, 9],
-    [34, 13], [36, 18], [34, 23], [37, 25], [34, 30], [36, 34]
+    [33, 13], [35, 18], [38, 21], [34, 24], [38, 28], [34, 31], [36, 35]
   ];
   for (const [tx, tz] of treeSpots) {
     let gy = PY + 1;
@@ -7914,15 +7998,18 @@ function buildMashhad(info, cx, baseY, cz) {
   // EAST-NORTH-EAST: Imam Reza Haram, Golden Iwan (Ivan-e Tala), 24k Golden Dome & Twin Golden Minarets!
   g.fillBox(26, PY + 1, 12, 40, PY + 10, 25, Mat.BakedBrickBuff);
   g.fillBox(27, PY + 8, 13, 39, PY + 10, 24, Mat.SafavidTurquoise);
-  // Monumental Gilded Ivan-e Tala facing +Z into sunlit south sahn!
-  g.fillBox(30, PY + 1, 24, 36, PY + 14, 26, Mat.GoldLeaf);
-  g.fillBox(32, PY + 2, 25, 34, PY + 10, 26, Mat.MirrorWorkSilver);
-  g.set(33, PY + 7, 26, Mat.ShrineLantern);
-  // Iconic Gleaming 24-Karat Golden Dome (Gonbad-e Tala) — completely unoccluded on the right!
-  stampPersianDome(g, 33, PY + 11, 18.5, 5.1, 13, Mat.GoldLeaf, Mat.GoldLeaf, Mat.GoldLeaf);
-  // Twin Gilded Minarets flanking the Golden Dome & Ivan-e Tala
-  stampMinaret(g, 27, PY + 1, 25, 25, Mat.GoldLeaf, Mat.SafavidTurquoise, Mat.GoldLeaf);
-  stampMinaret(g, 39, PY + 1, 25, 25, Mat.GoldLeaf, Mat.SafavidTurquoise, Mat.GoldLeaf);
+  // Monumental Gilded Ivan-e Tala framed by Safavid Cobalt & Turquoise Kufic borders so the 24k gold pops!
+  g.fillBox(29, PY + 1, 24, 37, PY + 14, 26, Mat.HaftRangCobalt);
+  g.fillBox(30, PY + 1, 24, 36, PY + 13, 26, Mat.GoldLeaf);
+  g.fillBox(30, PY + 13, 26, 36, PY + 13, 26, Mat.SafavidTurquoise);
+  g.fillBox(31, PY + 1, 26, 35, PY + 10, 26, Mat.Air);
+  g.fillBox(32, PY + 2, 25, 34, PY + 9, 25, Mat.MirrorWorkSilver);
+  g.set(33, PY + 7, 25, Mat.ShrineLantern);
+  // Iconic Gleaming 24-Karat Golden Dome (Gonbad-e Tala) with Turquoise Kufic Inscription Drum Collar!
+  stampPersianDome(g, 33, PY + 11, 18.5, 5.1, 13, Mat.GoldLeaf, Mat.SafavidTurquoise, Mat.GoldLeaf);
+  // Twin Gilded Minarets with Cobalt/Turquoise balcony collars flanking the Golden Dome & Ivan-e Tala
+  stampMinaret(g, 27, PY + 1, 25, 25, Mat.GoldLeaf, Mat.HaftRangCobalt, Mat.GoldLeaf);
+  stampMinaret(g, 39, PY + 1, 25, 25, Mat.GoldLeaf, Mat.HaftRangCobalt, Mat.GoldLeaf);
 
   // WEST-SOUTH-WEST: Goharshad Mosque — Bulbous Timurid Lapis-Azure Dome & Cobalt Pishtaq Iwan on the left!
   g.fillBox(10, PY + 1, 17, 22, PY + 9, 28, Mat.TimuridAzure);
@@ -8083,8 +8170,8 @@ function buildTakhtESoleyman(info, cx, baseY, cz) {
       if (d <= 1.0) {
         g.set(x, PY + 1, z, Mat.PlateauOchre);
         if (d >= 0.89) {
-          const isSWFront = x < oc && z > oc + 4;
-          const wallTop = isSWFront ? PY + 4 : PY + 6;
+          const isFrontRim = z > oc + 2;
+          const wallTop = isFrontRim ? PY + 4 : PY + 6;
           g.fillBox(x, PY + 2, z, x, wallTop, z, Mat.PersepolisLightStone);
         }
       }
@@ -8094,8 +8181,8 @@ function buildTakhtESoleyman(info, cx, baseY, cz) {
     const ang = (i / 20) * Math.PI * 2;
     const bx = oc + Math.cos(ang) * 18.0;
     const bz = oc + Math.sin(ang) * 18.8;
-    const isSW = bx < oc && bz > oc + 4;
-    g.fillCylinder(bx, bz, PY + 2, isSW ? PY + 5 : PY + 7, 1.35, Mat.PersepolisLightStone);
+    const isFront = bz > oc + 2;
+    g.fillCylinder(bx, bz, PY + 2, isFront ? PY + 5 : PY + 7, 1.35, Mat.PersepolisLightStone);
   }
   // North & South Ceremonial Gates
   g.fillBox(22, PY + 2, 4, 25, PY + 6, 8, Mat.Air);
@@ -8374,9 +8461,21 @@ function buildKhuzestan(info, cx, baseY, cz) {
         step % 2 === 0 ? Mat.HormuzSaltWhite : Mat.ReflectPoolTile, eImp);
     }
   }
-  // Khuzestan Date Palms along riverbanks
+  // Khuzestan Date Palms & Stepped SE Riverbank Ledges tapering organically into the Dez/Karun gorge!
+  for (let z = 24; z < S; z++) {
+    for (let x = 24; x < S; x++) {
+      const r = Math.hypot(x - 23.5, z - 23.5);
+      if (r > 18.2) {
+        const drop = Math.min(5, Math.ceil((r - 18.2) * 0.95));
+        for (let y = PY - drop + 1; y <= PY + 2; y++) g.set(x, y, z, Mat.Air);
+        if (r <= 23.8) {
+          g.set(x, PY - drop, z, drop >= 3 ? Mat.KhuzestanLush : Mat.StrataSandstone, eImp);
+        }
+      }
+    }
+  }
   stampMicroPalm(g, 25, PY + 1, 33, 8, eImp);
-  stampMicroPalm(g, 41, PY + 1, 31, 9, eImp);
+  stampMicroPalm(g, 39, PY + 1, 30, 9, eImp);
 
   return buildVoxelMesh(g, { omitBottomAtZero: true });
 }
@@ -8387,10 +8486,10 @@ function buildIsfahan(info, cx, baseY, cz) {
   const g = createMonumentGrid(cx, baseY, cz, S, 40, info.era);
   const PY = PAD_Y;
 
-  // Macro Zayandeh Rud river slot in 03_terrain_hydro.js spans wz = cz + 1.25..3.25 -> micro z = 31..39 (water surface at y_world = 16.74 -> micro y = PY - 5)!
-  // Build North Bank Maidan foundation (z = 2..30), submerged riverbed (z = 31..39, y = 0..PY-10), and South Bank Chaharbagh (z = 40..49)!
+  // Macro Zayandeh Rud river slot in 03_terrain_hydro.js spans wz = cz + 1.05..3.65 -> micro z = 30..40 (water surface at y_world = 19.74 -> micro y = PY - 5)!
+  // Build North Bank Maidan foundation (z = 2..29), submerged riverbed (z = 30..40, y = 0..PY-10), and South Bank Chaharbagh (z = 41..49)!
   for (let z = 2; z <= 49; z++) {
-    const inRiver = z >= 31 && z <= 39;
+    const inRiver = z >= 30 && z <= 40;
     for (let x = 2; x <= 49; x++) {
       const d = Math.hypot(x - 25.5, z - 25.5);
       if (d > 24.4) continue;
@@ -8400,11 +8499,15 @@ function buildIsfahan(info, cx, baseY, cz) {
           g.set(x, y, z, y === bedTop ? Mat.RiverbedMud : Mat.StrataLimestone);
         }
       } else {
-        const isQuayWall = z === 30 || z === 40;
-        for (let y = 0; y <= PY; y++) {
+        const isQuayWall = z === 29 || z === 41;
+        const dropEdge = d > 19.6 ? Math.min(4, Math.floor((d - 19.6) * 0.90)) : 0;
+        const topH = PY - dropEdge;
+        for (let y = 0; y <= topH; y++) {
           let m = Mat.StrataLimestone;
-          if (y === PY) {
-            m = isQuayWall ? Mat.ArmenianCreamStone : Mat.PersepolisLightStone;
+          if (y === topH) {
+            m = isQuayWall
+              ? Mat.ArmenianCreamStone
+              : (dropEdge > 0 || z >= 45 ? ((x + z) % 2 === 0 ? Mat.SteppeGrass : Mat.PlateauOchre) : Mat.PersepolisLightStone);
           } else if (isQuayWall && y >= PY - 8) {
             m = Mat.BakedBrickBuff;
           }
@@ -8447,8 +8550,8 @@ function buildIsfahan(info, cx, baseY, cz) {
     }
   }
   // Bridge approach ramps on North & South riverbanks
-  g.fillBox(24, PY + 1, 30, 28, PY + 2, 33, Mat.BakedBrickBuff);
-  g.fillBox(24, PY + 1, 37, 28, PY + 2, 41, Mat.BakedBrickBuff);
+  g.fillBox(24, PY + 1, 29, 28, PY + 2, 33, Mat.BakedBrickBuff);
+  g.fillBox(24, PY + 1, 37, 28, PY + 2, 42, Mat.BakedBrickBuff);
   // Slim Chaharbagh cypresses framing South Bank corners without blocking arches
   stampMicroCypress(g, 9, PY + 1, 43, 8, true);
   stampMicroCypress(g, 43, PY + 1, 43, 8, true);
@@ -8533,11 +8636,11 @@ function buildYazd(info, cx, baseY, cz) {
   stampMinaret(g, 27, PY + 13, 11, 11, Mat.BakedBrickBuff, Mat.SafavidTurquoise, Mat.GoldLeaf);
   stampMinaret(g, 35, PY + 13, 11, 11, Mat.BakedBrickBuff, Mat.SafavidTurquoise, Mat.GoldLeaf);
 
-  // WEST / CENTER: Historic Kahgel Adobe Courtyard Houses & 5 Iconic Slatted Badgir Windcatchers!
+  // WEST: Historic Kahgel Adobe Courtyard Houses & 5 Multi-Slat Louvered Badgir Windcatchers (100% clear of Amir Chakhmaq sightline!)
   const houses = [
-    { x0: 8, z0: 16, x1: 17, z1: 24, h: 5 },
-    { x0: 18, z0: 15, x1: 26, z1: 23, h: 6 },
-    { x0: 8, z0: 25, x1: 17, z1: 32, h: 5 }
+    { x0: 8, z0: 16, x1: 16, z1: 24, h: 5 },
+    { x0: 17, z0: 20, x1: 24, z1: 27, h: 5 },
+    { x0: 8, z0: 25, x1: 16, z1: 32, h: 5 }
   ];
   for (const h of houses) {
     g.fillBox(h.x0, PY + 1, h.z0, h.x1, PY + h.h, h.z1, Mat.MudBrickKahgel);
@@ -8549,21 +8652,32 @@ function buildYazd(info, cx, baseY, cz) {
   }
 
   const badgirs = [
-    { x: 18, z: 15, h: 21, r: 2 }, // Tall octagonal Dowlatabad Windcatcher (shifted west of Amir Chakhmaq sightline!)
-    { x: 10, z: 17, h: 14, r: 1 },
-    { x: 16, z: 23, h: 13, r: 1 },
-    { x: 10, z: 29, h: 13, r: 1 },
-    { x: 22, z: 24, h: 12, r: 1 }
+    { x: 11, z: 20, h: 21, r: 2 }, // Tall octagonal Dowlatabad Windcatcher on West so Amir Chakhmaq is 100% unoccluded!
+    { x: 9, z: 16, h: 13, r: 1 },
+    { x: 15, z: 25, h: 14, r: 1 },
+    { x: 10, z: 30, h: 13, r: 1 },
+    { x: 20, z: 25, h: 11, r: 1 }
   ];
   for (const b of badgirs) {
     g.fillBox(b.x - b.r, PY + 5, b.z - b.r, b.x + b.r, PY + b.h, b.z + b.r, Mat.MudBrickKahgel);
-    for (let ly = PY + b.h - 5; ly <= PY + b.h - 1; ly++) {
-      g.set(b.x, ly, b.z - b.r, Mat.MudBrickDark);
-      g.set(b.x, ly, b.z + b.r, Mat.MudBrickDark);
-      g.set(b.x - b.r, ly, b.z, Mat.MudBrickDark);
-      g.set(b.x + b.r, ly, b.z, Mat.MudBrickDark);
+    const louverStart = b.r === 2 ? PY + b.h - 7 : PY + b.h - 5;
+    for (let ly = louverStart; ly <= PY + b.h - 1; ly++) {
+      if (b.r === 2) {
+        // Multi-slat vertical intake louvers on all 4 faces of Dowlatabad windcatcher!
+        for (const off of [-1, 1]) {
+          g.set(b.x + off, ly, b.z - b.r, Mat.MudBrickDark);
+          g.set(b.x + off, ly, b.z + b.r, Mat.MudBrickDark);
+          g.set(b.x - b.r, ly, b.z + off, Mat.MudBrickDark);
+          g.set(b.x + b.r, ly, b.z + off, Mat.MudBrickDark);
+        }
+      } else {
+        g.set(b.x, ly, b.z - b.r, Mat.MudBrickDark);
+        g.set(b.x, ly, b.z + b.r, Mat.MudBrickDark);
+        g.set(b.x - b.r, ly, b.z, Mat.MudBrickDark);
+        g.set(b.x + b.r, ly, b.z, Mat.MudBrickDark);
+      }
     }
-    g.fillBox(b.x - b.r, PY + b.h + 1, b.z - b.r, b.x + b.r, PY + b.h + 1, b.z + b.r, Mat.MudBrickKahgel);
+    g.fillBox(b.x - b.r, PY + b.h + 1, b.z - b.r, b.x + b.r, PY + b.h + 1, b.z + b.r, Mat.BakedBrickBuff);
   }
 
   // FOREGROUND SOUTH-WEST: Visible Qanat Mother-Well Spoil Ring & Stepped Subterranean Payab Water Access!
@@ -8601,6 +8715,18 @@ function buildYazd(info, cx, baseY, cz) {
   stampMicroCypress(g, 27, PY + 1, 32, 9, true);
   stampMicroCypress(g, 39, PY + 1, 32, 9, true);
 
+  // Smooth desert-talus outer bevel around Yazd perimeter so zero circular step ring appears!
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const r = Math.hypot(x - 22.5, z - 22.5);
+      if (r > 19.2) {
+        const drop = Math.min(3, Math.ceil((r - 19.2) * 0.85));
+        for (let y = PY - drop + 1; y <= PY + 1; y++) g.set(x, y, z, Mat.Air);
+        if (r <= 22.4) g.set(x, PY - drop, z, Mat.PlateauOchre);
+      }
+    }
+  }
+
   return buildVoxelMesh(g, { omitBottomAtZero: true });
 }
 
@@ -8611,7 +8737,17 @@ function buildPersepolis(info, cx, baseY, cz) {
   buildGroundedPad(g, 22.4, Mat.PlateauGravel, Mat.PersepolisGreyStone);
   const PY = PAD_Y;
 
-  // Raised Dark-Grey Ashlar Limestone Takht Terrace (x = 13..38, z = 15..38, y = PY+1..PY+6)
+  // Raised Dark-Grey Ashlar Limestone Takht Terrace + Smooth Marvdasht Forecourt Apron (zero comb-teeth!)
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const r = Math.hypot(x - 23.5, z - 23.5);
+      if (r > 19.0) {
+        const drop = Math.min(4, Math.ceil((r - 19.0) * 0.90));
+        for (let y = PY - drop + 1; y <= PY + 1; y++) g.set(x, y, z, Mat.Air);
+        if (r <= 23.4) g.set(x, PY - drop, z, Mat.PlateauGravel);
+      }
+    }
+  }
   g.fillBox(13, PY + 1, 15, 38, PY + 6, 38, Mat.PersepolisGreyStone);
   g.fillBox(14, PY + 6, 16, 37, PY + 6, 37, Mat.PersepolisLightStone);
 
@@ -8625,23 +8761,37 @@ function buildPersepolis(info, cx, baseY, cz) {
   for (const gz of [17, 21]) {
     // Stone portal jambs
     g.fillBox(15, PY + 7, gz, 19, PY + 13, gz, Mat.PersepolisLightStone);
-    // Projecting bearded bull head (x = 14) + sweeping carved wings (y = PY+11..14)
+    // Projecting bearded bull head (x = 14) + sweeping carved stone wings (y = PY+11..14)
     g.fillBox(14, PY + 9, gz, 14, PY + 11, gz, Mat.ArmenianCreamStone);
-    g.set(14, PY + 11, gz, Mat.GoldLeaf); // Horned royal crown of Lamassu!
+    g.set(14, PY + 12, gz, Mat.PersepolisLightStone); // Horned stone crown of Lamassu!
     g.fillBox(16, PY + 12, gz, 18, PY + 14, gz, Mat.ArmenianCreamStone);
   }
   g.set(17, PY + 7, 19, Mat.WarmWindow);
 
-  // Apadana Hypostyle Audience Hall — Soaring Fluted Stone Columns with Double-Bull Capitals!
+  // Apadana Hypostyle Audience Hall — Varied Standing & Ruined Fluted Columns with Sculpted Stone Double-Bull Protome Capitals!
   const colX = [18, 22, 26, 30];
   const colZ = [24, 28, 32, 35];
-  for (const x of colX) {
-    for (const z of colZ) {
-      const ch = (x + z) % 3 === 0 ? 14 : 12;
+  const colHeights = [
+    [14, 13, 14, 7],
+    [13, 14, 4, 12],
+    [12, 6, 13, 11],
+    [13, 12, 2, 8]
+  ];
+  for (let ix = 0; ix < colX.length; ix++) {
+    for (let iz = 0; iz < colZ.length; iz++) {
+      const x = colX[ix], z = colZ[iz];
+      const ch = colHeights[ix][iz];
+      // Bell-shaped Achaemenid stone torus base
+      g.fillBox(x - 1, PY + 7, z, x + 1, PY + 7, z, Mat.PersepolisGreyStone);
+      g.fillBox(x, PY + 7, z - 1, x, PY + 7, z + 1, Mat.PersepolisGreyStone);
+      // Fluted cream-limestone shaft
       g.fillBox(x, PY + 7, z, x, PY + 7 + ch, z, Mat.ArmenianCreamStone);
-      g.fillBox(x - 1, PY + 7 + ch, z, x + 1, PY + 7 + ch, z, Mat.PersepolisLightStone);
-      g.set(x - 1, PY + 8 + ch, z, Mat.GoldLeaf);
-      g.set(x + 1, PY + 8 + ch, z, Mat.GoldLeaf);
+      // Full-height standing columns carry sculpted stone double-bull protome capitals (NO yellow gold cubes!)
+      if (ch >= 11) {
+        g.fillBox(x - 1, PY + 7 + ch, z, x + 1, PY + 7 + ch, z, Mat.PersepolisLightStone);
+        g.set(x - 1, PY + 8 + ch, z, Mat.ArmenianCreamStone);
+        g.set(x + 1, PY + 8 + ch, z, Mat.ArmenianCreamStone);
+      }
     }
   }
   // Apadana relief stairway frieze with warm heritage lighting
@@ -8688,11 +8838,22 @@ function buildShiraz(info, cx, baseY, cz) {
   buildGroundedPad(g, 21.4, Mat.SteppeGrass, Mat.PersepolisLightStone);
   const PY = PAD_Y;
 
-  // SOUTH-EAST RIM: Vivid Rose-Pink Lake Maharlu Hypersaline Shoreline!
-  for (let z = 27; z <= 41; z++) {
-    for (let x = 26; x <= 41; x++) {
-      if (Math.hypot(x - 22.5, z - 22.5) <= 20.4 && x + z >= 59) {
-        g.set(x, PY, z, x + z >= 63 ? Mat.RoseTileShiraz : x + z >= 60 ? Mat.PinkSaltCrust : Mat.KavirHaliteWhite);
+  // SOUTH-EAST RIM & PERIMETER: Vivid Rose-Pink Lake Maharlu Hypersaline Shoreline stepping gently into Lake Maharlu!
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const r = Math.hypot(x - 22.5, z - 22.5);
+      const isMaharluSide = z >= 26 && (x + z >= 53 || z >= 35);
+      if (r > 18.2 || isMaharluSide) {
+        const drop = r > 18.0 ? Math.min(5, Math.ceil((r - 18.0) * 1.10)) : 0;
+        if (drop > 0) {
+          for (let y = PY - drop + 1; y <= PY + 1; y++) g.set(x, y, z, Mat.Air);
+        }
+        if (r <= 22.2) {
+          const shoreMat = isMaharluSide
+            ? (x + z >= 60 || z >= 38 ? Mat.RoseTileShiraz : x + z >= 56 ? Mat.PinkSaltCrust : Mat.EndorheicSaltRim)
+            : Mat.SteppeGrass;
+          g.set(x, PY - drop, z, shoreMat);
+        }
       }
     }
   }
@@ -8702,37 +8863,47 @@ function buildShiraz(info, cx, baseY, cz) {
   g.fillBox(15, PY, 23, 31, PY, 25, Mat.ReflectPoolTile);
   g.fillBox(18, PY, 14, 25, PY, 19, Mat.ReflectPoolTile);
 
-  // SLIM Sarv-e Naz Cypresses set cleanly outside the water rills so Eram & Hafezieh shine unobstructed!
-  for (const z of [14, 21, 29, 35]) {
+  // SLIM Sarv-e Naz Cypresses set cleanly outside the water rills so Eram, Nasir al-Mulk & Hafezieh shine unobstructed!
+  for (const z of [14, 22, 30, 35]) {
     stampMicroCypress(g, 16, PY + 1, z, 11, true);
     stampMicroCypress(g, 27, PY + 1, z, 11, true);
   }
   g.set(17, PY + 1, 17, Mat.PomegranateBloom);
   g.set(26, PY + 1, 17, Mat.PomegranateBloom);
 
-  // NORTH CENTER: Eram Palace Pavilion (z = 7..12, x = 16..27) with White Columns & Semicircular Qajar Tile Pediment!
+  // NORTH CENTER: Eram Palace Pavilion (z = 7..12, x = 16..27) with White Marble Columns & Qajar Tile Pediments on all faces!
   g.fillBox(16, PY + 1, 7, 27, PY + 10, 12, Mat.ArmenianCreamStone);
   g.fillBox(17, PY + 2, 12, 26, PY + 7, 12, Mat.WarmWindow);
+  g.fillBox(17, PY + 2, 7, 26, PY + 7, 7, Mat.WarmWindow);
+  g.fillBox(16, PY + 2, 8, 16, PY + 7, 11, Mat.WarmWindow);
   for (const cxCol of [18, 21, 22, 25]) {
     g.fillBox(cxCol, PY + 1, 12, cxCol, PY + 8, 12, Mat.WhiteMarbleAzadi);
+    g.fillBox(cxCol, PY + 1, 7, cxCol, PY + 8, 7, Mat.WhiteMarbleAzadi);
   }
-  // Qajar Haft-Rang rose-pink, saffron & turquoise semicircular pediment!
-  g.fillBox(18, PY + 11, 9, 25, PY + 13, 12, Mat.RoseTileShiraz);
-  g.fillBox(19, PY + 12, 12, 24, PY + 13, 12, Mat.HaftRangSaffron);
-  g.fillBox(20, PY + 14, 10, 23, PY + 15, 12, Mat.SafavidTurquoise);
+  g.fillBox(16, PY + 1, 7, 16, PY + 8, 7, Mat.WhiteMarbleAzadi);
+  g.fillBox(16, PY + 1, 12, 16, PY + 8, 12, Mat.WhiteMarbleAzadi);
+  g.fillBox(27, PY + 1, 7, 27, PY + 8, 7, Mat.WhiteMarbleAzadi);
+  g.fillBox(27, PY + 1, 12, 27, PY + 8, 12, Mat.WhiteMarbleAzadi);
+  // Qajar Haft-Rang rose-pink, saffron & turquoise semicircular pediment visible from NNW, W, and S!
+  g.fillBox(16, PY + 11, 7, 26, PY + 13, 12, Mat.RoseTileShiraz);
+  g.fillBox(17, PY + 12, 7, 25, PY + 13, 12, Mat.HaftRangSaffron);
+  g.fillBox(18, PY + 14, 8, 24, PY + 15, 11, Mat.SafavidTurquoise);
 
-  // WEST FOREGROUND (x = 7..14, z = 19..29): Nasir al-Mulk ("Pink Mosque") Rose-Glazed Arcade & Stained-Glass Orosi!
-  g.fillBox(7, PY + 1, 19, 13, PY + 7, 29, Mat.BakedBrickBuff);
-  g.fillBox(9, PY + 1, 21, 13, PY + 8, 27, Mat.Air);
-  g.fillBox(10, PY, 22, 13, PY, 26, Mat.ReflectPoolTile);
-  // Rose-pink Haft-Rang tile spandrels + glowing stained-glass Orosi winter prayer hall!
-  g.fillBox(7, PY + 5, 19, 9, PY + 7, 29, Mat.RoseTileShiraz);
-  for (const oz of [21, 24, 27]) {
-    g.fillBox(8, PY + 2, oz, 8, PY + 4, oz, Mat.WarmWindow);
+  // WEST FOREGROUND (x = 7..14, z = 19..29): Nasir al-Mulk ("Pink Mosque") Rose-Glazed Arcade & Stained-Glass Orosi Facing Viewer (-X/-Z)!
+  g.fillBox(7, PY + 1, 19, 14, PY + 7, 29, Mat.BakedBrickBuff);
+  g.fillBox(7, PY + 1, 21, 11, PY + 8, 27, Mat.Air);
+  g.fillBox(8, PY, 22, 11, PY, 26, Mat.ReflectPoolTile);
+  // Rose-pink Haft-Rang tile spandrels + glowing stained-glass Orosi winter prayer hall facing straight toward viewer!
+  g.fillBox(11, PY + 5, 19, 14, PY + 7, 29, Mat.RoseTileShiraz);
+  g.fillBox(7, PY + 6, 19, 14, PY + 7, 20, Mat.RoseTileShiraz);
+  g.fillBox(7, PY + 6, 28, 14, PY + 7, 29, Mat.RoseTileShiraz);
+  for (const oz of [21, 23, 25, 27]) {
+    g.fillBox(12, PY + 2, oz, 12, PY + 4, oz, Mat.WarmWindow);
+    g.set(12, PY + 5, oz, Mat.SafavidTurquoise);
   }
-  // North muqarnas iwan of Nasir al-Mulk
-  g.fillBox(9, PY + 1, 18, 13, PY + 9, 20, Mat.RoseTileShiraz);
-  g.fillBox(10, PY + 2, 20, 12, PY + 6, 20, Mat.SafavidTurquoise);
+  // Muqarnas iwan of Nasir al-Mulk facing west/north onto courtyard pool
+  g.fillBox(8, PY + 1, 27, 13, PY + 9, 29, Mat.RoseTileShiraz);
+  g.fillBox(9, PY + 2, 27, 11, PY + 6, 27, Mat.SafavidTurquoise);
 
   // EAST: Tomb of Hafez (Hafezieh — Open 8-Columned Marble Kiosk with Verdigris Copper-Green Hat Dome!)
   const hx = 34, hz = 18;
@@ -8762,12 +8933,18 @@ function buildHormuz(info, cx, baseY, cz) {
   buildGroundedPad(g, 19.6, Mat.HormuzRedOchre, Mat.CoralSand);
   const PY = PAD_Y;
 
-  // Seaward Scarlet Gelak Iron-Oxide Beach & Turquoise Surf Rim along sunlit South/West edge (z >= 33)
-  for (let z = 33; z < S - 2; z++) {
-    for (let x = 5; x < S - 5; x++) {
+  // Seaward Scarlet Gelak Iron-Oxide Beach & Stepped Coral Ledges sloping cleanly below Strait of Hormuz surf (zero comb-teeth!)
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
       const d = Math.hypot(x - 21.5, z - 21.5);
-      if (d <= 19.4) {
-        g.set(x, PY, z, d > 17.5 ? Mat.ReflectPoolTile : Mat.HormuzRedOchre);
+      if (d > 16.4) {
+        const drop = Math.min(7, Math.ceil((d - 16.4) * 1.35));
+        for (let y = PY - drop + 1; y <= PY + 2; y++) g.set(x, y, z, Mat.Air);
+        if (d <= 21.2) {
+          g.set(x, PY - drop, z, drop >= 3 ? Mat.CoralSand : (z >= 29 ? Mat.HormuzRedOchre : Mat.CoralSand));
+        }
+      } else if (z >= 32 && d <= 16.4) {
+        g.set(x, PY, z, Mat.HormuzRedOchre);
       }
     }
   }
@@ -8869,19 +9046,39 @@ function buildBam(info, cx, baseY, cz) {
     g.fillDome(21, PY + 4, bz, 1.3, 2, Mat.BakedBrickBuff, false);
   }
 
-  // UPPER CRAG & GOVERNOR'S CITADEL + 4-STORY CHAHAR-FASL PAVILION KEEP (z = 9..18, rising to PY + 25!)
+  // UPPER CRAG & ARTICULATED GOVERNOR'S CITADEL + 4-STORY CHAHAR-FASL PAVILION KEEP (z = 9..18, rising to PY + 25!)
   g.fillBox(13, PY + 1, 9, 29, PY + 9, 18, Mat.MudBrickDark);
+  // Battered vertical kahgel buttress pilasters & crenellations along south & west rampart walls!
+  for (let x = 14; x <= 28; x += 3) {
+    g.fillBox(x, PY + 1, 18, x + 1, PY + 9, 19, Mat.MudBrickKahgel);
+    g.set(x, PY + 10, 18, Mat.MudBrickKahgel);
+  }
+  for (let z = 10; z <= 17; z += 3) {
+    g.fillBox(12, PY + 1, z, 13, PY + 9, z + 1, Mat.MudBrickKahgel);
+    g.set(13, PY + 10, z, Mat.MudBrickKahgel);
+  }
   g.fillBox(14, PY + 10, 10, 28, PY + 15, 17, Mat.MudBrickKahgel);
-  g.fillCylinder(14, 17, PY + 10, PY + 18, 1.8, Mat.MudBrickKahgel);
-  g.fillCylinder(28, 17, PY + 10, PY + 18, 1.8, Mat.MudBrickKahgel);
+  for (let x = 15; x <= 27; x += 2) {
+    g.set(x, PY + 16, 17, Mat.MudBrickKahgel);
+    if (x % 4 === 1) g.set(x, PY + 13, 17, Mat.WarmWindow);
+  }
+  for (const [tx, tz] of [[14, 17], [28, 17], [14, 10], [28, 10]]) {
+    g.fillCylinder(tx, tz, PY + 10, PY + 18, 1.8, Mat.MudBrickKahgel);
+    g.set(tx, PY + 19, tz, Mat.BakedBrickBuff);
+  }
   g.set(14, PY + 16, 18, Mat.WarmWindow);
   g.set(28, PY + 16, 18, Mat.WarmWindow);
-  // Central Chahar-Fasl ("Four Seasons") Governor's Pavilion Keep!
-  g.fillBox(18, PY + 16, 11, 24, PY + 22, 16, Mat.BakedBrickBuff);
+  // Central Chahar-Fasl ("Four Seasons") Governor's Pavilion Keep with corner pilasters & crenellations!
+  g.fillBox(18, PY + 16, 11, 24, PY + 21, 16, Mat.BakedBrickBuff);
+  for (const [kx, kz] of [[18, 11], [24, 11], [18, 16], [24, 16]]) {
+    g.fillBox(kx, PY + 16, kz, kx, PY + 22, kz, Mat.MudBrickKahgel);
+  }
   g.fillBox(19, PY + 18, 16, 23, PY + 20, 16, Mat.WarmWindow);
   g.fillBox(18, PY + 18, 13, 18, PY + 20, 14, Mat.WarmWindow);
-  // Badgir windcatcher crown atop Chahar-Fasl!
-  g.fillBox(20, PY + 23, 12, 22, PY + 25, 14, Mat.MudBrickDark);
+  // Louvered Badgir windcatcher crown atop Chahar-Fasl!
+  g.fillBox(20, PY + 22, 12, 22, PY + 24, 14, Mat.MudBrickKahgel);
+  g.set(21, PY + 23, 14, Mat.MudBrickDark);
+  g.set(20, PY + 23, 13, Mat.MudBrickDark);
 
   return buildVoxelMesh(g, { omitBottomAtZero: true });
 }
@@ -8912,34 +9109,37 @@ function buildLut(info, cx, baseY, cz) {
       const uAlong = (x + z - 45) * 0.707;
       const vCross = (z - x) * 0.707;
 
-      // Broad flat-topped wind-fluted Kalut yardang mesas (4–5 micro-voxels wide flat caprock tables!)
-      const ridgeWave = Math.cos(vCross * 0.46);
-      const breakAlong = Math.sin(uAlong * 0.24 + Math.floor((vCross + 32) / 13.6) * 1.7);
+      // Aerodynamically Streamlined NW–SE Flat-Topped Kalut Yardang Whaleback Mesas (broad, tabular & wind-fluted!)
+      const ridgeId = Math.floor((vCross + 32) / 10.2);
+      const ridgeWave = Math.cos(vCross * 0.616 + (ridgeId % 2) * 0.32);
+      const alongShift = (ridgeId % 3 - 1) * 3.4;
+      const uLocal = uAlong + alongShift;
+      // Flat tabular mesa plateau across central |uLocal| <= 7.5, tapering aerodynamically at NW/SE prows!
+      const prowEnv = Math.abs(uLocal) <= 7.5 ? 1.0 : smooth01(clamp(1 - (Math.abs(uLocal) - 7.5) / 7.0, 0, 1));
 
-      if (ridgeWave > 0.08 && breakAlong > -0.42 && x < 33) {
-        // Plateau-clamp top so each Kalut ridge forms a genuine flat-topped siltstone mesa!
-        const rawT = clamp((ridgeWave - 0.08) / 0.52, 0, 1);
-        const flatTop = Math.min(1.0, rawT * 1.45);
-        const tierStep = breakAlong > 0.35 ? 3 : 0;
-        const mesaH = Math.round(7 + flatTop * 11 + tierStep);
-        const fluteCut = Math.sin(uAlong * 1.6) > 0.65 && rawT < 0.35;
+      if (ridgeWave > 0.14 && prowEnv > 0.12 && x < 33 && distC < 19.6) {
+        const rawT = clamp((ridgeWave - 0.14) / 0.44, 0, 1);
+        const flatTop = Math.min(1.0, rawT * 1.55);
+        // Low-profile flat-topped siltstone yardang tables (h = 4..8 micro-voxels = 1.0..2.0 macro height!)
+        const maxMesaH = 4 + (Math.abs(ridgeId) % 2) * 2;
+        const mesaH = Math.max(1, Math.round((2 + flatTop * maxMesaH) * prowEnv));
+        const fluteCut = Math.sin(uLocal * 1.35) > 0.72 && rawT < 0.30;
         if (!fluteCut) {
           for (let dy = 1; dy <= mesaH; dy++) {
-            if (dy <= 2 && rawT < 0.22) continue; // Wind-scoured basal yardang notch
             const m = dy === mesaH
               ? Mat.PlateauOchre
-              : dy % 4 === 0
+              : dy % 3 === 0
                 ? Mat.StrataSandstone
                 : Mat.KalutOchre;
             g.set(x, PY + dy, z, m);
           }
         }
-      } else if (x >= 29) {
-        // Sweeping Golden Rig-e Yalan Star-Dune Crests on East Rim!
-        const arm1 = Math.exp(-(((x - 35) * 0.28) ** 2 + ((z - 23) * 0.13) ** 2));
-        const arm2 = Math.exp(-(((x - 35) * 0.13) ** 2 + ((z - 23) * 0.28) ** 2));
-        const arm3 = Math.exp(-((((x - 35) + (z - 23)) * 0.19) ** 2 + (((x - 35) - (z - 23)) * 0.34) ** 2));
-        const duneH = Math.round(Math.max(arm1 + arm2, arm3 * 1.3) * 8.5);
+      } else if (x >= 29 && distC < 19.4) {
+        // Sweeping Golden Rig-e Yalan 3-Arm Star-Dune Crests on East Rim (no additive center spike!)
+        const arm1 = Math.exp(-(((x - 35) * 0.26) ** 2 + ((z - 23) * 0.11) ** 2));
+        const arm2 = Math.exp(-(((x - 35) * 0.11) ** 2 + ((z - 23) * 0.26) ** 2));
+        const arm3 = Math.exp(-((((x - 35) + (z - 23)) * 0.18) ** 2 + (((x - 35) - (z - 23)) * 0.32) ** 2));
+        const duneH = Math.round(Math.max(arm1, arm2, arm3 * 0.95) * 7.2);
         for (let dy = 1; dy <= duneH; dy++) {
           g.set(x, PY + dy, z, dy >= duneH - 1 ? Mat.LutStarDune : Mat.LutSandGold);
         }
@@ -8997,6 +9197,20 @@ function buildSistan(info, cx, baseY, cz) {
     g.set(37, PY + 17, az, Mat.MudBrickKahgel); // Small front corbel bearing cedar beam
   }
 
+  // Gentle Stepped Desert Talus Apron around Sistan perimeter so zero fluted drum cliff forms!
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const r = Math.hypot(x - 22.5, z - 22.5);
+      if (r > 17.6) {
+        const drop = Math.min(5, Math.ceil((r - 17.6) * 1.0));
+        for (let y = PY - drop + 1; y <= PY + 2; y++) g.set(x, y, z, Mat.Air);
+        if (r <= 22.4) {
+          g.set(x, PY - drop, z, drop >= 2 ? Mat.LutSandGold : Mat.PlateauOchre);
+        }
+      }
+    }
+  }
+
   return buildVoxelMesh(g, { omitBottomAtZero: true });
 }
 
@@ -9008,10 +9222,18 @@ function buildChabahar(info, cx, baseY, cz) {
   buildGroundedPad(g, 20.5, Mat.PlateauOchre, Mat.MakranBadlandClay);
   const PY = PAD_Y;
 
-  // SOUTH APRON (z >= 31): Golden Makran Beach & Turquoise-Indigo Gulf of Oman Surf!
-  for (let z = 31; z < S; z++) {
-    for (let x = 4; x < S - 4; x++) {
-      if (Math.hypot(x - 21.5, z - 21.5) <= 20.2) {
+  // SOUTH & SEAWARD APRON: Stepped Golden Makran Beach & Sandstone Ledges sloping cleanly below Gulf of Oman surf (zero comb-teeth!)
+  for (let z = 0; z < S; z++) {
+    for (let x = 0; x < S; x++) {
+      const d = Math.hypot(x - 21.5, z - 21.5);
+      if (d > 16.4) {
+        const drop = Math.min(7, Math.ceil((d - 16.4) * 1.30));
+        for (let y = PY - drop + 1; y <= PY + 2; y++) g.set(x, y, z, Mat.Air);
+        if (d <= 21.6) {
+          const beachMat = z >= 29 ? Mat.CoralSand : Mat.MakranBadlandClay;
+          g.set(x, PY - drop, z, beachMat);
+        }
+      } else if (z >= 31 && d <= 16.4) {
         g.set(x, PY, z, z >= 34 ? Mat.ReflectPoolTile : Mat.CoralSand);
       }
     }
@@ -9109,6 +9331,7 @@ function evaluateWaterCellColor(kind, depth, isShore, lens) {
   if (lens === 'hydrology') {
     if (kind === 'pink_lake') return [0.98, 0.30, 0.68];
     if (kind === 'urmia_north') return [0.96, 0.36, 0.64];
+    if (kind === 'salt_lake') return [0.88, 0.42, 0.88];
     if (kind === 'hamun') return [0.08, 0.86, 0.72];
     if (kind === 'caspian') return [0.05, 0.56, 0.94];
     return [0.05, 0.62, 0.98];
@@ -9123,7 +9346,7 @@ function evaluateWaterCellColor(kind, depth, isShore, lens) {
   }
   // Natural Cartographic Colors
   if (kind === 'pink_lake') {
-    return isShore ? [0.95, 0.46, 0.66] : [0.88, 0.26, 0.54];
+    return isShore ? [0.98, 0.38, 0.66] : [0.94, 0.19, 0.54];
   }
   if (kind === 'urmia_north') {
     return isShore ? [0.92, 0.46, 0.58] : [0.84, 0.32, 0.46];
@@ -9223,30 +9446,48 @@ function createIranWaterSystem(terrain) {
       { dx: 0, dz: 1, ax: x0, ay: y01, az: z1, bx: x1, by: y11, bz: z1, nx: 0, nz: 1 },
       { dx: 0, dz: -1, ax: x1, ay: y10, az: z0, bx: x0, by: y00, bz: z0, nx: 0, nz: -1 }
     ];
+    const isMarine = c.kind === 'caspian' || c.kind === 'gulf' || c.kind === 'oman';
+    const ownBedTop = surfaceY[c.gz * gridW + c.gx] + 0.92;
     for (const e of edgeSpecs) {
       const nbx = c.gx + e.dx;
       const nbz = c.gz + e.dz;
       if (nbx < 0 || nbx >= gridW || nbz < 0 || nbz >= gridD) continue;
       const nbIdx = nbz * gridW + nbx;
       const nbWY = waterYMap[nbIdx];
-      let botY = null;
       if (nbWY >= 0 && c.waterY > nbWY + 0.15) {
-        botY = nbWY + surfaceOffset - 0.18;
-      } else if (nbWY < 0 && surfaceY[nbIdx] >= 0 && surfaceY[nbIdx] < Math.min(e.ay, e.by) - 0.12) {
-        botY = Math.max(1.5, surfaceY[nbIdx] - 0.08);
-      }
-      if (botY !== null && Math.max(e.ay, e.by) > botY + 0.05) {
-        quads.push({
-          corners: [
-            [e.ax, botY, e.az],
-            [e.bx, botY, e.bz],
-            [e.bx, e.by, e.bz],
-            [e.ax, e.ay, e.az]
-          ],
-          normal: [e.nx, 0.25, e.nz],
-          foam: 0.78,
-          meta: { kind: c.kind, depth: c.depth, shore: true }
-        });
+        // Interior river/cascade step-down strictly between two water cells (NEVER down exterior border cliffs!)
+        const botY = nbWY + surfaceOffset - 0.18;
+        if (Math.max(e.ay, e.by) > botY + 0.05) {
+          quads.push({
+            corners: [
+              [e.ax, botY, e.az],
+              [e.bx, botY, e.bz],
+              [e.bx, e.by, e.bz],
+              [e.ax, e.ay, e.az]
+            ],
+            normal: [e.nx, 0.25, e.nz],
+            foam: 0.72,
+            meta: { kind: c.kind, depth: c.depth, shore: true }
+          });
+        }
+      } else if (isMarine && nbWY < 0 && surfaceY[nbIdx] >= 0 && surfaceY[nbIdx] <= 2) {
+        // Clean smooth aquarium-glass cutaway wall ONLY on outer Caspian / Gulf / Oman marine plinth borders!
+        const botY = Math.max(2.05, ownBedTop);
+        const ox = e.nx * 0.035;
+        const oz = e.nz * 0.035;
+        if (Math.max(e.ay, e.by) > botY + 0.05) {
+          quads.push({
+            corners: [
+              [e.ax + ox, botY, e.az + oz],
+              [e.bx + ox, botY, e.bz + oz],
+              [e.bx + ox, e.by, e.bz + oz],
+              [e.ax + ox, e.ay, e.az + oz]
+            ],
+            normal: [e.nx, 0.12, e.nz],
+            foam: 0.0,
+            meta: { kind: c.kind, depth: Math.max(3, c.depth), shore: false }
+          });
+        }
       }
     }
   }
@@ -9348,24 +9589,26 @@ function createIranWaterSystem(terrain) {
         float camDist = length(viewVec);
         vec3 viewDir = viewVec / max(0.001, camDist);
 
+        float horizMask = smoothstep(0.35, 0.75, abs(vNormalW.y));
         vec2 cell = floor(vWorldPos.xz * 2.5);
         float glintA = sin(cell.x * 0.85 + cell.y * 0.65 - uTime * 2.3);
         float glintB = cos(cell.x * 0.55 - cell.y * 0.95 + uTime * 1.85);
-        vec3 n = normalize(vNormalW + vec3(glintA * 0.038, 0.0, glintB * 0.038));
+        vec3 n = normalize(vNormalW + vec3(glintA * 0.038, 0.0, glintB * 0.038) * horizMask);
 
-        float ndl = max(0.24, dot(n, uSunDir));
+        float ndl = max(0.28, dot(n, uSunDir));
         vec3 halfV = normalize(uSunDir + viewDir);
-        float spec = pow(max(0.0, dot(n, halfV)), 56.0) * (1.0 - uNightFactor * 0.45);
+        float spec = pow(max(0.0, dot(n, halfV)), 56.0) * (1.0 - uNightFactor * 0.45) * horizMask;
 
-        float fresnel = 0.05 + 0.70 * pow(1.0 - max(0.0, dot(n, viewDir)), 3.6);
-        vec3 reflectTint = mix(uSkyColor, uSunColor, 0.36 * (1.0 - uNightFactor));
+        float fresnel = (0.05 + 0.70 * pow(1.0 - max(0.0, dot(n, viewDir)), 3.6)) * (0.35 + 0.65 * horizMask);
+        vec3 reflectTint = mix(uSkyColor, uSunColor, 0.34 * (1.0 - uNightFactor));
 
-        float shoreLine = smoothstep(0.45, 0.76, vFoam) * (0.10 + 0.05 * sin(cell.x * 1.7 + cell.y * 1.3 + uTime * 2.1));
+        float shoreLine = horizMask * smoothstep(0.45, 0.76, vFoam) * (0.10 + 0.05 * sin(cell.x * 1.7 + cell.y * 1.3 + uTime * 2.1));
 
-        vec3 dayBody = vColor * (0.50 + 0.64 * ndl) * mix(vec3(1.0), uSunColor, 0.48);
+        float pinkMask = clamp((vColor.r - vColor.b) * 2.6, 0.0, 1.0);
+        vec3 dayBody = vColor * (0.54 + 0.62 * ndl) * mix(vec3(1.0), uSunColor, 0.44);
         vec3 nightBody = vColor * vec3(0.22, 0.32, 0.52);
         vec3 waterCol = mix(dayBody, nightBody, uNightFactor);
-        waterCol = mix(waterCol, reflectTint, fresnel * 0.48);
+        waterCol = mix(waterCol, reflectTint, fresnel * 0.48 * (1.0 - pinkMask * 0.75));
         waterCol += uSunColor * spec * 0.85 + vec3(shoreLine * (1.0 - uNightFactor * 0.48));
 
         float fogF = 1.0 - exp(-pow(camDist * uFogDensity, 2.0));
@@ -9423,14 +9666,14 @@ function createIranLivingWorld(terrain) {
   const tmpColor = new THREE.Color();
   const yAxis = new THREE.Vector3(0, 1, 0);
 
-  // 1. DRIFTING ALBORZ, SABALAN & ZAGROS VOXEL CLOUDS (positioned clear of Lake Urmia & Caspian littoral bench!)
+  // 1. DRIFTING ALBORZ, SABALAN & ZAGROS VOXEL CLOUDS (warm cream-ivory above raised Damavand cone!)
   const cloudAnchorsGeo = [
-    [37.48, 49.02, 58, 0.68], // Talesh ridge cloud bank
-    [36.22, 51.05, 62, 0.64], // Central Alborz crest cloud bank
-    [36.12, 53.35, 63, 0.60], // Eastern Alborz cloud bank
-    [37.75, 55.65, 56, 0.66], // Golestan highland cloud bank
-    [38.52, 48.08, 58, 0.62], // Sabalan / Ardabil cloud (well east of Lake Urmia!)
-    [32.45, 50.15, 56, 0.56]  // High Zagros Zard-Kuh cloud
+    [37.48, 49.02, 60, 0.68], // Talesh ridge cloud bank
+    [36.22, 51.05, 65, 0.64], // Central Alborz crest cloud bank
+    [36.12, 53.35, 66, 0.60], // Eastern Alborz cloud bank
+    [37.75, 55.65, 58, 0.66], // Golestan highland cloud bank
+    [38.52, 48.08, 60, 0.62], // Sabalan / Ardabil cloud (well east of Lake Urmia!)
+    [32.45, 50.15, 58, 0.56]  // High Zagros Zard-Kuh cloud
   ];
   const cloudPuffs = [
     [0, 0, 0, 5.4, 1.30, 3.6, 0.98],
@@ -9693,10 +9936,23 @@ function createIranLivingWorld(terrain) {
 
   return {
     group,
+    prewarmLights(renderer, scene, camera) {
+      for (const h of nightHalos) {
+        h.light.visible = true;
+        h.light.intensity = 0.001;
+      }
+      stars.visible = true;
+      renderer.compile(scene, camera);
+      for (const h of nightHalos) {
+        h.light.visible = false;
+        h.light.intensity = 0;
+      }
+      stars.visible = false;
+    },
     update(simTime, nightFactor, sunColor) {
-      // 1. Update drifting clouds
+      // 1. Update drifting clouds (keep warm cream-ivory <= 20% sun tint — never carrot-orange!)
       let cIdx = 0;
-      cloudMat.color.copy(sunColor).lerp(new THREE.Color(0x1f2842), nightFactor * 0.8);
+      cloudMat.color.setHex(0xfcf7ef).lerp(sunColor, 0.20 * (1 - nightFactor)).lerp(new THREE.Color(0x1f2842), nightFactor * 0.8);
       cloudMat.opacity = 0.78 * (1 - nightFactor * 0.45);
       for (let i = 0; i < cloudAnchors.length; i++) {
         const ca = cloudAnchors[i];
@@ -9793,8 +10049,8 @@ function createIranLivingWorld(terrain) {
       // Mt. Damavand Soft Billowing Summit Fumarole Steam Plume!
       for (let f = 0; f < 10; f++) {
         const u = (simTime * 0.32 + f * 0.1) % 1;
-        const px = damCenter.x + 0.125 + u * 2.4 + Math.sin(simTime * 1.1 + f * 1.3) * 0.28;
-        const py = damBaseY + 14.35 + u * 4.4;
+        const px = damCenter.x + 0.125 + u * 2.2 + Math.sin(simTime * 1.1 + f * 1.3) * 0.26;
+        const py = damBaseY + 14.25 + u * 3.4;
         const pz = damCenter.z - 0.625 + Math.cos(simTime * 0.85 + f * 1.7) * 0.34;
         const sc = (0.34 + u * 0.88) * (1 - u * 0.52);
         tmpPos.set(px, py, pz);
@@ -9900,6 +10156,9 @@ class IranAtlasApp {
     this.renderer.toneMappingExposure = 1.05;
     this.renderer.domElement.id = 'atlas-canvas';
     this.renderer.domElement.tabIndex = 0;
+    this.renderer.domElement.setAttribute('role', 'application');
+    this.renderer.domElement.setAttribute('aria-roledescription', '3D interactive map');
+    this.renderer.domElement.setAttribute('aria-keyshortcuts', 'W A S D Q E R');
     this.renderer.domElement.setAttribute('aria-label', 'Interactive 3D Voxel Map of Iran');
     container.prepend(this.renderer.domElement);
 
@@ -10031,6 +10290,7 @@ class IranAtlasApp {
 
     this.createLandmarkPins();
     this.applyLightingForTime(this.timeHours);
+    this.living.prewarmLights(this.renderer, this.scene, this.camera);
     this.bindEvents();
     this.forceRender();
     this.exposeInspectionHooks();
@@ -10049,16 +10309,18 @@ class IranAtlasApp {
     const w = this.container.clientWidth || window.innerWidth;
     const h = Math.max(1, this.container.clientHeight || window.innerHeight);
     const aspect = w / h;
-    // Generous museum framing across 1440x900, 1200x630, short landscape 740x420 & mobile 390x844 so 100% of Gulf of Oman & Balochistan float cleanly!
+    const isCleanPreview = document.documentElement.classList.contains('is-clean-preview');
     const baseScale = aspect < 1.26
       ? Math.min(1.76, 1.15 / Math.max(0.48, Math.pow(aspect, 0.46)))
       : 1.0;
     const isShortLandscape = h <= 460 && aspect > 1.3;
-    const scale = isShortLandscape ? baseScale * 1.15 : baseScale;
-    const targetZ = isShortLandscape ? -13 : (aspect < 0.8 ? 2 : -7);
+    // Zoom ~15% closer with centered targetZ in ?cleanPreview=1 so Iran fills ~69% of 1200x630 preview.png with full unclipped plinth; pull back in 740x420!
+    const scale = isCleanPreview ? baseScale * 0.85 : (isShortLandscape ? baseScale * 1.28 : baseScale);
+    const targetX = isCleanPreview ? 2.5 : 1;
+    const targetZ = isCleanPreview ? 5.5 : (isShortLandscape ? -12 : (aspect < 0.8 ? 2 : -7));
     return {
       pos: new THREE.Vector3(-2, 314 * scale, 306 * scale),
-      target: new THREE.Vector3(1, 10, targetZ)
+      target: new THREE.Vector3(targetX, 10, targetZ)
     };
   }
 
@@ -10119,6 +10381,7 @@ class IranAtlasApp {
       btn.append(dot, label);
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
+        this.callbacks.onPinActivate?.(btn);
         this.selectAndFlyTo(mon.info.id, false);
       });
       this.pinLayer.appendChild(btn);
@@ -10151,9 +10414,10 @@ class IranAtlasApp {
     this.pinLayer.hidden = false;
 
     const projVec = new THREE.Vector3();
-    const topSafe = stageW <= 860 ? 54 : 18;
-    const bottomSafe = stageH - 48;
-    const mobileOverview = stageW <= 560 && camDistToTarget > 180;
+    const isShortLandscape = stageH <= 460;
+    const topSafe = isShortLandscape ? 40 : (stageW <= 860 ? 54 : 18);
+    const bottomSafe = stageH - (isShortLandscape ? 44 : 48);
+    const curatedOverview = (stageW <= 560 || isShortLandscape) && camDistToTarget > 180;
     const mobileCoreSet = new Set([
       'tehran', 'damavand', 'mashhad', 'tabriz', 'isfahan',
       'persepolis', 'khuzestan', 'hormuz', 'lut', 'sistan', 'chabahar'
@@ -10173,7 +10437,7 @@ class IranAtlasApp {
         btn.style.display = 'none';
         continue;
       }
-      if (mobileOverview && this.selectedLandmarkId !== info.id && !mobileCoreSet.has(info.id)) {
+      if (curatedOverview && this.selectedLandmarkId !== info.id && !mobileCoreSet.has(info.id)) {
         btn.style.display = 'none';
         continue;
       }
@@ -10198,7 +10462,7 @@ class IranAtlasApp {
         continue;
       }
 
-      const nudgeScale = stageW <= 560 ? 0.45 : clamp((camDistToTarget - 60) / 260, 0, 1);
+      const nudgeScale = (stageW <= 560 || isShortLandscape) ? 0.35 : clamp((camDistToTarget - 60) / 260, 0, 1);
       const nudgeX = (info.pinNudge ? info.pinNudge[0] : 0) * nudgeScale;
       const nudgeY = (info.pinNudge ? info.pinNudge[1] : 0) * nudgeScale;
 
@@ -10221,7 +10485,7 @@ class IranAtlasApp {
       });
     }
 
-    const maxTether = stageW <= 560 ? 28 : 66;
+    const maxTether = isShortLandscape ? 20 : (stageW <= 560 ? 28 : 66);
     for (let iter = 0; iter < 28; iter++) {
       for (let i = 0; i < candidates.length; i++) {
         for (let j = i + 1; j < candidates.length; j++) {
@@ -10508,11 +10772,11 @@ class IranAtlasApp {
       .lerp(new THREE.Color(0xe68449), goldenWeight)
       .lerp(new THREE.Color(0x0b1224), nightFactor);
 
-    // Warm Iraq-style bronze-espresso dark gallery OR warm museum alabaster light gallery!
-    const dayBaseBg = this.isLightTheme ? 0xede4d4 : 0x1b110a;
-    const goldenBg = this.isLightTheme ? 0xe7d6be : 0x26150b;
+    // Refined dark museum espresso-bronze gallery (matching Iraq Voxel World's warm gallery contrast) OR warm museum alabaster light gallery!
+    const dayBaseBg = this.isLightTheme ? 0xede4d4 : 0x17100b;
+    const goldenBg = this.isLightTheme ? 0xe7d6be : 0x1f140c;
     const backdropColor = new THREE.Color(dayBaseBg)
-      .lerp(new THREE.Color(goldenBg), goldenWeight * 0.9)
+      .lerp(new THREE.Color(goldenBg), goldenWeight * 0.85)
       .lerp(new THREE.Color(0x080d1a), nightFactor);
 
     return { sunDir, sunColor, skyColor, backdropColor, nightFactor, goldenWeight };
@@ -10542,14 +10806,14 @@ class IranAtlasApp {
       this.floorMat.color.setHex(0xfcf6ea).lerp(new THREE.Color(0x080d1a), nightFactor);
       this.floorMat.opacity = 0.24 + nightFactor * 0.76;
     } else {
-      this.skyUniforms.uCenterColor.value.copy(new THREE.Color(0x342113))
-        .lerp(new THREE.Color(0x4b2814), goldenWeight * 0.95)
+      this.skyUniforms.uCenterColor.value.copy(new THREE.Color(0x28190e))
+        .lerp(new THREE.Color(0x362012), goldenWeight * 0.9)
         .lerp(new THREE.Color(0x101c3a), nightFactor);
-      this.skyUniforms.uEdgeColor.value.copy(new THREE.Color(0x110a06))
-        .lerp(new THREE.Color(0x1a0e07), goldenWeight * 0.95)
+      this.skyUniforms.uEdgeColor.value.copy(new THREE.Color(0x0e0906))
+        .lerp(new THREE.Color(0x130b07), goldenWeight * 0.9)
         .lerp(new THREE.Color(0x050914), nightFactor);
-      this.skyUniforms.uHorizonColor.value.copy(new THREE.Color(0x52311b))
-        .lerp(new THREE.Color(0x824421), goldenWeight)
+      this.skyUniforms.uHorizonColor.value.copy(new THREE.Color(0x3d2515))
+        .lerp(new THREE.Color(0x58321a), goldenWeight * 0.9)
         .lerp(new THREE.Color(0x16264c), nightFactor);
       this.floorMat.color.copy(backdropColor).multiplyScalar(0.90);
       this.floorMat.opacity = 1.0;
@@ -10968,7 +11232,11 @@ function initUIAndHostBridge() {
     onStateChange: (state) => {
       syncUIState?.(state);
     },
-    onStatusAnnounce: (msg) => announcePolite(msg)
+    onStatusAnnounce: (msg) => announcePolite(msg),
+    onPinActivate: (btn) => {
+      lastTriggerEl = btn;
+      requestAnimationFrame(() => inspectorCloseBtn.focus());
+    }
   });
   atlasAppRef = app;
   if (document.documentElement.classList.contains('light')) {
@@ -11079,21 +11347,23 @@ function initUIAndHostBridge() {
     announcePolite(app.isPaused() ? 'World motion paused' : 'World motion playing');
   });
 
-  drawerTriggerBtn.addEventListener('click', () => {
-    if (!drawer.open) {
-      drawer.returnValue = '';
-      drawer.showModal();
-    }
-  });
+  if (!('commandForElement' in HTMLButtonElement.prototype)) {
+    drawerTriggerBtn.addEventListener('click', () => {
+      if (!drawer.open) {
+        drawer.returnValue = '';
+        drawer.showModal();
+      }
+    });
+
+    helpOpenBtn.addEventListener('click', () => {
+      if (!helpDialog.open) helpDialog.showModal();
+    });
+  }
 
   drawer.addEventListener('close', () => {
     if (drawer.returnValue !== 'select') {
       requestAnimationFrame(() => drawerTriggerBtn.focus());
     }
-  });
-
-  helpOpenBtn.addEventListener('click', () => {
-    if (!helpDialog.open) helpDialog.showModal();
   });
 
   helpDialog.addEventListener('close', () => {
@@ -11168,11 +11438,6 @@ function initUIAndHostBridge() {
     landmarksList.appendChild(li);
   }
 
-  pinLayer.addEventListener('click', (e) => {
-    const btn = e.target?.closest('button');
-    if (btn) lastTriggerEl = btn;
-  });
-
   tourPrevBtn.addEventListener('click', () => {
     lastTriggerEl = tourPrevBtn;
     app.stepLandmark(-1);
@@ -11185,8 +11450,10 @@ function initUIAndHostBridge() {
 
   const closeInspectorAndReturnFocus = () => {
     app.dismissInspector();
-    const target = lastTriggerEl && lastTriggerEl.offsetParent !== null ? lastTriggerEl : drawerTriggerBtn;
-    requestAnimationFrame(() => target.focus());
+    requestAnimationFrame(() => {
+      const canFocusTrigger = lastTriggerEl && !lastTriggerEl.closest('[hidden]') && lastTriggerEl.offsetParent !== null;
+      (canFocusTrigger ? lastTriggerEl : tourNextBtn).focus();
+    });
   };
 
   inspectorCloseBtn.addEventListener('click', closeInspectorAndReturnFocus);

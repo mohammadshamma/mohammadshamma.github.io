@@ -5,6 +5,6 @@ description: "Interactive dual-scale 3D voxel diorama of Iran with 20 heritage l
 platform: "Interactive 3D atlas"
 tech: ["Three.js", "WebGL", "Shaders", "Cartography"]
 image: "preview.png"
-imageAlt: "3D voxel relief map of Iran framed by a brass-trimmed museum plinth, showing snow-capped Mt. Damavand, the Caspian Sea, Persian Gulf, and 20 labeled landmarks."
+imageAlt: "3D voxel relief map of Iran framed by a brass-trimmed museum plinth, showing snow-capped Mt. Damavand, the Caspian Sea, Persian Gulf, and 20 sculpted heritage landmarks."
 cardCta: "Open artifact"
 ---
