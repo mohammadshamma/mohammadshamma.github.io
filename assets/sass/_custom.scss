@@ -382,3 +382,37 @@ html.has-maximized-artifact {
 html.dark {
     @include portfolio-dark-mode;
 }
+
+//////////////// Typography (Newsreader prose + Inter UI/headings) /////////////////
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.page-content p,
+.page-content li,
+.page-content blockquote {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.1875rem; // 19px
+    line-height: 1.72;
+}
+
+h1, h2, h3, h4, .header-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.02em;
+}
+
+// Theme-adaptive transparent ink illustrations (black ink in light mode, off-white in dark mode)
+.page-content img[src$="cover.png"] {
+    display: block;
+    margin: 0 auto 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.light) .page-content img[src$="cover.png"] {
+        filter: invert(0.9);
+    }
+}
+
+html.dark .page-content img[src$="cover.png"] {
+    filter: invert(0.9);
+}
