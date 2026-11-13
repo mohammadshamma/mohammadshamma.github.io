@@ -1,6 +1,6 @@
 baseURL = 'https://blog.negfeed.com/'
 locale = 'en-us'
-title = "Mohammad Shamma's Page"
+title = "Mohammad Shamma's Blog"
 theme = "hugo-blog-awesome"
 
 [services]
@@ -29,9 +29,9 @@ theme = "hugo-blog-awesome"
 [params.author]
   avatar = "avatar.jpg" # put the file in assets folder; also ensure that image has same height and width
   # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
-  intro = "Mohammad Shamma's Page"
+  intro = "Mohammad Shamma's Blog"
   name = "Mohammad Shamma"
-  description = "I'm navigating the rough straits of the shift to agentic coding."
+  description = "My takes in the time of automating the software industry"
 
 [[params.socialIcons]]
 name = "github"
