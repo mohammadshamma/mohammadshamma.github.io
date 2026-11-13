@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iran 3D Voxel Atlas | Plateau, Seas &amp; Heritage</title>
+  <title>Iran · 3D Voxel Atlas | ایران</title>
   <link
     rel="icon"
     type="image/svg+xml"
@@ -37,33 +37,12 @@
   display: flex;
   flex-direction: column;
   container: atlas / inline-size;
-  color-scheme: dark;
+  color-scheme: only dark;
   background: var(--atlas-bg);
   color: var(--atlas-text);
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Harmonious Museum Alabaster-Parchment Light Theme (WCAG >= 4.5:1 text & >= 3:1 UI borders) */
-html.light .atlas-app {
-  --atlas-bg: #ede4d4;
-  --atlas-surface: rgba(252, 248, 240, 0.94);
-  --atlas-surface-solid: #faf5eb;
-  --atlas-border: rgba(96, 68, 34, 0.32);
-  --atlas-control-border: rgba(82, 58, 28, 0.44);
-  --atlas-control-bg: rgba(48, 32, 16, 0.06);
-  --atlas-control-hover: rgba(48, 32, 16, 0.13);
-  --atlas-text: #1d150e;
-  --atlas-body-text: #2c2117;
-  --atlas-muted: #584531;
-  --atlas-gold: #875208;
-  --atlas-gold-strong: #6e4104;
-  --atlas-turquoise: #0a6b74;
-  --atlas-focus: #8f5100;
-  --atlas-pressed-bg: #2b1d10;
-  --atlas-pressed-text: #fff8ec;
-  color-scheme: light;
 }
 
 .atlas-app :where(h1, h2, h3) {
@@ -93,8 +72,8 @@ html.is-embedded .atlas-app {
 }
 
 html.is-embedded.light .atlas-app {
-  border-color: rgba(82, 58, 28, 0.28);
-  box-shadow: 0 8px 26px rgba(36, 24, 12, 0.12);
+  border-color: rgba(28, 22, 17, 0.28);
+  box-shadow: 0 12px 32px rgba(24, 18, 12, 0.2);
 }
 
 html.is-maximized .atlas-app {
@@ -105,7 +84,6 @@ html.is-maximized .atlas-app {
 
 html.is-clean-preview .top-bar,
 html.is-clean-preview .tour-bar,
-html.is-clean-preview .pin-layer,
 html.is-clean-preview .lens-legend,
 html.is-clean-preview .inspector-card {
   display: none !important;
@@ -265,12 +243,6 @@ html.is-clean-preview .inspector-card {
   color: #cffaff;
 }
 
-html.light .pill-btn--accent {
-  background: rgba(10, 107, 116, 0.13);
-  border-color: rgba(10, 107, 116, 0.58);
-  color: #07474e;
-}
-
 @media (any-hover: hover) and (any-pointer: fine) {
   .tool-btn:hover:not([aria-pressed="true"]),
   .pill-btn:hover:not([aria-pressed="true"]),
@@ -338,12 +310,6 @@ html.light .pill-btn--accent {
   cursor: pointer;
 }
 
-html.light #time-slider {
-  --slider-track-color: rgba(74, 52, 24, 0.28);
-  --slider-fill-color: #9e620c;
-  --slider-thumb-color: #875208;
-}
-
 #time-slider:dir(rtl) { --slider-direction: to left; }
 
 #time-slider::-webkit-slider-runnable-track {
@@ -362,10 +328,6 @@ html.light #time-slider {
   border: 1.5px solid #1b1610;
   border-radius: var(--slider-thumb-radius);
   background: var(--slider-thumb-color);
-}
-
-html.light #time-slider::-webkit-slider-thumb {
-  border-color: #fff8ec;
 }
 
 #time-slider::-moz-range-track {
@@ -464,13 +426,6 @@ html.light #time-slider::-webkit-slider-thumb {
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.56);
-}
-
-html.light .landmark-pin {
-  background: rgba(253, 249, 241, 0.94);
-  color: #1d150e;
-  border-color: rgba(128, 84, 20, 0.65);
-  box-shadow: 0 2px 8px rgba(38, 24, 10, 0.20);
 }
 
 .landmark-pin__dot {
@@ -661,13 +616,9 @@ html.light .landmark-pin {
   border-radius: 0.35rem;
   background: rgba(234, 184, 84, 0.16);
   border: 1px solid rgba(234, 184, 84, 0.45);
-  color: var(--atlas-gold);
+  color: #f8da8f;
   font-size: 0.72rem;
   font-weight: 600;
-}
-
-html:not(.light) .inspector-badge {
-  color: #f8da8f;
 }
 
 .inspector-body, .inspector-arch {
@@ -735,10 +686,6 @@ html:not(.light) .inspector-badge {
 .help-dialog::backdrop, .landmarks-dialog::backdrop {
   background: rgba(10, 7, 5, 0.62);
   backdrop-filter: blur(3px);
-}
-
-html.light .help-dialog::backdrop, html.light .landmarks-dialog::backdrop {
-  background: rgba(34, 24, 14, 0.36);
 }
 
 .popover-head {
@@ -1011,8 +958,8 @@ html.light .help-dialog::backdrop, html.light .landmarks-dialog::backdrop {
   <header class="top-bar">
     <div class="brand-cluster">
       <h1 class="brand-title">
-        Iran Voxel Atlas
-        <span class="brand-subtitle">Plateau, Seas &amp; Heritage</span>
+        <span>Iran</span>
+        <span class="brand-subtitle">3D Voxel Atlas</span>
         <span class="brand-fa" lang="fa" dir="rtl">ایران</span>
       </h1>
     </div>
@@ -1035,7 +982,7 @@ html.light .help-dialog::backdrop, html.light .landmarks-dialog::backdrop {
       <span role="separator" aria-orientation="vertical" class="toolbar-sep"></span>
 
       <div role="group" aria-label="Map Overlays and Camera" class="toolbar-group">
-        <button type="button" id="toggle-labels-btn" class="tool-btn" aria-pressed="true">Pins</button>
+        <button type="button" id="toggle-labels-btn" class="tool-btn" aria-pressed="true">Labels</button>
         <button type="button" id="reset-overview-btn" class="tool-btn">Overview</button>
       </div>
     </div>
@@ -1120,7 +1067,7 @@ html.light .help-dialog::backdrop, html.light .landmarks-dialog::backdrop {
 
   <dialog id="help-dialog" closedby="any" class="help-dialog" aria-labelledby="help-dialog-title">
     <div class="popover-head">
-      <h2 id="help-dialog-title">Navigating the 3D Voxel Atlas of Iran</h2>
+      <h2 id="help-dialog-title">Iran 3D Voxel Atlas</h2>
       <form method="dialog">
         <button type="submit" value="close" class="icon-close-btn" aria-label="Close help dialog">✕</button>
       </form>
@@ -10107,7 +10054,7 @@ class IranAtlasApp {
     this.currentLens = 'natural';
     this.activeEraFilter = 0;
     this.timeHours = 15.75;
-    this.isLightTheme = document.documentElement.classList.contains('light');
+    this.isLightTheme = false;
     this.paused = false;
     this.offscreenPaused = false;
     this.labelsVisible = true;
@@ -10314,10 +10261,10 @@ class IranAtlasApp {
       ? Math.min(1.76, 1.15 / Math.max(0.48, Math.pow(aspect, 0.46)))
       : 1.0;
     const isShortLandscape = h <= 460 && aspect > 1.3;
-    // Zoom ~15% closer with centered targetZ in ?cleanPreview=1 so Iran fills ~69% of 1200x630 preview.png with full unclipped plinth; pull back in 740x420!
-    const scale = isCleanPreview ? baseScale * 0.85 : (isShortLandscape ? baseScale * 1.28 : baseScale);
+    // Frame 1200x630 (?cleanPreview=1) with unclipped plinth and breathing room for all 20 landmark pin pills; pull back in 740x420!
+    const scale = isCleanPreview ? baseScale * 0.95 : (isShortLandscape ? baseScale * 1.28 : baseScale);
     const targetX = isCleanPreview ? 2.5 : 1;
-    const targetZ = isCleanPreview ? 5.5 : (isShortLandscape ? -12 : (aspect < 0.8 ? 2 : -7));
+    const targetZ = isCleanPreview ? 6.5 : (isShortLandscape ? -12 : (aspect < 0.8 ? 2 : -7));
     return {
       pos: new THREE.Vector3(-2, 314 * scale, 306 * scale),
       target: new THREE.Vector3(targetX, 10, targetZ)
@@ -10414,9 +10361,10 @@ class IranAtlasApp {
     this.pinLayer.hidden = false;
 
     const projVec = new THREE.Vector3();
+    const isCleanPreview = document.documentElement.classList.contains('is-clean-preview');
     const isShortLandscape = stageH <= 460;
-    const topSafe = isShortLandscape ? 40 : (stageW <= 860 ? 54 : 18);
-    const bottomSafe = stageH - (isShortLandscape ? 44 : 48);
+    const topSafe = isCleanPreview ? 14 : (isShortLandscape ? 40 : (stageW <= 860 ? 54 : 18));
+    const bottomSafe = stageH - (isCleanPreview ? 14 : (isShortLandscape ? 44 : 48));
     const curatedOverview = (stageW <= 560 || isShortLandscape) && camDistToTarget > 180;
     const mobileCoreSet = new Set([
       'tehran', 'damavand', 'mashhad', 'tabriz', 'isfahan',
@@ -11180,7 +11128,6 @@ function initUIAndHostBridge() {
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.classList.toggle('light', !dark);
     document.documentElement.dataset.hostTheme = dark ? 'dark' : 'light';
-    atlasAppRef?.setHostLightMode(!dark);
   };
 
   window.__applyHostViewport = (hPx) => {
@@ -11188,34 +11135,38 @@ function initUIAndHostBridge() {
   };
 
   if (window.self !== window.top) {
-    document.documentElement.classList.add('is-embedded');
     try {
       const parentWin = window.parent;
-      const parentDoc = parentWin?.document?.documentElement;
-      if (parentDoc) {
-        const isParentLight = parentDoc.classList.contains('light');
-        const isParentDark = parentDoc.classList.contains('dark') || (!isParentLight && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.classList.toggle('dark', isParentDark);
-        document.documentElement.classList.toggle('light', !isParentDark);
-      }
       const frameEl = window.frameElement;
-      if (parentWin && frameEl) {
-        const syncFromParent = () => {
-          const vh = parentWin.visualViewport?.height || parentWin.innerHeight;
-          const vw = parentWin.visualViewport?.width || parentWin.innerWidth;
-          if (typeof parentWin.__isArtifactMaximized === 'function' && parentWin.__isArtifactMaximized()) {
-            applyEmbeddedHeight(vh);
-            return;
-          }
-          const isShortLandscape = vh <= 520 && vw > vh;
-          const top = Math.max(0, frameEl.getBoundingClientRect().top + parentWin.scrollY);
-          applyEmbeddedHeight(isShortLandscape ? vh : vh - top - 16);
-        };
-        syncFromParent();
-        parentWin.addEventListener('resize', syncFromParent, { passive: true });
-        parentWin.visualViewport?.addEventListener('resize', syncFromParent, { passive: true });
+      if (!frameEl || frameEl.id === 'artifact-frame') {
+        document.documentElement.classList.add('is-embedded');
+        const parentDoc = parentWin?.document?.documentElement;
+        if (parentDoc) {
+          const isParentLight = parentDoc.classList.contains('light');
+          const isParentDark = parentDoc.classList.contains('dark') || (!isParentLight && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', isParentDark);
+          document.documentElement.classList.toggle('light', !isParentDark);
+        }
+        if (parentWin && frameEl) {
+          const syncFromParent = () => {
+            const vh = parentWin.visualViewport?.height || parentWin.innerHeight;
+            const vw = parentWin.visualViewport?.width || parentWin.innerWidth;
+            if (typeof parentWin.__isArtifactMaximized === 'function' && parentWin.__isArtifactMaximized()) {
+              applyEmbeddedHeight(vh);
+              return;
+            }
+            const isShortLandscape = vh <= 520 && vw > vh;
+            const top = Math.max(0, frameEl.getBoundingClientRect().top + parentWin.scrollY);
+            applyEmbeddedHeight(isShortLandscape ? vh : vh - top - 16);
+          };
+          syncFromParent();
+          parentWin.addEventListener('resize', syncFromParent, { passive: true });
+          parentWin.visualViewport?.addEventListener('resize', syncFromParent, { passive: true });
+        }
       }
-    } catch (_) {}
+    } catch (_) {
+      document.documentElement.classList.add('is-embedded');
+    }
   }
 
   // 2. Instantiate 3D Voxel Atlas
@@ -11239,9 +11190,6 @@ function initUIAndHostBridge() {
     }
   });
   atlasAppRef = app;
-  if (document.documentElement.classList.contains('light')) {
-    app.setHostLightMode(true);
-  }
 
   // 3. Wire Accessible Toolbar & Gated Focusgroup Fallback
   const toolbar = document.getElementById('atlas-toolbar');
@@ -11331,7 +11279,7 @@ function initUIAndHostBridge() {
 
   toggleLabelsBtn.addEventListener('click', () => {
     app.setLabelsVisible(!app.getLabelsVisible());
-    announcePolite(app.getLabelsVisible() ? 'Map pins shown' : 'Map pins hidden');
+    announcePolite(app.getLabelsVisible() ? 'Map labels shown' : 'Map labels hidden');
   });
 
   resetOverviewBtn.addEventListener('click', () => {
