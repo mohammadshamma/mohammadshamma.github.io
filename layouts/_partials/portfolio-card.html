@@ -21,7 +21,7 @@
         </div>
         {{ end }}
         <h3 class="portfolio-card-title">{{ .Title }}</h3>
-        {{ with .Params.description }}<p class="portfolio-card-desc">{{ . }}</p>{{ end }}
+        {{ with .Description }}<p class="portfolio-card-desc">{{ . }}</p>{{ end }}
         {{ with .Params.tech }}
         <ul class="tech-tags">
             {{ range . }}<li class="tech-tag">{{ . }}</li>{{ end }}

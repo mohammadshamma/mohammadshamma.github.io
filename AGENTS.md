@@ -28,11 +28,11 @@ hugo new portfolio/my-project/index.md    # new portfolio entry from archetypes/
 hugo new artifacts/my-artifact/index.md   # new interactive artifact bundle from archetypes/artifacts.md
 ```
 
-Use the **extended** Hugo build (required for the SCSS in `assets/sass/`). CI pins `HUGO_VERSION` in `.github/workflows/hugo.yml`; keep local Hugo at or near that version and bump the pin together when upgrading.
+Install [Dart Sass](https://gohugo.io/functions/css/sass/#dart-sass) (`sass` on `PATH`, required for SCSS compilation alongside Hugo 0.170+, which removed the extended edition and LibSass). CI pins `HUGO_VERSION` and `DART_SASS_VERSION` in `.github/workflows/hugo.yml`; keep local versions at or near those pins and bump them together when upgrading.
 
 ## Deployment
 
-Pushing to `master` triggers `.github/workflows/hugo.yml`, which builds with Hugo extended and deploys to GitHub Pages. There is no manual deploy step. `static/CNAME` (`blog.negfeed.com`) sets the custom domain — keep it in sync with `baseURL` in `hugo.toml`. The CI checkout uses `submodules: recursive` and `fetch-depth: 0` (full history is needed for `.GitInfo`/`.Lastmod`).
+Pushing to `master` triggers `.github/workflows/hugo.yml`, which installs Hugo and Dart Sass, builds the site, and deploys to GitHub Pages. There is no manual deploy step. `static/CNAME` (`blog.negfeed.com`) sets the custom domain — keep it in sync with `baseURL` in `hugo.toml`. The CI checkout uses `submodules: recursive` and `fetch-depth: 0` (full history is needed for `.GitInfo`/`.Lastmod`).
 
 ## Architecture
 
@@ -64,7 +64,7 @@ Layouts in this repo (`layouts/`) override the theme submodule's templates — H
 
 Portfolio and artifact front matter drives the cards, detail pages, and social link-preview cards (`layouts/_partials/meta/`, `opengraph.html`, `twitter_cards.html`) — `platform`, `tech` (list of tag strings), `description`, `externalUrl`/`externalLabel`, `image` (plus optional `socialImage`, `imageAnchor`, `imageAlt`), and `weight` (controls ordering). See `archetypes/portfolio.md` and `archetypes/artifacts.md` for the canonical sets.
 
-Custom styling lives in `assets/sass/_custom.scss` (portfolio grid/cards), which reuses theme SCSS variables like `$spacing-full`, `$gray`, `$smoke`. Hugo Pipes compiles it, hence the extended-Hugo requirement.
+Custom styling lives in `assets/sass/_custom.scss` (portfolio grid/cards), which reuses theme SCSS variables like `$spacing-full`, `$gray`, `$smoke`. Hugo Pipes compiles it via Dart Sass.
 
 ## Config notes
 

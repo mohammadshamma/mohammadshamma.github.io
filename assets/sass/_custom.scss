@@ -232,8 +232,8 @@ html.has-maximized-artifact {
 .artifact-frame {
     display: block;
     width: 100%;
-    min-height: unquote("min(920px, calc(100vh - 8.5rem))");
-    min-height: unquote("min(920px, calc(100dvh - 8.5rem))");
+    min-height: #{"min(920px, calc(100vh - 8.5rem))"};
+    min-height: #{"min(920px, calc(100dvh - 8.5rem))"};
     border: 0;
     background: transparent;
     overflow: hidden;

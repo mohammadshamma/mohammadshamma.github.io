@@ -11,7 +11,7 @@ Takes a draft from `notes/drafts/` (which Hugo never builds) into `content/posts
 
 ## Prerequisites
 
-- Use the **extended** Hugo build (required for the SCSS). If `hugo version` doesn't show "extended", tell the user and stop.
+- Ensure **Hugo** (0.170+) and **Dart Sass** (`sass --version`) are installed (required for SCSS compilation; Hugo 0.170 removed the `extended` build). If `hugo` or `sass` is missing (unless still on Hugo < 0.170 `extended`), tell the user and stop.
 - Work from the repo root.
 
 ## Phase 1 — Stage the draft and start a preview

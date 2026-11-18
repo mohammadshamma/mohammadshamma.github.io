@@ -2,8 +2,8 @@
   meta/description.html — resolves the best plain-text meta description for a page.
 */ -}}
 {{- $description := "" -}}
-{{- if .Params.description -}}
-  {{- $description = trim .Params.description "\n" -}}
+{{- if .Description -}}
+  {{- $description = trim .Description "\n" -}}
 {{- else if and .IsPage .Summary -}}
   {{- $description = trim (.Summary | plainify | htmlUnescape) "\n" -}}
 {{- else if .Site.Params.description -}}

@@ -4,7 +4,8 @@ Personal blog built with [Hugo](https://gohugo.io/) using the [hugo-blog-awesome
 
 ## Prerequisites
 
-- [Hugo](https://gohugo.io/installation/) (extended version recommended)
+- [Hugo](https://gohugo.io/installation/)
+- [Dart Sass](https://gohugo.io/functions/css/sass/#dart-sass) (required for SCSS compilation in Hugo 0.170+)
 - Git
 
 ## Setup
