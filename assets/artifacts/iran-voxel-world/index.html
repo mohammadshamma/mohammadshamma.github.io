@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="claude:viewport-fit-sides" content="cover" />
   <title>Iran · 3D Voxel Atlas | ایران</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@400;500;600&display=swap">
   <link
     rel="icon"
     type="image/svg+xml"
@@ -13,12 +14,22 @@
   <style>
 /* Layout shared with the other voxel maps: one full-viewport diorama; the panel docks top-left, the place card
    bottom-left, camera buttons bottom-right, labels float over the scene. Colours and type are this atlas's own. */
+/* Colours and type shared with the voxel map series (Voxel Bay is the reference): a light panel by day, a dark one at
+   night, Silkscreen for display text and Inter for body text. Only the category colours are this atlas's own (its
+   heritage eras), darker by day so they read on the light panel. */
 :root{
-  --sky:#17100b; --panel:rgba(28,19,13,.92); --ink:#fbf4ea; --muted:#dccbb4; --line:rgba(238,204,144,.45);
-  --accent:#eab854; --on-accent:#17120c; --turquoise:#25c4cb;
+  --sky:#cfe6f0; --panel:rgba(249,251,248,.92); --ink:#14232b; --muted:#536770; --line:rgba(20,35,43,.5);
+  --accent:#c0362c; --on-accent:#fff; --turquoise:#0b7d85;
+  --bronze-elam:#a8560c; --imperial:#8b3fd0; --seljuk-timurid:#0a72a8; --safavid-modern:#0b7d6c; --vernacular-nature:#8a6a00;
+  --map-ink:#14232b; --map-halo:rgba(255,255,255,.9);
+  --display:"Silkscreen","Courier New",monospace; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --sky:#2b2a44; --panel:rgba(13,23,33,.9); --ink:#e8f0f2; --muted:#9db0b8; --line:rgba(255,255,255,.45);
+  --accent:#ff7a5c; --on-accent:#14232b;
   --bronze-elam:#ed8f38; --imperial:#c98af7; --seljuk-timurid:#4cc3f3; --safavid-modern:#29dbbe; --vernacular-nature:#f2c742;
-  --map-ink:#fbf4ea; --map-halo:rgba(14,9,6,.92);
-  --display:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --map-ink:#f4f7f8; --map-halo:rgba(6,12,18,.92);
   color-scheme:dark;
 }
 [hidden]{display:none!important}
@@ -30,11 +41,11 @@ body{margin:0;background:var(--sky);color:var(--ink);font:14px/1.45 var(--body);
 #labels{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
 .lb{position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap;
   display:flex;align-items:center;gap:6px;padding:3px 8px 3px 6px;border:1px solid var(--line);border-radius:3px;
-  background:var(--panel);color:var(--ink);font:500 12px/1.3 var(--body);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  background:var(--panel);color:var(--ink);font:500 12px/1.3 var(--body);box-shadow:0 1px 3px rgba(0,0,0,.22)}
 .lb::after{content:"";position:absolute;left:var(--lx,50%);top:100%;width:1px;height:9px;background:var(--map-ink);opacity:.6}
 .lb.on::after,.lb.hov::after{height:var(--lh,9px);width:2px;margin-left:-1px;opacity:.85}
 .lb i{width:8px;height:8px;background:var(--c);flex:none}
-.lb.hov{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 1px 3px rgba(0,0,0,.4)}
+.lb.hov{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 1px 3px rgba(0,0,0,.22)}
 /* tour stops carry their number on the map */
 .lb[data-stop]::before{content:attr(data-stop);display:inline-grid;place-items:center;min-width:15px;height:15px;margin-right:-1px;border-radius:8px;background:var(--ink);color:var(--sky);font:700 10px/1 var(--body)}
 /* each category has its own shape as well as its own colour */
@@ -101,7 +112,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(-
 #cnt{margin:4px 0 0;font-size:12px;color:var(--muted)}#cnt:empty{display:none}
 #list{max-height:min(48vh,520px);overflow:auto;display:flex;flex-direction:column;margin:6px -6px 0}
 #list button{display:flex;align-items:baseline;gap:8px;text-align:left;padding:5px 6px;border:0;background:transparent;cursor:pointer;border-radius:3px}
-#list button:hover{background:rgba(238,204,144,.18)}
+#list button:hover{background:var(--line)}
 #list i{width:8px;height:8px;background:var(--c);flex:none}
 #list span{color:var(--muted);font-size:12px;margin-left:auto;padding-left:8px;white-space:nowrap}
 #card{left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100% - 32px));padding:14px 16px;display:flex;flex-direction:column;gap:5px;max-height:calc(100% - 150px);overflow:auto}
@@ -131,7 +142,7 @@ h1{white-space:nowrap}
 #step .jump{padding:5px 7px;letter-spacing:.02em;white-space:nowrap}
 @media (max-width:480px){#nav{flex-wrap:nowrap}#nav button{width:44px!important;height:44px!important}#rl,#rr{display:none!important}}
 #pos{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;margin-left:4px}
-#list button.cur{background:rgba(238,204,144,.22);font-weight:600}
+#list button.cur{background:var(--line);font-weight:600}
 #close{position:absolute;top:6px;right:6px;width:32px;height:32px;border:0;background:transparent;cursor:pointer;font-size:20px;line-height:1;color:var(--muted)}
 #nav{right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));padding:5px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 32px)}
 #tilt{font-size:11px!important}#help{font:700 16px/1 var(--body)!important}
@@ -9480,6 +9491,8 @@ class IranAtlasApp {
     // Rich golden-hour envelope spanning 15:30–18:00 & dawn 05:30–07:00!
     const goldenRaw = Math.exp(-(((h - 16.95) / 1.48) ** 2)) + Math.exp(-(((h - 6.2) / 1.05) ** 2));
     const goldenWeight = Math.min(1, goldenRaw);
+    // The sky only warms when the sun is close to the horizon, so the afternoon stays blue while the light turns golden.
+    const skyGold = this.isLightTheme ? goldenWeight : Math.min(1, Math.exp(-(((h - 17.9) / 0.75) ** 2)) + Math.exp(-(((h - 6.1) / 0.7) ** 2)));
 
     const sunColor = new THREE.Color(0xfff4e2)
       .lerp(new THREE.Color(0xff9b38), goldenWeight)
@@ -9489,17 +9502,18 @@ class IranAtlasApp {
       .lerp(new THREE.Color(0x0b1224), nightFactor);
 
     // Refined dark museum espresso-bronze gallery (matching Iraq Voxel World's warm gallery contrast) OR warm museum alabaster light gallery!
-    const dayBaseBg = this.isLightTheme ? 0xede4d4 : 0x17100b;
-    const goldenBg = this.isLightTheme ? 0xe7d6be : 0x1f140c;
+    // Daytime sky: the same bright pale-blue void as Voxel Bay; warm peach at golden hour; starry indigo at night.
+    const dayBaseBg = this.isLightTheme ? 0xede4d4 : 0xc3e3f4;
+    const goldenBg = this.isLightTheme ? 0xe7d6be : 0xe7a47c;
     const backdropColor = new THREE.Color(dayBaseBg)
-      .lerp(new THREE.Color(goldenBg), goldenWeight * 0.85)
+      .lerp(new THREE.Color(goldenBg), skyGold * 0.85)
       .lerp(new THREE.Color(0x080d1a), nightFactor);
 
-    return { sunDir, sunColor, skyColor, backdropColor, nightFactor, goldenWeight };
+    return { sunDir, sunColor, skyColor, backdropColor, nightFactor, goldenWeight, skyGold };
   }
 
   applyLightingForTime(hours) {
-    const { sunColor, skyColor, backdropColor, nightFactor, goldenWeight } = this.computeSolarState(hours);
+    const { sunColor, skyColor, backdropColor, nightFactor, goldenWeight, skyGold } = this.computeSolarState(hours);
     this.sunLight.color.copy(sunColor);
     this.sunLight.intensity = (2.30 + goldenWeight * 0.36) * (1 - nightFactor) + 0.64 * nightFactor;
     this.hemiLight.color.copy(skyColor).lerp(new THREE.Color(0xfff3e0), 0.36 * (1 - nightFactor));
@@ -9522,17 +9536,18 @@ class IranAtlasApp {
       this.floorMat.color.setHex(0xfcf6ea).lerp(new THREE.Color(0x080d1a), nightFactor);
       this.floorMat.opacity = 0.24 + nightFactor * 0.76;
     } else {
-      this.skyUniforms.uCenterColor.value.copy(new THREE.Color(0x28190e))
-        .lerp(new THREE.Color(0x362012), goldenWeight * 0.9)
+      this.skyUniforms.uCenterColor.value.copy(new THREE.Color(0xbfe2f5).multiplyScalar(1.25))
+        .lerp(new THREE.Color(0xf0b48a), skyGold * 0.9)
         .lerp(new THREE.Color(0x101c3a), nightFactor);
-      this.skyUniforms.uEdgeColor.value.copy(new THREE.Color(0x0e0906))
-        .lerp(new THREE.Color(0x130b07), goldenWeight * 0.9)
+      this.skyUniforms.uEdgeColor.value.copy(new THREE.Color(0x8cc6ea).multiplyScalar(1.25))
+        .lerp(new THREE.Color(0xc87a5c), skyGold * 0.9)
         .lerp(new THREE.Color(0x050914), nightFactor);
-      this.skyUniforms.uHorizonColor.value.copy(new THREE.Color(0x3d2515))
-        .lerp(new THREE.Color(0x58321a), goldenWeight * 0.9)
+      this.skyUniforms.uHorizonColor.value.copy(new THREE.Color(0xdaeff9).multiplyScalar(1.25))
+        .lerp(new THREE.Color(0xf8c998), skyGold * 0.9)
         .lerp(new THREE.Color(0x16264c), nightFactor);
+      // The dark pedestal floor read as a grey disc against the bright day sky, so it is not drawn.
       this.floorMat.color.copy(backdropColor).multiplyScalar(0.90);
-      this.floorMat.opacity = 1.0;
+      this.floorMat.opacity = 0.0;
     }
     this.nightGlowUniform.value = nightFactor;
   }
@@ -10081,6 +10096,8 @@ syncState = (s) => {
   $('pause').setAttribute('aria-pressed', String(s.paused));
   $('lbl').setAttribute('aria-pressed', String(s.labelsVisible)); labels.hidden = !s.labelsVisible;
   const night = isNight(), dk = $('dusk');
+  // The panel theme follows the sun, as in Voxel Bay: light by day, dark at night.
+  { const th = night ? 'dark' : 'light', de = document.documentElement; if (de.getAttribute('data-theme') !== th) de.setAttribute('data-theme', th); }
   if (dk.dataset.n !== String(night)) { dk.dataset.n = String(night); dk.innerHTML = night ? SUN : MOON; dk.title = night ? 'Switch to day' : 'Switch to night'; dk.setAttribute('aria-pressed', String(night)); }
   dirty = true; writeHash();
 };
@@ -10398,7 +10415,7 @@ try { if (window.self !== window.top && window.parent && typeof window.parent.__
   const ICON = (m) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="${m ? 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' : 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5'}"/></svg>`;
   const sync = (m) => { maxed = !!m; btn.innerHTML = ICON(maxed); btn.setAttribute('aria-pressed', maxed); btn.title = maxed ? 'Leave full screen' : 'Full screen'; btn.setAttribute('aria-label', btn.title); dirty = true; };
   // The atlas keeps its own dark gallery look whatever the host's theme; the attribute is recorded as on the other maps.
-  window.__applyHostTheme = (d) => { root.setAttribute('data-theme', d ? 'dark' : 'light'); };
+  window.__applyHostTheme = () => {}; // the theme follows the atlas's own sun, not the host's
   window.__applyHostViewport = (h) => { root.classList.add('is-embedded'); root.style.setProperty('--embed-height', Math.max(240, Math.round(h)) + 'px'); atlas.resize(); };
   window.__onHostMaximizedChange = sync;
   const nativeOK = !!(document.fullscreenEnabled && root.requestFullscreen);
