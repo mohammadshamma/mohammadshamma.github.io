@@ -1,8 +1,16 @@
 {{- define "main" -}}
 <div class="artifact-shell">
-    <nav class="breadcrumb artifact-back" aria-label="Breadcrumb">
-        <a href="{{ .CurrentSection.RelPermalink }}">&larr; All {{ .CurrentSection.Title }}</a>
-    </nav>
+    <div class="artifact-bar">
+        <nav class="breadcrumb artifact-back" aria-label="Breadcrumb">
+            <a href="{{ .CurrentSection.RelPermalink }}">&larr; All {{ .CurrentSection.Title }}</a>
+        </nav>
+        {{- /* Fallback full-screen toggle, shown only for artifacts that do not bring their own. */ -}}
+        <button type="button" id="artifact-max" class="artifact-max" aria-pressed="false" aria-label="Full screen" title="Full screen" hidden>
+            <svg class="artifact-max-on" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="artifact-max-off" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="artifact-max-label">Full screen</span>
+        </button>
+    </div>
     {{- $slug := strings.TrimPrefix "/" .RelPermalink | strings.TrimSuffix "/" -}}
     {{- with resources.Get (printf "%s/index.html" $slug) -}}
     {{- $embed := . | resources.Copy (printf "%s/embed.html" $slug) -}}
@@ -37,6 +45,36 @@
     };
 
     let isMaximized = false;
+    const maxBtn = document.getElementById("artifact-max");
+    // True when the framed artifact has no full-screen control of its own.
+    let hostToggle = false;
+    // True when the artifact does not fit itself to the viewport (a long page).
+    let scrollsInside = false;
+
+    const syncMaxBtn = () => {
+        if (!maxBtn) return;
+        maxBtn.hidden = !hostToggle;
+        maxBtn.classList.toggle("is-floating", isMaximized);
+        maxBtn.setAttribute("aria-pressed", String(isMaximized));
+        const label = isMaximized ? "Exit full screen" : "Full screen";
+        maxBtn.setAttribute("aria-label", label);
+        maxBtn.title = label;
+        const text = maxBtn.querySelector(".artifact-max-label");
+        if (text) text.textContent = label;
+    };
+
+    // A long page cannot scroll inside a `scrolling="no"` frame, so while it is
+    // maximized let its body scroll instead of the frame's viewport.
+    const syncInnerScroll = () => {
+        if (!scrollsInside) return;
+        try {
+            const doc = frame.contentDocument;
+            if (!doc || !doc.body) return;
+            doc.documentElement.style.height = isMaximized ? "100%" : "";
+            doc.body.style.height = isMaximized ? "100%" : "";
+            doc.body.style.overflowY = isMaximized ? "auto" : "";
+        } catch (_) {}
+    };
 
     const setOutsideInert = (inert) => {
         Array.from(document.body.children).forEach((el) => {
@@ -93,7 +131,10 @@
         frame.classList.toggle("is-maximized", isMaximized);
         document.documentElement.classList.toggle("has-maximized-artifact", isMaximized);
         setOutsideInert(isMaximized);
+        syncInnerScroll();
+        syncMaxBtn();
         syncViewportToFrame();
+        if (!isMaximized) syncHeight();
         try {
             if (frame.contentWindow && typeof frame.contentWindow.__onHostMaximizedChange === "function") {
                 frame.contentWindow.__onHostMaximizedChange(isMaximized);
@@ -105,16 +146,26 @@
     window.__setArtifactMaximized = setMaximized;
     window.__isArtifactMaximized = () => isMaximized;
 
-    window.addEventListener("keydown", (e) => {
+    const onEscape = (e) => {
         if (e.key === "Escape" && isMaximized) {
             setMaximized(false);
         }
-    });
+    };
+    window.addEventListener("keydown", onEscape);
+    if (maxBtn) maxBtn.addEventListener("click", () => setMaximized(!isMaximized));
 
     frame.addEventListener("load", () => {
         syncThemeToFrame();
         syncViewportToFrame();
         syncHeight();
+        try {
+            const win = frame.contentWindow;
+            hostToggle = Boolean(win) && typeof win.__onHostMaximizedChange !== "function";
+            scrollsInside = Boolean(win) && typeof win.__applyHostViewport !== "function";
+            // Keys pressed inside the frame never reach this page, so listen there too.
+            if (hostToggle && frame.contentDocument) frame.contentDocument.addEventListener("keydown", onEscape);
+        } catch (_) {}
+        syncMaxBtn();
         try {
             const doc = frame.contentDocument;
             if (doc && doc.body && "ResizeObserver" in window) {

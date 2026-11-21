@@ -209,23 +209,82 @@ html.has-maximized-artifact {
     }
 }
 
-.artifact-back {
+.artifact-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
     max-width: 1152px;
     margin: 1rem auto 0.25rem;
     padding: 0 1.5rem;
 
+    // The mobile menu bar is fixed and 50px tall; clear it so the row is not hidden under it.
     @include media-query($on-mobile) {
-        margin: 0.35rem auto 0.25rem;
+        margin: 2rem auto 0.25rem;
         padding: 0 1rem;
     }
 
     @media (max-height: 520px) and (orientation: landscape) {
-        margin: 0.3rem auto 0.2rem;
+        margin: 2rem auto 0.2rem;
         padding: 0 0.75rem;
     }
+}
+
+.artifact-back {
+    margin: 0;
 
     a {
         font-weight: $bold-weight;
+    }
+}
+
+// Fallback full-screen toggle for artifacts without their own (see
+// `layouts/artifacts/single.html`). It floats over the frame while maximized.
+.artifact-max {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background-color: $white;
+    color: inherit;
+    font: inherit;
+    font-size: 0.85rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &[hidden] {
+        display: none;
+    }
+
+    &:hover,
+    &:focus-visible {
+        border-color: $text-link-blue;
+        color: $text-link-blue;
+    }
+
+    .artifact-max-off {
+        display: none;
+    }
+
+    &.is-floating {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        z-index: 10000;
+        min-height: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+
+        .artifact-max-on {
+            display: none;
+        }
+
+        .artifact-max-off {
+            display: inline;
+        }
     }
 }
 
@@ -370,6 +429,17 @@ html.has-maximized-artifact {
 
     .artifact-frame.is-maximized {
         background-color: $dark-black;
+    }
+
+    .artifact-max {
+        border-color: rgba(255, 255, 255, 0.25);
+        background-color: $dark-black;
+
+        &:hover,
+        &:focus-visible {
+            border-color: $dark-text-link-blue;
+            color: $dark-text-link-blue;
+        }
     }
 }
 

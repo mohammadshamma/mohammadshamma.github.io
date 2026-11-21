@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="claude:viewport-fit-sides" content="cover" />
   <title>Iran · 3D Voxel Atlas | ایران</title>
   <link
     rel="icon"
@@ -10,1089 +11,234 @@
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b110a'/%3E%3Cpath d='M6 25l5-13h4l-2 7h6l-2-7h4l5 13h-4l-2-5H12l-2 5z' fill='%23f1ede4'/%3E%3Ccircle cx='16' cy='8' r='3' fill='%2325c4cb'/%3E%3C/svg%3E"
   />
   <style>
-.atlas-app {
-  --atlas-bg: #17100b;
-  --atlas-surface: rgba(28, 19, 13, 0.91);
-  --atlas-surface-solid: #21160e;
-  --atlas-border: rgba(238, 204, 144, 0.42);
-  --atlas-control-border: rgba(246, 226, 192, 0.48);
-  --atlas-control-bg: rgba(255, 255, 255, 0.07);
-  --atlas-control-hover: rgba(255, 255, 255, 0.16);
-  --atlas-text: #fbf4ea;
-  --atlas-body-text: #efe5d8;
-  --atlas-muted: #dccbb4;
-  --atlas-gold: #eab854;
-  --atlas-gold-strong: #f7cf74;
-  --atlas-turquoise: #25c4cb;
-  --atlas-focus: #ffd166;
-  --atlas-pressed-bg: #eab854;
-  --atlas-pressed-text: #17120c;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  inline-size: 100%;
-  block-size: 100vh;
-  block-size: 100dvh;
-  overflow: clip;
-  display: flex;
-  flex-direction: column;
-  container: atlas / inline-size;
-  color-scheme: only dark;
-  background: var(--atlas-bg);
-  color: var(--atlas-text);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  overflow-wrap: anywhere;
-  -webkit-font-smoothing: antialiased;
-}
-
-.atlas-app :where(h1, h2, h3) {
-  text-wrap: balance;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: clip;
-}
-
-html.is-embedded {
-  background: #131418;
-}
-
-html.is-embedded.light {
-  background: #ffffff;
-}
-
-html.is-embedded .atlas-app {
-  inline-size: min(calc(100% - 3rem), 1104px);
-  block-size: var(--embed-height, 680px);
-  margin-inline: auto;
-  border-radius: 0.85rem;
-  border: 1px solid var(--atlas-border);
-}
-
-html.is-embedded.light .atlas-app {
-  border-color: rgba(28, 22, 17, 0.28);
-  box-shadow: 0 12px 32px rgba(24, 18, 12, 0.2);
-}
-
-html.is-maximized .atlas-app {
-  inline-size: 100%;
-  border-radius: 0;
-  border-inline: 0;
-}
-
-html.is-clean-preview .top-bar,
-html.is-clean-preview .tour-bar,
-html.is-clean-preview .lens-legend,
-html.is-clean-preview .inspector-card {
-  display: none !important;
-}
-
-@media (max-width: 600px) {
-  html.is-embedded .atlas-app {
-    inline-size: 100%;
-    border-radius: 0;
-    border-inline: 0;
-  }
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-.visually-hidden:where(:not(:focus-within, :active)) {
-  position: absolute !important;
-  clip-path: inset(50%) !important;
-  overflow: hidden !important;
-  width: 1px !important;
-  height: 1px !important;
-  margin: -1px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  white-space: nowrap !important;
-}
-
-.skip-link:focus-visible {
-  position: fixed;
-  inset-block-start: 0.5rem;
-  inset-inline-start: 0.5rem;
-  z-index: 100;
-  padding: 0.5rem 0.85rem;
-  border-radius: 0.5rem;
-  background: var(--atlas-pressed-bg);
-  color: var(--atlas-pressed-text);
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.atlas-app :where(a:any-link, button, summary, canvas[tabindex], [tabindex]):focus-visible {
-  outline: 2px solid var(--atlas-focus);
-  outline-offset: 2px;
-}
-
-.top-bar {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.38rem 0.78rem;
-  background: var(--atlas-surface);
-  border-block-end: 1px solid var(--atlas-border);
-  backdrop-filter: blur(12px);
-  z-index: 20;
-  min-inline-size: 0;
-}
-
-.brand-cluster {
-  display: flex;
-  align-items: center;
-  min-inline-size: 0;
-}
-
-.brand-title {
-  margin: 0;
-  font-size: 0.94rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: baseline;
-  gap: 0.38rem;
-  white-space: nowrap;
-}
-
-.brand-subtitle {
-  font-weight: 500;
-  font-size: 0.77rem;
-  color: var(--atlas-muted);
-}
-
-.brand-fa {
-  font-size: 0.92rem;
-  color: var(--atlas-gold);
-  font-weight: 700;
-}
-
-.atlas-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 0.28rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  scroll-snap-type: x proximity;
-  min-inline-size: 0;
-}
-
-.atlas-toolbar::-webkit-scrollbar {
-  display: none;
-}
-
-.toolbar-group {
-  display: flex;
-  align-items: center;
-  gap: 0.24rem;
-}
-
-.toolbar-sep {
-  inline-size: 1px;
-  block-size: 1.2rem;
-  border-inline-start: 1px solid var(--atlas-border);
-  margin-inline: 0.12rem;
-  flex: 0 0 auto;
-}
-
-.tool-btn, .pill-btn, .tour-nav-btn, .icon-close-btn {
-  appearance: none;
-  min-inline-size: 28px;
-  min-block-size: 28px;
-  padding: 0.24rem 0.56rem;
-  border-radius: 0.45rem;
-  border: 1px solid var(--atlas-control-border);
-  background: var(--atlas-control-bg);
-  color: var(--atlas-text);
-  font-size: 0.76rem;
-  font-weight: 600;
-  line-height: 1.1;
-  cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .tool-btn, .pill-btn, .tour-nav-btn, .icon-close-btn {
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  }
-}
-
-.tool-btn[aria-pressed="true"], .pill-btn[aria-pressed="true"] {
-  background: var(--atlas-pressed-bg);
-  color: var(--atlas-pressed-text);
-  border-color: var(--atlas-gold-strong);
-}
-
-.pill-btn--accent {
-  background: rgba(37, 196, 203, 0.24);
-  border-color: rgba(88, 224, 230, 0.78);
-  color: #cffaff;
-}
-
-@media (any-hover: hover) and (any-pointer: fine) {
-  .tool-btn:hover:not([aria-pressed="true"]),
-  .pill-btn:hover:not([aria-pressed="true"]),
-  .tour-nav-btn:hover,
-  .icon-close-btn:hover,
-  .era-pill-btn:hover:not([aria-pressed="true"]),
-  .landmark-item-btn:hover {
-    background: var(--atlas-control-hover);
-    border-color: var(--atlas-gold-strong);
-  }
-}
-
-.utility-cluster {
-  display: flex;
-  align-items: center;
-  gap: 0.34rem;
-  flex: 0 0 auto;
-}
-
-.time-control {
-  display: flex;
-  align-items: center;
-  gap: 0.32rem;
-  padding: 0.10rem 0.44rem;
-  border-radius: 0.5rem;
-  background: var(--atlas-control-bg);
-  border: 1px solid var(--atlas-control-border);
-}
-
-.time-label {
-  font-size: 0.72rem;
-  color: var(--atlas-muted);
-  font-weight: 600;
-}
-
-.time-readout {
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--atlas-gold);
-  font-weight: 600;
-  min-inline-size: 2.4rem;
-  text-align: end;
-}
-
-#time-slider {
-  --slider-track-size: 0.38rem;
-  --slider-thumb-size: 0.96rem;
-  --slider-track-radius: 999px;
-  --slider-thumb-radius: 50%;
-  --slider-track-color: rgba(255, 246, 230, 0.44);
-  --slider-fill-color: #eab854;
-  --slider-thumb-color: #ffd97d;
-  --slider-direction: to right;
-  --attr-min: 0;
-  --attr-max: 24;
-  --control-value: 15.75;
-  --slider-progress: calc((var(--control-value) - var(--attr-min)) / (var(--attr-max) - var(--attr-min)) * 100%);
-  appearance: none;
-  inline-size: 4.8rem;
-  block-size: 28px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-#time-slider:dir(rtl) { --slider-direction: to left; }
-
-#time-slider::-webkit-slider-runnable-track {
-  block-size: var(--slider-track-size);
-  border: 0;
-  border-radius: var(--slider-track-radius);
-  background: linear-gradient(var(--slider-direction), var(--slider-fill-color) var(--slider-progress), var(--slider-track-color) var(--slider-progress));
-}
-
-#time-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  inline-size: var(--slider-thumb-size);
-  block-size: var(--slider-thumb-size);
-  margin-block-start: calc((var(--slider-track-size) - var(--slider-thumb-size)) / 2);
-  border: 1.5px solid #1b1610;
-  border-radius: var(--slider-thumb-radius);
-  background: var(--slider-thumb-color);
-}
-
-#time-slider::-moz-range-track {
-  block-size: var(--slider-track-size);
-  border: 0;
-  border-radius: var(--slider-track-radius);
-  background: var(--slider-track-color);
-}
-
-#time-slider::-moz-range-progress {
-  block-size: var(--slider-track-size);
-  border-radius: var(--slider-track-radius);
-  background: var(--slider-fill-color);
-}
-
-#time-slider::-moz-range-thumb {
-  inline-size: var(--slider-thumb-size);
-  block-size: var(--slider-thumb-size);
-  border: 1.5px solid #1b1610;
-  border-radius: var(--slider-thumb-radius);
-  background: var(--slider-thumb-color);
-}
-
-#time-slider:focus-visible {
-  outline: 2px solid var(--atlas-focus);
-  outline-offset: 3px;
-}
-
-/* Touch / coarse pointer 44x44 minimum hit targets (MWG form-factor-adaptation) */
-@media (pointer: coarse) {
-  .tool-btn, .pill-btn, .tour-nav-btn, .icon-close-btn, .era-pill-btn {
-    min-inline-size: 44px;
-    min-block-size: 44px;
-    padding-inline: 0.56rem;
-  }
-  #time-slider {
-    block-size: 44px;
-    --slider-thumb-size: 1.12rem;
-  }
-  .time-control {
-    padding-block: 0;
-  }
-  .landmark-pin::after {
-    content: "";
-    position: absolute;
-    inset: -9px -6px;
-  }
-}
-
-.viewport-stage {
-  position: relative;
-  flex: 1 1 auto;
-  min-block-size: 0;
-  overflow: clip;
-  content-visibility: auto;
-  contain-intrinsic-size: auto none auto 600px;
-}
-
-.canvas-host {
-  position: absolute;
-  inset: 0;
-}
-
-.canvas-host canvas {
-  display: block;
-  inline-size: 100%;
-  block-size: 100%;
-  touch-action: none;
-}
-
-.pin-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: clip;
-}
-
-.landmark-pin {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  transform: translate(-50%, -100%);
-  pointer-events: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.26rem;
-  min-inline-size: 24px;
-  min-block-size: 24px;
-  padding: 0.15rem 0.46rem;
-  white-space: nowrap;
-  border-radius: 999px;
-  border: 1px solid rgba(242, 200, 108, 0.78);
-  background: rgba(24, 16, 11, 0.90);
-  color: #fbf6ee;
-  font-size: 0.69rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.56);
-}
-
-.landmark-pin__dot {
-  inline-size: 0.40rem;
-  block-size: 0.40rem;
-  border-radius: 50%;
-  background: var(--atlas-gold);
-  flex: 0 0 auto;
-}
-
-.landmark-pin.is-selected {
-  background: var(--atlas-pressed-bg);
-  color: var(--atlas-pressed-text);
-  border-color: var(--atlas-gold-strong);
-}
-
-.landmark-pin.is-selected .landmark-pin__dot {
-  background: var(--atlas-pressed-text);
-}
-
-.lens-legend {
-  position: absolute;
-  inset-block-start: 0.65rem;
-  inset-inline-start: 0.75rem;
-  z-index: 14;
-  padding: 0.48rem 0.68rem;
-  border-radius: 0.65rem;
-  background: var(--atlas-surface);
-  border: 1px solid var(--atlas-border);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.34);
-  max-inline-size: min(18.5rem, calc(100vw - 1.5rem));
-}
-
-.lens-legend__title {
-  margin: 0 0 0.34rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--atlas-gold);
-}
-
-.lens-legend__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.22rem;
-}
-
-.lens-legend__item {
-  display: flex;
-  align-items: center;
-  gap: 0.42rem;
-  font-size: 0.72rem;
-  color: var(--atlas-text);
-  line-height: 1.2;
-}
-
-.lens-legend__swatch {
-  inline-size: 0.66rem;
-  block-size: 0.66rem;
-  border-radius: 0.2rem;
-  border: 1px solid rgba(128, 128, 128, 0.55);
-  flex: 0 0 auto;
-}
-
-.era-filter-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.28rem;
-}
-
-.era-pill-btn {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.32rem;
-  min-inline-size: 24px;
-  min-block-size: 28px;
-  padding: 0.18rem 0.48rem;
-  border-radius: 999px;
-  border: 1px solid var(--atlas-control-border);
-  background: var(--atlas-control-bg);
-  color: var(--atlas-text);
-  font-size: 0.70rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.era-pill-btn[aria-pressed="true"] {
-  background: var(--atlas-pressed-bg);
-  border-color: var(--atlas-gold-strong);
-  color: var(--atlas-pressed-text);
-}
-
-.tour-bar {
-  position: absolute;
-  inset-block-end: 0.68rem;
-  inset-inline-start: 50%;
-  transform: translate(-50%);
-  display: flex;
-  align-items: center;
-  gap: 0.48rem;
-  padding: 0.28rem 0.46rem;
-  border-radius: 999px;
-  background: var(--atlas-surface);
-  border: 1px solid var(--atlas-border);
-  backdrop-filter: blur(10px);
-  z-index: 12;
-  max-inline-size: calc(100% - 1.2rem);
-}
-
-.tour-current-label {
-  font-size: 0.77rem;
-  font-weight: 600;
-  color: var(--atlas-text);
-  padding-inline: 0.32rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-inline-size: 16rem;
-}
-
-.inspector-card {
-  position: absolute;
-  inset-block-start: 3.65rem;
-  inset-inline-end: 0.85rem;
-  inline-size: min(21.5rem, calc(100% - 1.7rem));
-  max-block-size: calc(100% - 7.2rem);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0.9rem 1rem;
-  border-radius: 0.85rem;
-  background: var(--atlas-surface);
-  border: 1px solid var(--atlas-border);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
-  z-index: 18;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .inspector-card { animation: inspector-enter 0.2s ease-out; }
-}
-
-@keyframes inspector-enter {
-  0% { opacity: 0; translate: 0 8px; }
-  100% { opacity: 1; translate: 0 0; }
-}
-
-.inspector-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.inspector-kicker {
-  margin: 0;
-  font-size: 0.69rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--atlas-turquoise);
-  font-weight: 700;
-}
-
-.inspector-title {
-  margin: 0.15rem 0 0;
-  font-size: 1.02rem;
-  line-height: 1.25;
-  text-wrap: balance;
-}
-
-.inspector-fa {
-  margin: 0.18rem 0 0;
-  inline-size: fit-content;
-  font-size: 0.95rem;
-  color: var(--atlas-gold);
-  font-weight: 700;
-}
-
-.inspector-badge {
-  display: inline-block;
-  margin: 0.48rem 0 0.38rem;
-  padding: 0.16rem 0.48rem;
-  border-radius: 0.35rem;
-  background: rgba(234, 184, 84, 0.16);
-  border: 1px solid rgba(234, 184, 84, 0.45);
-  color: #f8da8f;
-  font-size: 0.72rem;
-  font-weight: 600;
-}
-
-.inspector-body, .inspector-arch {
-  margin: 0.4rem 0;
-  font-size: 0.81rem;
-  line-height: 1.46;
-  color: var(--atlas-body-text);
-  text-wrap: pretty;
-}
-
-.inspector-details {
-  margin-block-start: 0.5rem;
-  border-block-start: 1px solid var(--atlas-border);
-  padding-block-start: 0.42rem;
-}
-
-.inspector-details summary {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--atlas-gold);
-  cursor: pointer;
-}
-
-.inspector-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin: 0.5rem 0 0;
-  padding: 0.42rem 0.55rem;
-  border-radius: 0.5rem;
-  background: var(--atlas-control-bg);
-}
-
-.inspector-meta dt {
-  font-size: 0.68rem;
-  color: var(--atlas-muted);
-}
-
-.inspector-meta dd {
-  margin: 0.1rem 0 0;
-  font-size: 0.76rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Modal <dialog> Styling for both 20-Sites Directory & Help Modal */
-.landmarks-dialog, .help-dialog {
-  inline-size: min(46rem, calc(100vw - 1.5rem));
-  max-block-size: min(90dvh, 44rem);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0.85rem 1.05rem;
-  border-radius: 0.9rem;
-  border: 1px solid var(--atlas-border);
-  background: var(--atlas-surface-solid);
-  color: var(--atlas-text);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.58);
-}
-
-.help-dialog {
-  inline-size: min(38rem, calc(100vw - 1.5rem));
-  padding: 1rem 1.15rem;
-}
-
-.help-dialog::backdrop, .landmarks-dialog::backdrop {
-  background: rgba(10, 7, 5, 0.62);
-  backdrop-filter: blur(3px);
-}
-
-.popover-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-block-end: 0.55rem;
-}
-
-.popover-head form {
-  margin: 0;
-}
-
-.popover-head h2 {
-  margin: 0;
-  font-size: 1.0rem;
-}
-
-.landmarks-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.38rem;
-}
-
-@media (max-width: 580px) {
-  .landmarks-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.landmark-item-btn {
-  inline-size: 100%;
-  text-align: start;
-  padding: 0.38rem 0.60rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--atlas-control-border);
-  background: var(--atlas-control-bg);
-  color: var(--atlas-text);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 0.08rem;
-}
-
-.landmark-item-btn[aria-current="location"] {
-  border-color: var(--atlas-gold-strong);
-  background: rgba(234, 184, 84, 0.22);
-}
-
-.landmark-item-btn__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.4rem;
-  font-size: 0.80rem;
-  font-weight: 700;
-}
-
-.landmark-item-btn__fa {
-  color: var(--atlas-gold);
-  font-size: 0.78rem;
-}
-
-.landmark-item-btn__sub {
-  font-size: 0.69rem;
-  color: var(--atlas-muted);
-}
-
-.help-content p, .help-content li {
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: var(--atlas-body-text);
-}
-
-.help-content h3 {
-  font-size: 0.9rem;
-  margin: 0.85rem 0 0.35rem;
-  color: var(--atlas-gold);
-}
-
-.help-content kbd {
-  padding: 0.1rem 0.35rem;
-  border-radius: 0.25rem;
-  background: var(--atlas-control-bg);
-  border: 1px solid var(--atlas-control-border);
-  font-size: 0.75rem;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-block-start: 0.9rem;
-}
-
-@media (forced-colors: active) {
-  .tool-btn[aria-pressed="true"],
-  .pill-btn[aria-pressed="true"],
-  .era-pill-btn[aria-pressed="true"] {
-    background: Highlight;
-    color: HighlightText;
-  }
-  .toolbar-sep {
-    border-color: ButtonText;
-  }
-}
-
-/* Container queries adapt cleanly whether standalone mobile or narrow embedded blog column */
-@container atlas (max-width: 1180px) {
-  .brand-subtitle { display: none; }
-}
-
-@container atlas (max-width: 880px) {
-  .top-bar {
-    flex-wrap: wrap;
-    padding: 0.28rem 0.48rem;
-    gap: 0.26rem 0.32rem;
-  }
-  .brand-subtitle { display: none; }
-  .time-label {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    clip-path: inset(50%);
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .brand-title { font-size: 0.86rem; gap: 0.28rem; }
-  .brand-fa { font-size: 0.84rem; }
-  .utility-cluster { gap: 0.24rem; margin-inline-start: auto; }
-  .time-control { padding: 0.04rem 0.30rem; gap: 0.22rem; }
-  #time-slider { inline-size: 2.9rem; }
-  .time-readout { font-size: 0.68rem; min-inline-size: 2.1rem; }
-  .tool-btn, .pill-btn, .tour-nav-btn, .icon-close-btn {
-    padding: 0.18rem 0.42rem;
-    font-size: 0.72rem;
-  }
-  .atlas-toolbar {
-    order: 3;
-    inline-size: 100%;
-    padding-block-start: 0.06rem;
-    gap: 0.22rem;
-    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 14px), transparent 100%);
-  }
-  .lens-legend {
-    inset-block-start: 0.45rem;
-    inset-inline-start: 0.45rem;
-    padding: 0.36rem 0.52rem;
-  }
-  .tour-bar {
-    inset-block-end: 0.50rem;
-    padding: 0.20rem 0.38rem;
-  }
-  .tour-current-label {
-    max-inline-size: 11.5rem;
-    font-size: 0.72rem;
-  }
-  .inspector-card {
-    inset-block-start: auto;
-    inset-block-end: 4.15rem;
-    inset-inline: 0.5rem;
-    inline-size: auto;
-    max-block-size: min(34dvh, calc(100% - 8.5rem));
-    padding: 0.66rem 0.80rem;
-  }
-  .inspector-body {
-    font-size: 0.76rem;
-    line-height: 1.38;
-    margin: 0.28rem 0;
-  }
-}
-
-/* Portrait phone (< 480px): keep #maximize-btn visible & fit header strictly in 2 crisp rows! */
-@container atlas (max-width: 480px) {
-  .top-bar { padding: 0.24rem 0.36rem; gap: 0.20rem 0.22rem; }
-  .brand-fa, .time-readout { display: none; }
-  .brand-title { font-size: 0.80rem; }
-  #time-slider { inline-size: 2.2rem; }
-  .utility-cluster { gap: 0.18rem; }
-  .utility-cluster .pill-btn { padding-inline: 0.38rem; font-size: 0.69rem; }
-  .atlas-toolbar { gap: 0.18rem; padding-inline-end: 0.75rem; }
-  .toolbar-group { gap: 0.16rem; }
-  .toolbar-sep { margin-inline: 0.04rem; }
-  .atlas-toolbar .tool-btn { padding-inline: 0.42rem; font-size: 0.70rem; }
-}
-
-/* Short Landscape (e.g. 740x420 phone landscape): full-width stage, 1-row top-bar & right-docked inspector! */
-@media (max-height: 520px) and (orientation: landscape) {
-  html.is-embedded .atlas-app {
-    inline-size: 100%;
-    border-radius: 0;
-    border-inline: 0;
-  }
-  .top-bar {
-    flex-wrap: nowrap !important;
-    padding: 0.16rem 0.42rem !important;
-    gap: 0.24rem !important;
-  }
-  .brand-subtitle, .brand-fa, .time-label, .time-readout {
-    display: none !important;
-  }
-  .brand-title {
-    font-size: 0.78rem !important;
-  }
-  .atlas-toolbar {
-    order: 0 !important;
-    inline-size: auto !important;
-    flex: 1 1 auto;
-    padding-block-start: 0 !important;
-    gap: 0.16rem !important;
-  }
-  .utility-cluster {
-    margin-inline-start: 0 !important;
-    gap: 0.18rem !important;
-  }
-  #time-slider {
-    inline-size: 2.3rem !important;
-    block-size: 32px !important;
-  }
-  .tool-btn, .pill-btn, .tour-nav-btn, .icon-close-btn {
-    min-inline-size: 32px;
-    min-block-size: 32px;
-    padding: 0.12rem 0.36rem !important;
-    font-size: 0.68rem !important;
-  }
-  .tour-bar {
-    inset-block-end: 0.34rem !important;
-    padding: 0.14rem 0.36rem !important;
-  }
-  .lens-legend {
-    max-block-size: calc(100% - 3.2rem);
-    overflow-y: auto;
-  }
-  .inspector-card {
-    inset-block-start: 2.65rem !important;
-    inset-block-end: 0.45rem !important;
-    inset-inline: auto 0.45rem !important;
-    inline-size: min(17.5rem, 42vw) !important;
-    max-block-size: calc(100% - 3.1rem) !important;
-    padding: 0.55rem 0.70rem !important;
-  }
-}
-
-@media (pointer: coarse) and (max-height: 520px) and (orientation: landscape) {
-  .tool-btn, .pill-btn {
-    position: relative;
-  }
-  .tool-btn::after, .pill-btn::after {
-    content: "";
-    position: absolute;
-    inset-block: -6px;
-    inset-inline: -3px;
-  }
-  .tour-nav-btn, .icon-close-btn {
-    min-inline-size: 44px;
-    min-block-size: 44px;
-  }
-  #time-slider {
-    block-size: 44px !important;
-  }
-}
+/* Layout shared with the other voxel maps: one full-viewport diorama; the panel docks top-left, the place card
+   bottom-left, camera buttons bottom-right, labels float over the scene. Colours and type are this atlas's own. */
+:root{
+  --sky:#17100b; --panel:rgba(28,19,13,.92); --ink:#fbf4ea; --muted:#dccbb4; --line:rgba(238,204,144,.45);
+  --accent:#eab854; --on-accent:#17120c; --turquoise:#25c4cb;
+  --bronze-elam:#ed8f38; --imperial:#c98af7; --seljuk-timurid:#4cc3f3; --safavid-modern:#29dbbe; --vernacular-nature:#f2c742;
+  --map-ink:#fbf4ea; --map-halo:rgba(14,9,6,.92);
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--sky);color:var(--ink);font:14px/1.45 var(--body);overflow:hidden;-webkit-font-smoothing:antialiased}
+#app{position:relative;height:100%;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#c:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.lb{position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;padding:3px 8px 3px 6px;border:1px solid var(--line);border-radius:3px;
+  background:var(--panel);color:var(--ink);font:500 12px/1.3 var(--body);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.lb::after{content:"";position:absolute;left:var(--lx,50%);top:100%;width:1px;height:9px;background:var(--map-ink);opacity:.6}
+.lb.on::after,.lb.hov::after{height:var(--lh,9px);width:2px;margin-left:-1px;opacity:.85}
+.lb i{width:8px;height:8px;background:var(--c);flex:none}
+.lb.hov{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 1px 3px rgba(0,0,0,.4)}
+/* tour stops carry their number on the map */
+.lb[data-stop]::before{content:attr(data-stop);display:inline-grid;place-items:center;min-width:15px;height:15px;margin-right:-1px;border-radius:8px;background:var(--ink);color:var(--sky);font:700 10px/1 var(--body)}
+/* each category has its own shape as well as its own colour */
+[data-c=seljuk-timurid] i{border-radius:50%}
+[data-c=imperial] i{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+[data-c=safavid-modern] i{clip-path:polygon(0 0,100% 0,100% 55%,50% 100%,0 55%)}
+[data-c=vernacular-nature] i{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.lb{z-index:2}.area{z-index:1}
+.lb.on{background:var(--ink);color:var(--sky);border-color:var(--ink)}
+.area{position:absolute;left:0;top:0;white-space:nowrap}
+.dot{position:absolute;left:0;top:0;width:11px;height:11px;margin:-1px 0 0 -1px;box-sizing:border-box;border-radius:50%;background:var(--c);border:1.5px solid var(--map-halo);box-shadow:0 0 0 1px var(--map-ink)}
+.dot:not(.many)[data-c=bronze-elam]{border-radius:2px}
+.dot:not(.many)[data-c=imperial],.dot:not(.many)[data-c=safavid-modern],.dot:not(.many)[data-c=vernacular-nature]{background:none;border-color:transparent;box-shadow:none;border-radius:0}
+.dot:not(.many)[data-c=imperial]::before,.dot:not(.many)[data-c=safavid-modern]::before,.dot:not(.many)[data-c=vernacular-nature]::before{content:"";position:absolute;inset:-2px;background:var(--c);filter:drop-shadow(0 0 1px var(--map-halo))}
+.dot:not(.many)[data-c=imperial]::before{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.dot:not(.many)[data-c=safavid-modern]::before{clip-path:polygon(0 0,100% 0,100% 55%,50% 100%,0 55%)}
+.dot:not(.many)[data-c=vernacular-nature]::before{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.dot{padding:0;appearance:none;-webkit-appearance:none;pointer-events:none;cursor:pointer}
+.dot.many{width:20px;height:20px;margin:-6px 0 0 -6px;border-radius:3px;background:var(--ink);border-color:var(--sky);font:700 10.5px/17px var(--body);color:var(--sky);text-align:center;font-variant-numeric:tabular-nums}
+.lb,.area,.dot{transition:opacity .16s,visibility .16s}
+#labels.snap *{transition:none!important}
+.area.off{transition:none}
+.off{opacity:0!important;visibility:hidden}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.area{font:700 11.5px/1 var(--display);letter-spacing:.12em;color:var(--map-ink);
+  text-shadow:0 0 2px var(--map-halo),0 0 3px var(--map-halo),0 0 5px var(--map-halo),0 1px 6px var(--map-halo)}
+.area{background:color-mix(in srgb,var(--map-halo) 55%,transparent);padding:2px 4px;border-radius:2px}
+.area.water{background:none;font-style:italic;opacity:.9}
+.hud{position:absolute;z-index:2;background:var(--panel);border:1px solid var(--line);border-radius:4px;backdrop-filter:blur(6px);box-sizing:border-box}
+#top{top:calc(12px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));width:min(330px,calc(100% - 32px));
+  max-height:calc(100% - 24px);overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+#head{display:flex;align-items:center;justify-content:space-between;gap:8px;position:sticky;top:-12px;z-index:1;margin:-12px -14px 0;padding:12px 14px 4px;background:var(--panel)}
+h1{margin:0;font:700 22px/1 var(--display);letter-spacing:.04em}
+h1 b{color:var(--accent);font-weight:700;letter-spacing:0}
+#body{display:flex;flex-direction:column;gap:10px}
+#top.shut #body{display:none}
+.sub{margin:0;color:var(--muted);font-size:12.5px}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;color:inherit}
+.chip{display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:3px;background:transparent;cursor:pointer;font-size:12px}
+.chip i{width:9px;height:9px;background:var(--c)}
+.chip b{font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="false"]{opacity:.8;text-decoration:line-through}
+.jump{padding:5px 8px;border:1px solid var(--line);border-radius:3px;background:transparent;cursor:pointer;font:600 11px/1.4 var(--display);letter-spacing:.06em;text-transform:uppercase}
+.jump:hover,.chip:hover,#nav button:hover{border-color:var(--ink)}
+/* atlas controls housed in the panel: map lenses, and the sun, pause and label switches */
+#lenses .jump[aria-pressed="true"],#sun .jump[aria-pressed="true"]{background:var(--ink);color:var(--sky);border-color:var(--ink)}
+#sun{align-items:center}
+#sun label{font:600 11px/1.4 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#time{flex:1 1 70px;min-width:60px;height:22px;margin:0;accent-color:var(--accent);cursor:pointer}
+#timeo{min-width:38px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#find{width:100%;margin:2px 0 6px;box-sizing:border-box;padding:6px 8px;border:1px solid var(--line);border-radius:3px;background:transparent;color:var(--ink);font:inherit}
+#pill{order:9;align-self:flex-start;padding:4px 9px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--sky);font:600 12px/1.3 var(--body);cursor:pointer}
+#find::placeholder{color:var(--muted);opacity:1}
+.leg{margin:0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px 6px;flex-wrap:wrap}
+.leg br{flex-basis:100%;content:'';display:block}.leg .lr{width:18px;height:3px;margin-left:2px}
+.leg .sw{width:9px;height:9px;border-radius:2px;margin-left:2px}
+.leg .nw{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.leg .ld{width:9px;height:9px;border-radius:50%;background:var(--muted);border:1.5px solid var(--sky);box-shadow:0 0 0 1px var(--ink)}
+.leg .lm{margin-left:8px;width:18px;height:18px;border-radius:3px;background:var(--ink);color:var(--sky);font:700 10.5px/18px var(--body);text-align:center;font-style:normal}
+#list mark{background:none;color:var(--ink);font-weight:700;font-style:normal}
+#list{overflow-x:hidden}#list button.hassnip{flex-wrap:wrap}#list button .snip{flex-basis:100%;margin-left:16px;text-align:left;white-space:normal;font-style:italic}
+#cnt{margin:4px 0 0;font-size:12px;color:var(--muted)}#cnt:empty{display:none}
+#list{max-height:min(48vh,520px);overflow:auto;display:flex;flex-direction:column;margin:6px -6px 0}
+#list button{display:flex;align-items:baseline;gap:8px;text-align:left;padding:5px 6px;border:0;background:transparent;cursor:pointer;border-radius:3px}
+#list button:hover{background:rgba(238,204,144,.18)}
+#list i{width:8px;height:8px;background:var(--c);flex:none}
+#list span{color:var(--muted);font-size:12px;margin-left:auto;padding-left:8px;white-space:nowrap}
+#card{left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100% - 32px));padding:14px 16px;display:flex;flex-direction:column;gap:5px;max-height:calc(100% - 150px);overflow:auto}
+#card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#card.side{left:calc(max(16px,env(safe-area-inset-left,0px)) + 342px)}
+#card .tag{font:600 10.5px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+#card h2{margin:0;font:600 18px/1.25 var(--body);text-wrap:balance;padding-right:30px}
+#card .fa{font-size:15px;line-height:1.5;color:var(--accent);text-align:left}
+#card .where{color:var(--muted);font-size:12.5px}
+#card .geo{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+#card p{margin:3px 0 0}
+#cmore{margin-top:4px;font-size:12.5px;color:var(--muted)}
+#cmore summary{cursor:pointer;font:600 10.5px/1.6 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-radius:3px}
+#cmore summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#cmore .geo{margin-top:4px}
+#copy{margin-left:auto}
+#links{display:flex;gap:14px}
+#near{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)}
+#near button{padding:3px 7px;border:1px solid var(--line);border-radius:3px;background:transparent;color:var(--ink);font:500 12px/1.3 var(--body);cursor:pointer}
+#near button:hover{border-color:var(--ink)}
+#cwiki,#clink{display:inline-block;margin-top:6px;font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+#clink:hover,#cwiki:hover{color:var(--ink)}
+#step{margin-top:6px;align-items:center;flex-wrap:wrap}
+#pos{white-space:nowrap;flex:0 0 auto}
+h1{white-space:nowrap}
+#prev:disabled{opacity:.4;cursor:default}
+#step .jump{padding:5px 7px;letter-spacing:.02em;white-space:nowrap}
+@media (max-width:480px){#nav{flex-wrap:nowrap}#nav button{width:44px!important;height:44px!important}#rl,#rr{display:none!important}}
+#pos{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;margin-left:4px}
+#list button.cur{background:rgba(238,204,144,.22);font-weight:600}
+#close{position:absolute;top:6px;right:6px;width:32px;height:32px;border:0;background:transparent;cursor:pointer;font-size:20px;line-height:1;color:var(--muted)}
+#nav{right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));padding:5px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 32px)}
+#tilt{font-size:11px!important}#help{font:700 16px/1 var(--body)!important}
+#nav button{display:grid;place-items:center;padding:0;width:34px;height:34px;border:1px solid var(--line);border-radius:3px;background:transparent;cursor:pointer;font:700 15px/1 var(--display)}
+#hint{right:max(16px,env(safe-area-inset-right,0px));bottom:calc(78px + env(safe-area-inset-bottom,0px));padding:6px 10px;color:var(--muted);font-size:12px;max-width:min(300px,calc(100% - 32px));z-index:3;transition:opacity .6s,visibility 0s}
+#keys{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0}#keys dt{font:600 11px/1.5 var(--body);color:var(--ink);white-space:nowrap}#keys dd{margin:0}
+#hint.gone{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .6s,visibility 0s .6s}
+#tourh{margin-top:6px;display:block;pointer-events:auto}
+#tourb,#tourh,#tourm{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+#load{left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 16px;font:700 13px/1 var(--display);letter-spacing:.06em}
+#fail{background:var(--sky);position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;z-index:3}
+@media (pointer:coarse){h1{font-size:18px}#step .jump{padding:11px 10px}#near button{padding:12px 10px}#cwiki,#clink{padding:13px 0}#cmore summary{padding:9px 0}.lb{padding:7px 10px 7px 8px}.chip,.jump{padding:11px 12px}#close{width:40px;height:40px}#nav button{width:44px;height:44px}#find{font-size:16px}#list button{padding:11px 8px}#time{height:44px}}
+#top.shut{width:auto;max-width:calc(100% - 32px)}#head{flex-wrap:wrap}
+#full{display:grid;place-items:center;padding:0;width:30px;height:28px;flex:none}#full[hidden]{display:none}
+@media (pointer:coarse){#full{width:40px;height:40px}}
+/* framed by a host page: the host tells us how tall to be */
+html.is-embedded,html.is-embedded body{height:var(--embed-height,680px)}
+.bare .hud{display:none!important}
+#sbtn,#tourm{display:none;white-space:nowrap}
+#top.shut #tourm{display:block}
+#top.shut #sbtn{display:block;margin-left:auto}
+@media (max-width:640px){#top{width:calc(100% - 32px)}#head{gap:5px}h1{font-size:15px!important}#head .jump{padding-inline:8px;letter-spacing:0}#sbtn{display:block;margin-left:auto}
+  #top{padding:9px 12px;gap:8px;max-height:72%} #head{top:-9px;margin:-9px -12px 0;padding:9px 12px 4px} .sub{display:none}
+  #list{max-height:none} #top.listing #chips,#top.listing #jumps,#top.listing #lenses,#top.listing #lensleg,#top.listing #leg,#top.listing #sun{display:none} #top.listing{max-height:84%}
+  #card{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  #hint{bottom:calc(72px + env(safe-area-inset-bottom,0px));left:max(16px,env(safe-area-inset-left,0px));right:auto}
+}
+@media (prefers-reduced-motion: reduce){#hint,.lb,.area,.dot{transition:none}}
+@media (forced-colors: active){.lb.on,.jump[aria-pressed="true"]{outline:2px solid Highlight}}
 </style>
 </head>
-<body class="atlas-app">
-  <a href="#atlas-canvas" target="_self" class="skip-link visually-hidden">Skip to 3D map canvas</a>
+<body>
+<div id="app">
+  <canvas id="c" tabindex="0" role="application" aria-label="3D voxel map of Iran. Arrow keys move, plus and minus zoom, Q and E rotate."></canvas>
 
-  <header class="top-bar">
-    <div class="brand-cluster">
-      <h1 class="brand-title">
-        <span>Iran</span>
-        <span class="brand-subtitle">3D Voxel Atlas</span>
-        <span class="brand-fa" lang="fa" dir="rtl">ایران</span>
-      </h1>
+  <section class="hud shut" id="top" aria-label="Iran 3D Voxel Atlas: search, filters and tour">
+    <div id="head">
+      <h1>IRAN <b lang="fa" dir="rtl">ایران</b></h1>
+      <button class="jump" id="full" hidden aria-label="Full screen" title="Full screen" aria-pressed="false"></button>
+      <button class="jump" id="tourm">Tour</button>
+      <button class="jump" id="sbtn" aria-label="Search places">Search</button>
+      <button class="jump" id="menu" aria-expanded="false" aria-controls="body">Menu</button>
     </div>
-
-    <div
-      id="atlas-toolbar"
-      class="atlas-toolbar"
-      role="toolbar"
-      aria-label="Map view lenses and scene controls"
-      aria-controls="viewport-stage"
-      focusgroup="toolbar wrap"
-    >
-      <div role="group" aria-label="Cartographic Lenses" class="toolbar-group">
-        <button type="button" class="tool-btn" data-lens="natural" aria-pressed="true" tabindex="0">Natural</button>
-        <button type="button" class="tool-btn" data-lens="hydrology" aria-pressed="false">Hydrology</button>
-        <button type="button" class="tool-btn" data-lens="elevation" aria-pressed="false">Elevation</button>
-        <button type="button" class="tool-btn" data-lens="heritage" aria-pressed="false">Heritage</button>
+    <button id="pill" hidden></button>
+    <div id="body">
+      <p class="sub">Iran in voxels: seas, ranges, salt lakes, qanats and 20 hand-built landmarks. Heights are exaggerated and landmarks are drawn oversized.</p>
+      <div class="row" id="lenses" role="group" aria-label="Map lens">
+        <button class="jump" data-lens="natural" aria-pressed="true">Natural</button>
+        <button class="jump" data-lens="hydrology" aria-pressed="false">Hydrology</button>
+        <button class="jump" data-lens="elevation" aria-pressed="false">Elevation</button>
+        <button class="jump" data-lens="heritage" aria-pressed="false">Heritage</button>
       </div>
-
-      <span role="separator" aria-orientation="vertical" class="toolbar-sep"></span>
-
-      <div role="group" aria-label="Map Overlays and Camera" class="toolbar-group">
-        <button type="button" id="toggle-labels-btn" class="tool-btn" aria-pressed="true">Labels</button>
-        <button type="button" id="reset-overview-btn" class="tool-btn">Overview</button>
+      <p class="leg" id="lensleg" hidden></p>
+      <div class="row" id="chips" role="group" aria-label="Show or hide categories"></div>
+      <p class="leg" id="leg"><i class="ld"></i>unlabelled place <i class="lm">5</i>several: click to zoom in</p>
+      <div class="row" id="sun" role="group" aria-label="Sun, motion and labels">
+        <label for="time">Sun</label>
+        <input id="time" type="range" min="0" max="24" step="0.25" value="15.75">
+        <output id="timeo" for="time">15:45</output>
+        <button class="jump" id="pause" aria-pressed="false" aria-label="Pause scene motion">Pause</button>
+        <button class="jump" id="lbl" aria-pressed="true" aria-label="Show labels on the map">Labels</button>
+      </div>
+      <div class="row" id="jumps" role="group" aria-label="Jump to a region"></div>
+      <input id="find" type="search" placeholder="Search 20 places" aria-label="Search places" autocomplete="off">
+      <div class="row"><button class="jump" id="toggle" aria-expanded="false" aria-controls="places">Browse all places</button><button class="jump" id="tourb">Take the tour</button><button class="jump" id="tourx" hidden>End the tour</button></div>
+      <div id="places" hidden>
+        <p id="cnt" aria-hidden="true"></p>
+        <div id="list"></div>
       </div>
     </div>
+  </section>
 
-    <div class="utility-cluster">
-      <div class="time-control">
-        <label for="time-slider" class="time-label">Sun</label>
-        <input
-          type="range"
-          id="time-slider"
-          min="0"
-          max="24"
-          step="0.25"
-          value="15.75"
-        />
-        <output id="time-readout" for="time-slider" class="time-readout">15:45</output>
-      </div>
+  <div class="hud" id="nav" role="group" aria-label="Camera">
+    <button id="zin" aria-label="Zoom in" title="Zoom in">+</button>
+    <button id="zout" aria-label="Zoom out" title="Zoom out">&minus;</button>
+    <button id="rl" aria-label="Rotate left" title="Rotate left"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M3 4v5h5"/></svg></button>
+    <button id="rr" aria-label="Rotate right" title="Rotate right"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="transform:scaleX(-1)"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M3 4v5h5"/></svg></button>
+    <button id="north" aria-label="Face north" title="Face north"><svg id="nord" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2l5 11H7z" fill="currentColor"/><path d="M7 13l5 9 5-9z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+    <button id="tilt" aria-label="Switch between tilted and top-down view" title="Tilted / top-down">2D</button>
+    <button id="dusk" aria-label="Switch between day and night" title="Day / night" aria-pressed="false"></button>
+    <button id="home" aria-label="Reset the view" title="Reset the view"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></button>
+    <button id="help" aria-controls="hint" aria-label="Show the controls" title="Controls" aria-expanded="true">?</button>
+  </div>
+  <div class="hud" id="hint"><span id="hintt"></span> <button class="jump" id="tourh">Take the tour</button></div>
 
-      <button type="button" id="motion-toggle-btn" class="pill-btn" aria-pressed="false" aria-label="Pause scene motion">Pause</button>
-      <button type="button" id="landmarks-trigger-btn" commandfor="landmarks-drawer" command="show-modal" class="pill-btn pill-btn--accent">
-        20 Sites
-      </button>
-      <button type="button" id="maximize-btn" class="pill-btn" aria-pressed="false" aria-label="Full viewport" title="Full viewport">
-        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
-      </button>
-      <button type="button" id="help-open-btn" commandfor="help-dialog" command="show-modal" class="pill-btn" aria-label="Controls and about" title="Controls and about">
-        <span aria-hidden="true">?</span>
-      </button>
-    </div>
-  </header>
-
-  <main id="viewport-stage" class="viewport-stage">
-    <div id="canvas-host" class="canvas-host"></div>
-
-    <aside id="lens-legend" class="lens-legend" aria-label="Map lens color key" hidden></aside>
-
-    <nav class="tour-bar" aria-label="Guided heritage tour">
-      <button type="button" id="tour-prev-btn" class="tour-nav-btn" aria-label="Previous landmark">‹ Prev</button>
-      <span id="tour-current-label" class="tour-current-label">Full Iran Overview</span>
-      <button type="button" id="tour-next-btn" class="tour-nav-btn" aria-label="Next landmark">Next ›</button>
-    </nav>
-
-    <div id="pin-layer" class="pin-layer" role="group" aria-label="3D Landmark Pins"></div>
-  </main>
-
-  <aside id="landmark-inspector" class="inspector-card" aria-labelledby="inspector-title" hidden>
-    <div class="inspector-header">
-      <div>
-        <p id="inspector-prov" class="inspector-kicker">Tehran Province</p>
-        <h2 id="inspector-title" class="inspector-title">Tehran: Azadi &amp; Golestan</h2>
-        <p id="inspector-fa" class="inspector-fa" lang="fa" dir="rtl">تهران</p>
-      </div>
-      <button type="button" id="inspector-close-btn" class="icon-close-btn" aria-label="Close landmark details">✕</button>
-    </div>
-    <p id="inspector-era" class="inspector-badge">Safavid–Modern</p>
-    <p id="inspector-summary" class="inspector-body"></p>
-    <details id="inspector-details" class="inspector-details" open>
-      <summary>Voxel Architecture &amp; Geography</summary>
-      <p id="inspector-arch" class="inspector-arch"></p>
-      <dl class="inspector-meta">
-        <div>
-          <dt>Coordinates</dt>
-          <dd id="inspector-coords">—</dd>
-        </div>
-        <div>
-          <dt>Elevation</dt>
-          <dd id="inspector-elev">—</dd>
-        </div>
-      </dl>
+  <aside class="hud" id="card" tabindex="-1" aria-labelledby="cname" hidden>
+    <button id="close" aria-label="Close">&times;</button>
+    <div class="tag" id="ctag"></div>
+    <h2 id="cname"></h2>
+    <div class="fa" id="cfa" lang="fa" dir="rtl"></div>
+    <div class="where" id="cwhere"></div>
+    <p id="cdesc"></p>
+    <details id="cmore">
+      <summary>Voxel architecture &amp; geography</summary>
+      <p id="cnote"></p>
+      <div class="geo" id="cgeo"></div>
     </details>
+    <div id="links"><a id="cwiki" target="_blank" rel="noopener">Wikipedia &#8599;</a><a id="clink" target="_blank" rel="noopener">OpenStreetMap &#8599;</a></div>
+    <div id="near" role="group" aria-label="Nearby places"></div>
+    <div class="row" id="step"><button class="jump" id="prev">&lsaquo; Prev</button><button class="jump" id="next">Next &rsaquo;</button><span id="pos"></span><button class="jump" id="copy">Copy link</button></div>
   </aside>
 
-  <dialog id="landmarks-drawer" closedby="any" class="landmarks-dialog" aria-labelledby="drawer-heading">
-    <div class="popover-head">
-      <h2 id="drawer-heading">Explore 20 Iranian Landmarks</h2>
-      <form method="dialog">
-        <button type="submit" value="close" class="icon-close-btn" aria-label="Close sites menu">✕</button>
-      </form>
-    </div>
-    <ul id="landmarks-list" class="landmarks-grid" role="list"></ul>
-  </dialog>
-
-  <dialog id="help-dialog" closedby="any" class="help-dialog" aria-labelledby="help-dialog-title">
-    <div class="popover-head">
-      <h2 id="help-dialog-title">Iran 3D Voxel Atlas</h2>
-      <form method="dialog">
-        <button type="submit" value="close" class="icon-close-btn" aria-label="Close help dialog">✕</button>
-      </form>
-    </div>
-    <div class="help-content">
-      <p>
-        This dual-scale voxel diorama projects Iran’s basin-and-range borders (25.0°N–39.8°N, 44.0°E–63.3°E),
-        the depressed Caspian Sea (−28 m), Persian Gulf, Strait of Hormuz, and Gulf of Oman, folded Zagros and
-        snow-capped Alborz ranges led by 5,610 m Mt. Damavand, six endorheic lakes, subterranean Persian qanats,
-        and 20 hand-crafted 0.25-scale micro-voxel heritage and natural wonders.
-      </p>
-      <h3>Camera &amp; Keyboard Controls</h3>
-      <ul>
-        <li><strong>Orbit / Tilt</strong>: Left-drag on canvas or <kbd>Q</kbd> / <kbd>E</kbd> keys</li>
-        <li><strong>Pan</strong>: Right-drag or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> keys</li>
-        <li><strong>Zoom</strong>: Scroll wheel or <kbd>+</kbd> / <kbd>-</kbd></li>
-        <li><strong>Tour Stops</strong>: <kbd>[</kbd> and <kbd>]</kbd> cycle through all 20 landmarks; <kbd>R</kbd> resets to Overview; <kbd>Esc</kbd> closes cards</li>
-      </ul>
-      <form method="dialog" class="dialog-actions">
-        <button type="submit" value="ok" class="pill-btn pill-btn--accent">Explore Atlas</button>
-      </form>
-    </div>
-  </dialog>
-
-  <p id="live-status" role="status" class="visually-hidden"></p>
+  <div id="labels"></div>
+  <div id="say" class="vh" aria-live="polite"></div>
+  <div id="load" class="hud">Building the atlas…</div>
+  <div id="fail" hidden>This map needs WebGL, and it did not start in this browser.</div>
+</div>
 
   <script type="module">
 (function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))i(r);new MutationObserver(r=>{for(const s of r)if(s.type==="childList")for(const a of s.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&i(a)}).observe(document,{childList:!0,subtree:!0});function e(r){const s={};return r.integrity&&(s.integrity=r.integrity),r.referrerPolicy&&(s.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?s.credentials="include":r.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function i(r){if(r.ep)return;r.ep=!0;const s=e(r);fetch(r.href,s)}})();/**
@@ -4959,69 +4105,6 @@ const THREE = {
   AdditiveBlending: gn
 };
 
-var ss=class extends Event{oldState;newState;constructor(n,{oldState:t="",newState:e="",...i}={}){super(n,i),this.oldState=String(t||""),this.newState=String(e||"")}},zl=new WeakMap;function Ic(n,t,e){zl.set(n,setTimeout(()=>{zl.has(n)&&n.dispatchEvent(new ss("toggle",{cancelable:!1,oldState:t,newState:e}))},0))}var lo=globalThis.ShadowRoot||function(){},yg=globalThis.HTMLDialogElement||function(){},Yr=new WeakMap,vn=new WeakMap,Xe=new WeakMap,Oi=new WeakMap;function Jr(n){return Oi.get(n)||"hidden"}var Qr=new WeakMap;function lr(n){return[...n].pop()}function Eg(n){const t=n.popoverTargetElement;if(!(t instanceof HTMLElement))return;const e=Jr(t);n.popoverTargetAction==="show"&&e==="showing"||n.popoverTargetAction==="hide"&&e==="hidden"||(e==="showing"?ki(t,!0,!0):Jn(t,!1)&&(Qr.set(t,n),Ha(t)))}function Jn(n,t){return!(n.popover!=="auto"&&n.popover!=="manual"&&n.popover!=="hint"||!n.isConnected||t&&Jr(n)!=="showing"||!t&&Jr(n)!=="hidden"||n instanceof yg&&n.hasAttribute("open")||document.fullscreenElement===n)}function kl(n){if(!n)return 0;const t=vn.get(document)||new Set,e=Xe.get(document)||new Set;return e.has(n)?[...e].indexOf(n)+t.size+1:t.has(n)?[...t].indexOf(n)+1:0}function wg(n){const t=Uc(n),e=Tg(n);return kl(t)>kl(e)?t:e}function cr(n){let t;const e=Xe.get(n)||new Set,i=vn.get(n)||new Set,r=e.size>0?e:i.size>0?i:null;return r?(t=lr(r),t.isConnected?t:(r.delete(t),cr(n))):null}function Hl(n){for(const t of n||[])if(!t.isConnected)n.delete(t);else return t;return null}function zi(n){return typeof n.getRootNode=="function"?n.getRootNode():n.parentNode?zi(n.parentNode):n}function Uc(n){for(;n;){if(n instanceof HTMLElement&&n.popover==="auto"&&Oi.get(n)==="showing")return n;if(n=n instanceof Element&&n.assignedSlot||n.parentElement||zi(n),n instanceof lo&&(n=n.host),n instanceof Document)return}}function Tg(n){for(;n;){const t=n.popoverTargetElement;if(t instanceof HTMLElement)return t;if(n=n.parentElement||zi(n),n instanceof lo&&(n=n.host),n instanceof Document)return}}function Gl(n,t){const e=new Map;let i=0;for(const a of t||[])e.set(a,i),i+=1;e.set(n,i),i+=1;let r=null;function s(a){if(!a)return;let o=!1,l=null,c=null;for(;!o;){if(l=Uc(a)||null,l===null||!e.has(l))return;(n.popover==="hint"||l.popover==="auto")&&(o=!0),o||(a=l.parentElement)}c=e.get(l),(r===null||e.get(r)<c)&&(r=l)}return s(n.parentElement||zi(n)),r}function Ag(n){return n.hidden||n instanceof lo||(n instanceof HTMLButtonElement||n instanceof HTMLInputElement||n instanceof HTMLSelectElement||n instanceof HTMLTextAreaElement||n instanceof HTMLOptGroupElement||n instanceof HTMLOptionElement||n instanceof HTMLFieldSetElement)&&n.disabled||n instanceof HTMLInputElement&&n.type==="hidden"||n instanceof HTMLAnchorElement&&n.href===""?!1:typeof n.tabIndex=="number"&&n.tabIndex!==-1}function Rg(n){if(n.shadowRoot&&n.shadowRoot.delegatesFocus!==!0)return null;let t=n;t.shadowRoot&&(t=t.shadowRoot);let e=t.querySelector("[autofocus]");if(e)return e;{const s=t.querySelectorAll("slot");for(const a of s){const o=a.assignedElements({flatten:!0});for(const l of o){if(l.hasAttribute("autofocus"))return l;if(e=l.querySelector("[autofocus]"),e)return e}}}const i=n.ownerDocument.createTreeWalker(t,NodeFilter.SHOW_ELEMENT);let r=i.currentNode;for(;r;){if(Ag(r))return r;r=i.nextNode()}}function Cg(n){var t;(t=Rg(n))==null||t.focus()}var ts=new WeakMap;function Ha(n){if(!Jn(n,!1))return;const t=n.ownerDocument;if(!n.dispatchEvent(new ss("beforetoggle",{cancelable:!0,oldState:"closed",newState:"open"}))||!Jn(n,!1))return;let e=!1;const i=n.popover;let r=null;const s=Gl(n,vn.get(t)||new Set),a=Gl(n,Xe.get(t)||new Set);if(i==="auto"&&(Ga(Xe.get(t)||new Set,e,!0),Qn(s||t,e,!0),r="auto"),i==="hint"&&(a?(Qn(a,e,!0),r="hint"):(Ga(Xe.get(t)||new Set,e,!0),s?(Qn(s,e,!0),r="auto"):r="hint")),i==="auto"||i==="hint"){if(i!==n.popover||!Jn(n,!1))return;cr(t)||(e=!0),r==="auto"?(vn.has(t)||vn.set(t,new Set),vn.get(t).add(n)):r==="hint"&&(Xe.has(t)||Xe.set(t,new Set),Xe.get(t).add(n))}ts.delete(n);const o=t.activeElement;n.classList.add(":popover-open"),Oi.set(n,"showing"),Yr.has(t)||Yr.set(t,new Set),Yr.get(t).add(n),Nc(Qr.get(n),!0),Cg(n),e&&o&&n.popover==="auto"&&ts.set(n,o),Ic(n,"closed","open")}function ki(n,t=!1,e=!1){var i,r;if(!Jn(n,!0))return;const s=n.ownerDocument;if(["auto","hint"].includes(n.popover)&&(Qn(n,t,e),!Jn(n,!0)))return;const a=vn.get(s)||new Set,o=a.has(n)&&lr(a)===n;if(Nc(Qr.get(n),!1),Qr.delete(n),e&&(n.dispatchEvent(new ss("beforetoggle",{oldState:"open",newState:"closed"})),o&&lr(a)!==n&&Qn(n,t,e),!Jn(n,!0)))return;(i=Yr.get(s))==null||i.delete(n),a.delete(n),(r=Xe.get(s))==null||r.delete(n),n.classList.remove(":popover-open"),Oi.set(n,"hidden"),e&&Ic(n,"open","closed");const l=ts.get(n);l&&(ts.delete(n),t&&l.focus())}function Pg(n,t=!1,e=!1){let i=cr(n);for(;i;)ki(i,t,e),i=cr(n)}function Ga(n,t=!1,e=!1){let i=Hl(n);for(;i;)ki(i,t,e),i=Hl(n)}function Wl(n,t,e,i){let r=!1,s=!1;for(;r||!s;){s=!0;let a=null,o=!1;for(const l of t)if(l===n)o=!0;else if(o){a=l;break}if(!a)return;for(;Jr(a)==="showing"&&t.size;)ki(lr(t),e,i);t.has(n)&&lr(t)!==n&&(r=!0),r&&(i=!1)}}function Qn(n,t,e){var i,r;const s=n.ownerDocument||n;if(n instanceof Document)return Pg(s,t,e);if((i=Xe.get(s))!=null&&i.has(n)){Wl(n,Xe.get(s),t,e);return}Ga(Xe.get(s)||new Set,t,e),(r=vn.get(s))!=null&&r.has(n)&&Wl(n,vn.get(s),t,e)}var Gs=new WeakMap;function Vl(n){if(!n.isTrusted)return;const t=n.composedPath()[0];if(!t)return;const e=t.ownerDocument;if(!cr(e))return;const r=wg(t);if(r&&n.type==="pointerdown")Gs.set(e,r);else if(n.type==="pointerup"){const s=Gs.get(e)===r;Gs.delete(e),s&&Qn(r||e,!1,!0)}}var Ws=new WeakMap;function Nc(n,t=!1){if(!n)return;Ws.has(n)||Ws.set(n,n.getAttribute("aria-expanded"));const e=n.popoverTargetElement;if(e instanceof HTMLElement&&e.popover==="auto")n.setAttribute("aria-expanded",String(t));else{const i=Ws.get(n);i?n.setAttribute("aria-expanded",i):n.removeAttribute("aria-expanded")}}var Xl=globalThis.ShadowRoot||function(){};function Lg(){return typeof HTMLElement<"u"&&typeof HTMLElement.prototype=="object"&&"popover"in HTMLElement.prototype}function Vn(n,t,e){const i=n[t];Object.defineProperty(n,t,{value(r){return i.call(this,e(r))}})}var Dg=/(^|[^\\]):popover-open\b/g;function Ig(){return typeof globalThis.CSSLayerBlockRule=="function"}function Ug(){const n=Ig();return`
-${n?"@layer popover-polyfill {":""}
-  :where([popover]) {
-    position: fixed;
-    z-index: 2147483647;
-    inset: 0;
-    padding: 0.25em;
-    width: fit-content;
-    height: fit-content;
-    border-width: initial;
-    border-color: initial;
-    border-image: initial;
-    border-style: solid;
-    background-color: canvas;
-    color: canvastext;
-    overflow: auto;
-    margin: auto;
-  }
-
-  :where([popover]:not(.\\:popover-open)) {
-    display: none;
-  }
-
-  :where(dialog[popover].\\:popover-open) {
-    display: block;
-  }
-
-  :where(dialog[popover][open]) {
-    display: revert;
-  }
-
-  :where([anchor].\\:popover-open) {
-    inset: auto;
-  }
-
-  :where([anchor]:popover-open) {
-    inset: auto;
-  }
-
-  @supports not (background-color: canvas) {
-    :where([popover]) {
-      background-color: white;
-      color: black;
-    }
-  }
-
-  @supports (width: -moz-fit-content) {
-    :where([popover]) {
-      width: -moz-fit-content;
-      height: -moz-fit-content;
-    }
-  }
-
-  @supports not (inset: 0) {
-    :where([popover]) {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-  }
-${n?"}":""}
-`}var Si=null;function Vs(n){const t=Ug();if(Si===null)try{Si=new CSSStyleSheet,Si.replaceSync(t)}catch{Si=!1}if(Si===!1){const e=document.createElement("style");e.textContent=t,n instanceof Document?n.head.prepend(e):n.prepend(e)}else n.adoptedStyleSheets=[Si,...n.adoptedStyleSheets]}function Ng(){if(typeof window>"u")return;window.ToggleEvent=window.ToggleEvent||ss;function n(l){return l?.includes(":popover-open")&&(l=l.replace(Dg,"$1.\\:popover-open")),l}Vn(Document.prototype,"querySelector",n),Vn(Document.prototype,"querySelectorAll",n),Vn(Element.prototype,"querySelector",n),Vn(Element.prototype,"querySelectorAll",n),Vn(Element.prototype,"matches",n),Vn(Element.prototype,"closest",n),Vn(DocumentFragment.prototype,"querySelectorAll",n),Object.defineProperties(HTMLElement.prototype,{popover:{enumerable:!0,configurable:!0,get(){if(!this.hasAttribute("popover"))return null;const l=(this.getAttribute("popover")||"").toLowerCase();return l===""||l=="auto"?"auto":l=="hint"?"hint":"manual"},set(l){l===null?this.removeAttribute("popover"):this.setAttribute("popover",l)}},showPopover:{enumerable:!0,configurable:!0,value(l={}){Ha(this)}},hidePopover:{enumerable:!0,configurable:!0,value(){ki(this,!0,!0)}},togglePopover:{enumerable:!0,configurable:!0,value(l={}){return typeof l=="boolean"&&(l={force:l}),Oi.get(this)==="showing"&&l.force===void 0||l.force===!1?ki(this,!0,!0):(l.force===void 0||l.force===!0)&&Ha(this),Oi.get(this)==="showing"}}});const t=Element.prototype.attachShadow;t&&Object.defineProperties(Element.prototype,{attachShadow:{enumerable:!0,configurable:!0,writable:!0,value(l){const c=t.call(this,l);return Vs(c),c}}});const e=HTMLElement.prototype.attachInternals;e&&Object.defineProperties(HTMLElement.prototype,{attachInternals:{enumerable:!0,configurable:!0,writable:!0,value(){const l=e.call(this);return l.shadowRoot&&Vs(l.shadowRoot),l}}});const i=new WeakMap;function r(l){Object.defineProperties(l.prototype,{popoverTargetElement:{enumerable:!0,configurable:!0,set(c){if(c===null)this.removeAttribute("popovertarget"),i.delete(this);else if(c instanceof Element)this.setAttribute("popovertarget",""),i.set(this,c);else throw new TypeError("popoverTargetElement must be an element or null")},get(){if(this.localName!=="button"&&this.localName!=="input"||this.localName==="input"&&this.type!=="reset"&&this.type!=="image"&&this.type!=="button"||this.disabled||this.form&&this.type==="submit")return null;const c=i.get(this);if(c&&c.isConnected)return c;if(c&&!c.isConnected)return i.delete(this),null;const d=zi(this),h=this.getAttribute("popovertarget");return(d instanceof Document||d instanceof Xl)&&h&&d.getElementById(h)||null}},popoverTargetAction:{enumerable:!0,configurable:!0,get(){const c=(this.getAttribute("popovertargetaction")||"").toLowerCase();return c==="show"||c==="hide"?c:"toggle"},set(c){this.setAttribute("popovertargetaction",c)}}})}r(HTMLButtonElement),r(HTMLInputElement);const s=l=>{if(l.defaultPrevented)return;const c=l.composedPath(),d=c[0];if(!(d instanceof Element)||d?.shadowRoot)return;const h=zi(d);if(!(h instanceof Xl||h instanceof Document))return;const u=c.find(m=>{var g;return(g=m.matches)==null?void 0:g.call(m,"[popovertargetaction],[popovertarget]")});if(u){Eg(u),l.preventDefault();return}},a=l=>{const c=l.key,d=l.target;!l.defaultPrevented&&d&&(c==="Escape"||c==="Esc")&&Qn(d.ownerDocument,!0,!0)};(l=>{l.addEventListener("click",s),l.addEventListener("keydown",a),l.addEventListener("pointerdown",Vl),l.addEventListener("pointerup",Vl)})(document),Vs(document)}Lg()||Ng();const Fg=Object.freeze(Object.defineProperty({__proto__:null},Symbol.toStringTag,{value:"Module"}));function Bg(){return typeof HTMLButtonElement<"u"&&"command"in HTMLButtonElement.prototype&&"source"in((globalThis.CommandEvent||{}).prototype||{})}function Og(){document.addEventListener("invoke",g=>{g.type=="invoke"&&g.isTrusted&&(g.stopImmediatePropagation(),g.preventDefault())},!0),document.addEventListener("command",g=>{g.type=="command"&&g.isTrusted&&(g.stopImmediatePropagation(),g.preventDefault())},!0);function n(g,_,p=!0){Object.defineProperty(g,_,{...Object.getOwnPropertyDescriptor(g,_),enumerable:p})}function t(g){return g&&typeof g.getRootNode=="function"?g.getRootNode():g&&g.parentNode?t(g.parentNode):g}const e=new WeakMap,i=new WeakMap;class r extends Event{constructor(_,p={}){super(_,p);const{source:f,command:w}=p;if(f!=null&&!(f instanceof Element))throw new TypeError("source must be an element");e.set(this,f||null),i.set(this,w!==void 0?String(w):"")}get[Symbol.toStringTag](){return"CommandEvent"}get source(){if(!e.has(this))throw new TypeError("illegal invocation");const _=e.get(this);if(!(_ instanceof Element))return null;const p=t(_);return p!==t(this.target||document)?p.host:_}get command(){if(!i.has(this))throw new TypeError("illegal invocation");return i.get(this)}get action(){throw new Error("CommandEvent#action was renamed to CommandEvent#command")}get invoker(){throw new Error("CommandEvent#invoker was renamed to CommandEvent#source")}}n(r.prototype,"source"),n(r.prototype,"command");class s extends Event{constructor(_,p={}){throw super(_,p),new Error("InvokeEvent has been deprecated, it has been renamed to `CommandEvent`")}}const a=new WeakMap;function o(g){Object.defineProperties(g.prototype,{commandForElement:{enumerable:!0,configurable:!0,set(_){if(this.hasAttribute("invokeaction"))throw new TypeError("Element has deprecated `invokeaction` attribute, replace with `command`");if(this.hasAttribute("invoketarget"))throw new TypeError("Element has deprecated `invoketarget` attribute, replace with `commandfor`");if(_===null)this.removeAttribute("commandfor"),a.delete(this);else if(_ instanceof Element){this.setAttribute("commandfor","");const p=t(_);t(this)===p||p===this.ownerDocument?a.set(this,_):a.delete(this)}else throw new TypeError("commandForElement must be an element or null")},get(){if(this.localName!=="button")return null;if(this.hasAttribute("invokeaction")||this.hasAttribute("invoketarget"))return console.warn("Element has deprecated `invoketarget` or `invokeaction` attribute, use `commandfor` and `command` instead"),null;if(this.disabled)return null;if(this.form&&this.getAttribute("type")!=="button")return console.warn("Element with `commandFor` is a form participant. It should explicitly set `type=button` in order for `commandFor` to work"),null;const _=a.get(this);if(_)return _.isConnected?_:(a.delete(this),null);const p=t(this),f=this.getAttribute("commandfor");return(p instanceof Document||p instanceof ShadowRoot)&&f&&p.getElementById(f)||null}},command:{enumerable:!0,configurable:!0,get(){const _=this.getAttribute("command")||"";if(_.startsWith("--"))return _;const p=_.toLowerCase();switch(p){case"show-modal":case"close":case"toggle-popover":case"hide-popover":case"show-popover":return p}return""},set(_){this.setAttribute("command",_)}},invokeAction:{enumerable:!1,configurable:!0,get(){throw new Error("invokeAction is deprecated. It has been renamed to command")},set(_){throw new Error("invokeAction is deprecated. It has been renamed to command")}},invokeTargetElement:{enumerable:!1,configurable:!0,get(){throw new Error("invokeTargetElement is deprecated. It has been renamed to command")},set(_){throw new Error("invokeTargetElement is deprecated. It has been renamed to command")}}})}const l=new WeakMap;Object.defineProperties(HTMLElement.prototype,{oncommand:{enumerable:!0,configurable:!0,get(){return d.takeRecords(),l.get(this)||null},set(g){const _=l.get(this)||null;_&&this.removeEventListener("command",_),l.set(this,typeof g=="object"||typeof g=="function"?g:null),typeof g=="function"&&this.addEventListener("command",g)}}});function c(g){for(const _ of g)_.oncommand=new Function("event",_.getAttribute("oncommand"))}const d=new MutationObserver(g=>{for(const _ of g){const{target:p}=_;_.type==="childList"?c(p.querySelectorAll("[oncommand]")):c([p])}});d.observe(document,{subtree:!0,childList:!0,attributeFilter:["oncommand"]}),c(document.querySelectorAll("[oncommand]"));function h(g){if(g.defaultPrevented||g.type!=="click")return;const _=g.target.closest("button[invoketarget], button[invokeaction], input[invoketarget], input[invokeaction]");if(_&&(console.warn("Elements with `invoketarget` or `invokeaction` are deprecated and should be renamed to use `commandfor` and `command` respectively"),_.matches("input")))throw new Error("Input elements no longer support `commandfor`");const p=g.target.closest("button[commandfor], button[command]");if(!p)return;if(p.form&&p.getAttribute("type")!=="button")throw g.preventDefault(),new Error("Element with `commandFor` is a form participant. It should explicitly set `type=button` in order for `commandFor` to work. In order for it to act as a Submit button, it must not have command or commandfor attributes");if(p.hasAttribute("command")!==p.hasAttribute("commandfor")){const S=p.hasAttribute("command")?"command":"commandfor",P=p.hasAttribute("command")?"commandfor":"command";throw new Error(`Element with ${S} attribute must also have a ${P} attribute to function.`)}if(p.command!=="show-popover"&&p.command!=="hide-popover"&&p.command!=="toggle-popover"&&p.command!=="show-modal"&&p.command!=="close"&&!p.command.startsWith("--")){console.warn(`"${p.command}" is not a valid command value. Custom commands must begin with --`);return}const f=p.commandForElement;if(!f)return;const w=new r("command",{command:p.command,source:p,cancelable:!0});if(f.dispatchEvent(w),w.defaultPrevented)return;const E=w.command.toLowerCase();if(f.popover){const S=!f.matches(":popover-open");S&&(E==="toggle-popover"||E==="show-popover")?f.showPopover({source:p}):!S&&E==="hide-popover"&&f.hidePopover()}else if(f.localName==="dialog"){const S=!f.hasAttribute("open");S&&E==="show-modal"?f.showModal():!S&&E==="close"&&f.close()}}function u(g){g.addEventListener("click",h,!0)}function m(g,_){const p=g.prototype.attachShadow;g.prototype.attachShadow=function(w){const E=p.call(this,w);return _(E),E};const f=g.prototype.attachInternals;g.prototype.attachInternals=function(){const w=f.call(this);return w.shadowRoot&&_(w.shadowRoot),w}}o(HTMLButtonElement),m(HTMLElement,g=>{u(g),d.observe(g,{attributeFilter:["oncommand"]}),c(g.querySelectorAll("[oncommand]"))}),u(document),Object.assign(globalThis,{CommandEvent:r,InvokeEvent:s})}Bg()||Og();const zg=Object.freeze(Object.defineProperty({__proto__:null},Symbol.toStringTag,{value:"Module"}));
 const GEO_VECTORS = {"mainlandPoly":[[37.344,53.914],[37.332,54.192],[37.47,54.699],[37.778,54.9],[38.051,55.381],[38.1,55.578],[38.08,56.272],[38.191,56.324],[38.249,56.441],[38.216,57.194],[38.13,57.308],[37.973,57.354],[37.83,57.981],[37.783,58.109],[37.666,58.262],[37.635,58.387],[37.688,58.55],[37.652,58.65],[37.683,58.815],[37.511,59.302],[37.334,59.367],[37.253,59.455],[36.963,60.063],[36.638,60.341],[36.643,61.12],[36.572,61.17],[36.433,61.16],[36.099,61.212],[35.977,61.153],[35.868,61.252],[35.659,61.239],[35.514,61.279],[35.312,61.189],[35.272,61.1],[35.094,61.15],[34.922,61.07],[34.856,61.08],[34.71,60.958],[34.654,60.951],[34.518,60.726],[34.319,60.889],[34.307,60.643],[34.095,60.486],[33.842,60.527],[33.712,60.486],[33.639,60.511],[33.588,60.574],[33.539,60.907],[33.505,60.917],[33.138,60.561],[32.995,60.577],[32.249,60.829],[31.877,60.788],[31.495,60.821],[31.382,61.66],[31.285,61.755],[31.073,61.814],[30.913,61.811],[30.832,61.784],[29.859,60.843],[29.373,61.318],[29.265,61.338],[28.792,61.623],[28.547,61.89],[28.415,62.353],[28.235,62.565],[28.244,62.758],[28.002,62.74],[27.497,62.812],[27.266,62.753],[27.218,62.915],[27.252,63.167],[27.208,63.256],[27.125,63.305],[27.078,63.242],[26.879,63.25],[26.838,63.186],[26.65,63.158],[26.644,62.787],[26.561,62.439],[26.491,62.312],[26.357,62.239],[26.369,62.126],[26.318,62.089],[26.226,61.842],[25.843,61.754],[25.751,61.662],[25.202,61.588],[25.102,61.412],[25.282,60.664],[25.414,60.588],[25.437,60.511],[25.312,60.4],[25.384,60.025],[25.362,59.897],[25.401,59.818],[25.403,59.616],[25.481,59.456],[25.417,59.046],[25.555,58.798],[25.592,58.203],[25.692,57.937],[25.653,57.796],[25.725,57.733],[25.792,57.335],[26.037,57.206],[26.159,57.201],[26.371,57.104],[26.68,57.072],[26.905,56.982],[27.09,56.813],[27.2,56.356],[27.143,56.118],[27.038,55.941],[26.978,55.65],[26.771,55.424],[26.786,55.294],[26.505,54.759],[26.509,54.645],[26.697,54.247],[26.732,54.069],[26.726,53.706],[26.852,53.507],[26.943,53.455],[27.142,52.983],[27.323,52.692],[27.493,52.603],[27.617,52.476],[27.717,52.192],[27.824,52.031],[27.864,51.589],[28.131,51.279],[28.219,51.276],[28.512,51.094],[28.726,51.062],[28.87,50.867],[28.928,50.843],[29.063,50.876],[29.147,50.675],[29.212,50.646],[29.42,50.65],[29.921,50.169],[30.199,50.072],[30.209,49.983],[30.029,49.555],[30.13,49.43],[30.307,49.054],[30.374,49.002],[30.407,49.096],[30.375,49.19],[30.413,49.247],[30.472,49.225],[30.509,49.13],[30.507,49.002],[30.45,49.037],[30.397,48.917],[30.328,48.891],[30.121,48.919],[30.062,48.87],[30.028,48.671],[29.962,48.546],[30.038,48.435],[30.188,48.401],[30.285,48.331],[30.321,48.226],[30.417,48.148],[30.466,48.015],[30.99,48.011],[31.002,47.679],[31.401,47.679],[31.794,47.83],[32.151,47.512],[32.424,47.371],[32.474,47.285],[32.467,47.121],[32.929,46.377],[32.958,46.113],[33.087,46.081],[33.23,46.146],[33.416,46.02],[33.47,45.981],[33.492,45.873],[33.61,45.879],[33.603,45.738],[33.925,45.473],[33.971,45.397],[34.216,45.543],[34.415,45.438],[34.582,45.501],[34.574,45.638],[34.798,45.678],[35.029,45.921],[35.128,46.134],[35.197,46.155],[35.322,46.112],[35.477,45.975],[35.608,45.995],[35.673,46.037],[35.744,46.263],[35.773,46.273],[35.821,46.167],[35.822,45.776],[35.977,45.562],[36.015,45.362],[36.356,45.241],[36.397,45.207],[36.409,45.112],[36.472,45.053],[36.698,45.019],[36.799,44.881],[37.135,44.765],[37.29,44.794],[37.435,44.574],[37.658,44.545],[37.71,44.59],[37.872,44.336],[37.88,44.223],[37.908,44.211],[38.334,44.45],[38.386,44.299],[38.701,44.257],[38.836,44.272],[38.934,44.171],[38.994,44.145],[39.145,44.178],[39.218,44.079],[39.377,44.023],[39.422,44.389],[39.667,44.456],[39.769,44.587],[39.65,44.817],[39.254,45.141],[39.139,45.336],[39.006,45.48],[38.869,46.17],[38.913,46.318],[38.904,46.555],[39.148,46.853],[39.18,46.989],[39.424,47.338],[39.649,47.773],[39.684,47.996],[39.399,48.322],[39.312,48.136],[39.241,48.104],[39.172,48.125],[39.099,48.274],[39.019,48.292],[38.935,48.05],[38.854,47.996],[38.724,48.205],[38.613,48.306],[38.586,48.417],[38.411,48.593],[38.435,48.869],[38.015,48.925],[37.668,49.081],[37.52,49.372],[37.407,50.13],[37.34,50.214],[37.149,50.338],[37.014,50.533],[36.743,51.119],[36.615,51.762],[36.622,52.19],[36.93,53.768],[36.93,53.915],[36.853,53.679],[36.818,53.769],[36.818,53.97],[36.901,54.024]],"qeshmPoly":[[26.714,56.06],[26.639,55.954],[26.67,55.894],[26.669,55.848],[26.624,55.675],[26.556,55.543],[26.521,55.424],[26.531,55.312],[26.577,55.295],[26.596,55.296],[26.586,55.347],[26.75,55.763],[26.795,55.785],[26.869,55.747],[26.886,55.758],[26.848,55.907],[26.915,56.06]],"hormuzPoly":[[27.012,56.52],[26.995,56.592],[26.935,56.605],[26.885,56.555],[26.898,56.482],[26.965,56.475]],"kishPoly":[[26.605,53.859],[26.609,54.081],[26.535,54.121],[26.465,54.066],[26.465,53.873],[26.531,53.825]],"khargPoly":[[29.306,50.281],[29.295,50.372],[29.195,50.362],[29.184,50.271]],"caspianPoly":[[39.72,53.458],[39.669,53.472],[39.608,53.582],[39.547,53.603],[39.536,53.39],[39.609,53.236],[39.432,53.125],[39.347,53.124],[39.265,53.157],[39.317,53.203],[39.341,53.336],[39.305,53.475],[39.216,53.617],[39.21,53.705],[39.103,53.724],[38.949,53.869],[37.928,53.823],[37.414,53.898],[36.901,54.024],[36.85,54.016],[36.818,53.97],[36.818,53.769],[36.853,53.679],[36.93,53.915],[36.93,53.768],[36.622,52.19],[36.615,51.762],[36.743,51.119],[37.014,50.533],[37.149,50.338],[37.34,50.214],[37.407,50.13],[37.497,49.47],[37.601,49.171],[37.668,49.081],[37.89,48.96],[38.393,48.871],[38.839,48.854],[39.134,49.014],[39.085,49.112],[39.004,49.121],[39.03,49.166],[39.285,49.269],[39.349,49.363],[39.608,49.324],[39.72,49.368]],"persianGulfPoly":[[26.1,57.204],[26.278,56.425],[26.327,56.43],[26.356,56.379],[26.235,56.306],[26.207,56.164],[25.794,55.941],[25.498,55.523],[25.35,55.381],[25.35,52.65],[27.477,49.219],[27.493,49.237],[27.737,48.8],[27.801,48.833],[27.896,48.809],[28.133,48.626],[28.449,48.499],[28.763,48.339],[28.979,48.184],[29.156,48.12],[29.575,48.12],[29.573,48.143],[30.042,48.12],[29.939,48.454],[30.028,48.671],[30.036,48.832],[30.121,48.919],[30.328,48.891],[30.397,48.917],[30.45,49.037],[30.507,49.002],[30.51,49.131],[30.472,49.224],[30.412,49.247],[30.375,49.19],[30.407,49.096],[30.374,49.002],[30.307,49.054],[30.13,49.43],[30.029,49.555],[30.209,49.983],[30.199,50.071],[29.921,50.169],[29.42,50.65],[29.212,50.646],[29.147,50.675],[29.063,50.876],[28.928,50.843],[28.87,50.867],[28.726,51.062],[28.512,51.094],[28.219,51.276],[28.132,51.279],[27.864,51.589],[27.824,52.031],[27.717,52.192],[27.617,52.476],[27.493,52.603],[27.324,52.691],[27.142,52.982],[26.943,53.455],[26.852,53.507],[26.726,53.706],[26.733,54.069],[26.697,54.247],[26.509,54.645],[26.505,54.759],[26.557,54.896],[26.786,55.294],[26.771,55.424],[26.978,55.65],[27.038,55.941],[27.143,56.118],[27.2,56.356],[27.128,56.728],[26.994,56.91],[26.801,57.036],[26.372,57.104]],"gulfOfOmanPoly":[[25.104,61.406],[24.38,60.982],[24.38,56.729],[24.716,56.49],[25.019,56.373],[25.569,56.363],[25.651,56.298],[25.804,56.374],[26.278,56.425],[26.1,57.204],[26.037,57.206],[25.792,57.335],[25.725,57.733],[25.653,57.796],[25.692,57.936],[25.592,58.203],[25.555,58.798],[25.418,59.046],[25.482,59.456],[25.403,59.616],[25.401,59.818],[25.362,59.897],[25.384,60.025],[25.312,60.4],[25.437,60.51],[25.413,60.588],[25.282,60.664]],"straitBridgePoly":[[27.32,55.45],[27.32,57.05],[25.35,57.05],[25.35,55.45]],"urmiaPoly":[[37.742,45.666],[37.701,45.747],[37.578,45.755],[37.426,45.858],[37.341,45.831],[37.288,45.663],[37.135,45.536],[37.149,45.449],[37.227,45.365],[37.438,45.292],[37.764,45.234],[37.885,45.087],[37.988,45.08],[38.045,45.155],[38.108,45.188],[38.144,45.171],[38.144,45.015],[38.193,45.026],[38.264,45.106],[38.264,45.357],[38.173,45.458],[38.073,45.487],[37.806,45.436],[37.754,45.483]],"iranRiversNE":{"Qezel Owzan":[[[35.902,47.272],[35.945,47.406],[36.013,47.459],[36,47.89],[36.015,48.121],[36.042,48.166],[36.095,48.178],[36.128,48.14],[36.163,47.996],[36.22,47.927],[36.288,47.941],[36.477,47.828],[36.511,47.836],[36.882,47.601],[37.073,47.749],[37.138,47.77],[37.224,47.749],[37.375,47.814],[37.425,47.806],[37.515,47.941],[37.521,48.047],[37.467,48.256],[37.36,48.233],[37.247,48.325],[37.262,48.39],[37.223,48.471],[37.153,48.499],[37.063,48.712],[36.815,49.052],[36.753,49.225],[36.756,49.36],[36.882,49.49]],[[35.599,46.783],[35.671,46.756],[35.809,46.845],[35.85,46.838],[35.902,47.27]]],"Helmand":[[[31.204,61.604],[31.066,61.667],[30.95,61.804],[30.813,61.784],[30.734,61.825],[30.56,61.832],[30.432,61.812],[30.351,61.861],[30.309,61.932],[30.283,62.099],[30.17,62.428],[30.169,62.559],[30.258,62.873],[30.262,63.063],[30.428,63.301]]],"Harirud":[[[34.384,63.278],[34.398,63.183],[34.253,62.894],[34.299,62.627],[34.271,62.308],[34.308,62.168],[34.294,62.084],[34.362,61.931],[34.417,61.535],[34.482,61.403],[34.626,61.254],[34.685,61.12],[34.815,61.065],[34.933,61.074],[35.102,61.147],[35.193,61.096],[35.257,61.102],[35.301,61.187],[35.39,61.195],[35.548,61.29],[35.672,61.231],[35.77,61.256],[35.894,61.241],[35.971,61.129],[36.124,61.224],[36.357,61.146],[36.565,61.187],[36.693,61.153],[36.706,61.119],[36.809,61.085],[36.912,60.894],[37.052,60.773],[37.114,60.766],[37.206,60.694],[37.241,60.629],[37.456,60.492],[37.555,60.512],[37.826,60.338],[37.933,60.311],[38.111,60.132]]],"Aras":[[[39.973,44.464],[39.831,44.598],[39.793,44.691],[39.637,44.809],[39.625,44.872],[39.435,44.957],[39.351,45.087],[39.214,45.152],[39.201,45.311],[39.053,45.434],[39.004,45.438],[38.863,46.126],[38.925,46.378],[38.89,46.553],[39.156,46.851],[39.19,47.02],[39.309,47.102],[39.38,47.291],[39.477,47.407],[39.515,47.541],[39.681,47.823],[39.687,47.935],[39.803,48.003],[39.816,48.064],[39.881,48.114],[39.893,48.243],[39.994,48.441]]],"Shatt al Arab":[[[30.968,47.469],[30.785,47.62],[30.744,47.729],[30.585,47.756],[30.488,47.874],[30.448,48.13],[30.324,48.2],[30.313,48.305],[30.203,48.408],[30.146,48.381],[30.002,48.453],[29.961,48.532]]]}};
 // 01_config_materials.js — Projection, Noise, Iranian Voxel Palette & Face-Culled AO Mesher
 
@@ -10046,9 +9129,8 @@ function createIranLivingWorld(terrain) {
 
 // Main Interactive 3D Atlas Application Class
 class IranAtlasApp {
-  constructor(container, pinLayer, callbacks) {
+  constructor(container, canvas, callbacks) {
     this.container = container;
-    this.pinLayer = pinLayer;
     this.callbacks = callbacks;
 
     this.currentLens = 'natural';
@@ -10058,24 +9140,15 @@ class IranAtlasApp {
     this.paused = false;
     this.offscreenPaused = false;
     this.labelsVisible = true;
-    this.selectedLandmarkId = null;
-    this.lastVisitedLandmark = null;
     this.isAtOverview = true;
     this.simTimeSec = 0;
     this.lastFrameMs = performance.now();
     this.rafId = 0;
-    this.flyTween = null;
-    this.pressedKeys = new Set();
     this.cleanupListeners = [];
-    this.pins = new Map();
-    this.pinMetrics = new Map();
-    this.lastPinSignature = '';
     this.monumentMeshes = [];
     this.lastDrawCalls = 0;
     this.lastTriangles = 0;
 
-    this.raycaster = new THREE.Raycaster();
-    this.pointerDownPos = new THREE.Vector2();
     this.nightGlowUniform = { value: 0 };
     this.skyUniforms = {
       uCenterColor: { value: new THREE.Color(0x342113) },
@@ -10089,6 +9162,7 @@ class IranAtlasApp {
     }
 
     this.renderer = new THREE.WebGLRenderer({
+      canvas,
       antialias: true,
       powerPreference: 'high-performance',
       preserveDrawingBuffer: true
@@ -10096,18 +9170,11 @@ class IranAtlasApp {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     const initW = container.clientWidth || window.innerWidth;
     const initH = Math.max(1, container.clientHeight || window.innerHeight);
-    this.renderer.setSize(initW, initH);
+    this.renderer.setSize(initW, initH, false);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.05;
-    this.renderer.domElement.id = 'atlas-canvas';
-    this.renderer.domElement.tabIndex = 0;
-    this.renderer.domElement.setAttribute('role', 'application');
-    this.renderer.domElement.setAttribute('aria-roledescription', '3D interactive map');
-    this.renderer.domElement.setAttribute('aria-keyshortcuts', 'W A S D Q E R');
-    this.renderer.domElement.setAttribute('aria-label', 'Interactive 3D Voxel Map of Iran');
-    container.prepend(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x1b110a);
@@ -10117,11 +9184,17 @@ class IranAtlasApp {
     this.syncCameraAspectAndFov(initW, initH);
 
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.075;
+    // Same handling as the other voxel maps: drag pans across the ground, right-drag (or Shift/Ctrl-drag) rotates
+    // and tilts, one finger pans and two fingers zoom and twist. Wheel zoom is handled by the UI controller.
+    this.controls.enableDamping = !this.reducedMotionQuery.matches;
+    this.controls.dampingFactor = 0.09;
+    this.controls.screenSpacePanning = false;
     this.controls.minDistance = 7;
     this.controls.maxDistance = 880;
-    this.controls.maxPolarAngle = Math.PI * 0.468;
+    this.controls.maxPolarAngle = 1.42;
+    this.controls.zoomSpeed = 1.1;
+    this.controls.mouseButtons = { LEFT: 2 /* PAN */, MIDDLE: 1 /* DOLLY */, RIGHT: 0 /* ROTATE */ };
+    this.controls.touches = { ONE: 1 /* PAN */, TWO: 3 /* DOLLY_ROTATE */ };
 
     const ov = this.computeOverviewPose();
     this.camera.position.copy(ov.pos);
@@ -10235,12 +9308,10 @@ class IranAtlasApp {
     this.living = createIranLivingWorld(this.terrain);
     this.scene.add(this.living.group);
 
-    this.createLandmarkPins();
     this.applyLightingForTime(this.timeHours);
     this.living.prewarmLights(this.renderer, this.scene, this.camera);
     this.bindEvents();
     this.forceRender();
-    this.exposeInspectionHooks();
   }
 
   syncCameraAspectAndFov(w, h) {
@@ -10271,230 +9342,15 @@ class IranAtlasApp {
     };
   }
 
+  // The hand-tuned viewing pose of a landmark: where to look, and the camera offset from that point.
   computeLandmarkPose(mon) {
-    const isNarrow = (this.container.clientWidth || window.innerWidth) <= 860;
     const target = new THREE.Vector3(
       mon.worldX + mon.info.lookOffset[0],
       mon.worldY + mon.info.lookOffset[1],
       mon.worldZ + mon.info.lookOffset[2]
     );
     const offset = new THREE.Vector3(...mon.info.camOffset);
-    if (isNarrow) {
-      offset.multiplyScalar(1.22);
-      target.y -= 1.8;
-      return { pos: target.clone().add(offset), target };
-    }
-    const lookDir = offset.clone().negate();
-    lookDir.y = 0;
-    if (lookDir.lengthSq() > 1e-5) lookDir.normalize();
-    const rightVec = new THREE.Vector3(-lookDir.z, 0, lookDir.x);
-    const framedTarget = target.clone().addScaledVector(rightVec, 2.25);
-    return { pos: framedTarget.clone().add(offset), target: framedTarget };
-  }
-
-  measurePinSizes() {
-    this.lastPinSignature = '';
-    for (const [id, btn] of this.pins) {
-      const prevDisplay = btn.style.display;
-      btn.style.display = 'inline-flex';
-      const w = btn.offsetWidth || 64;
-      const h = btn.offsetHeight || 26;
-      this.pinMetrics.set(id, {
-        halfW: w * 0.5 + 3,
-        halfH: h * 0.5 + 3
-      });
-      btn.style.display = prevDisplay;
-    }
-  }
-
-  createLandmarkPins() {
-    this.pinLayer.innerHTML = '';
-    for (const mon of this.monuments) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'landmark-pin';
-      btn.dataset.landmarkId = mon.info.id;
-      btn.dataset.sitePin = String(mon.info.index);
-      btn.setAttribute('aria-label', `Inspect ${mon.info.name}`);
-
-      const dot = document.createElement('span');
-      dot.className = 'landmark-pin__dot';
-      dot.setAttribute('aria-hidden', 'true');
-
-      const label = document.createElement('span');
-      label.className = 'landmark-pin__label';
-      label.textContent = mon.info.shortLabel;
-
-      btn.append(dot, label);
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.callbacks.onPinActivate?.(btn);
-        this.selectAndFlyTo(mon.info.id, false);
-      });
-      this.pinLayer.appendChild(btn);
-      this.pins.set(mon.info.id, btn);
-    }
-    this.measurePinSizes();
-  }
-
-  updateLandmarkPins(force = false) {
-    if (!this.labelsVisible) {
-      if (!this.pinLayer.hidden) this.pinLayer.hidden = true;
-      this.lastPinSignature = 'hidden';
-      return;
-    }
-
-    const stageW = this.container.clientWidth || window.innerWidth;
-    const stageH = this.container.clientHeight || window.innerHeight;
-    const cp = this.camera.position;
-    const ct = this.controls.target;
-    const sig = `${Math.round(cp.x * 8)},${Math.round(cp.y * 8)},${Math.round(cp.z * 8)}|${Math.round(ct.x * 8)},${Math.round(ct.y * 8)},${Math.round(ct.z * 8)}|${stageW}x${stageH}|${this.currentLens}|${this.activeEraFilter}|${this.selectedLandmarkId || ''}`;
-    if (!force && sig === this.lastPinSignature) return;
-    this.lastPinSignature = sig;
-
-    const camDistToTarget = cp.distanceTo(ct);
-    // In landmark closeups, hide all background pins (and hide active pin too when closely framed by inspector card!)
-    if (this.selectedLandmarkId && camDistToTarget < 46) {
-      this.pinLayer.hidden = true;
-      return;
-    }
-    this.pinLayer.hidden = false;
-
-    const projVec = new THREE.Vector3();
-    const isCleanPreview = document.documentElement.classList.contains('is-clean-preview');
-    const isShortLandscape = stageH <= 460;
-    const topSafe = isCleanPreview ? 14 : (isShortLandscape ? 40 : (stageW <= 860 ? 54 : 18));
-    const bottomSafe = stageH - (isCleanPreview ? 14 : (isShortLandscape ? 44 : 48));
-    const curatedOverview = (stageW <= 560 || isShortLandscape) && camDistToTarget > 180;
-    const mobileCoreSet = new Set([
-      'tehran', 'damavand', 'mashhad', 'tabriz', 'isfahan',
-      'persepolis', 'khuzestan', 'hormuz', 'lut', 'sistan', 'chabahar'
-    ]);
-    const highPrioritySet = new Set([
-      'tehran', 'damavand', 'isfahan', 'persepolis', 'mashhad',
-      'tabriz', 'yazd', 'khuzestan', 'hormuz', 'shiraz', 'bam', 'sistan'
-    ]);
-
-    const candidates = [];
-    for (const mon of this.monuments) {
-      const info = mon.info;
-      const btn = this.pins.get(info.id);
-      if (!btn) continue;
-
-      if (this.selectedLandmarkId && this.selectedLandmarkId !== info.id && camDistToTarget < 58) {
-        btn.style.display = 'none';
-        continue;
-      }
-      if (curatedOverview && this.selectedLandmarkId !== info.id && !mobileCoreSet.has(info.id)) {
-        btn.style.display = 'none';
-        continue;
-      }
-
-      const matchesEra = this.activeEraFilter === 0 ||
-        info.era === this.activeEraFilter ||
-        info.secondaryEra === this.activeEraFilter;
-      if (this.currentLens === 'heritage' && this.activeEraFilter > 0 && !matchesEra && this.selectedLandmarkId !== info.id) {
-        btn.style.display = 'none';
-        continue;
-      }
-
-      projVec.set(mon.worldX, mon.worldY + (info.pinAnchorDY || 5.6), mon.worldZ);
-      const dist = cp.distanceTo(projVec);
-      projVec.project(this.camera);
-
-      const inFrustum = projVec.z > -1 && projVec.z < 1;
-      const rawSx = (projVec.x * 0.5 + 0.5) * stageW;
-      const rawSy = (-projVec.y * 0.5 + 0.5) * stageH;
-      if (!inFrustum || dist > 1050 || rawSx < 10 || rawSx > stageW - 10 || rawSy < 12 || rawSy > stageH - 16) {
-        btn.style.display = 'none';
-        continue;
-      }
-
-      const nudgeScale = (stageW <= 560 || isShortLandscape) ? 0.35 : clamp((camDistToTarget - 60) / 260, 0, 1);
-      const nudgeX = (info.pinNudge ? info.pinNudge[0] : 0) * nudgeScale;
-      const nudgeY = (info.pinNudge ? info.pinNudge[1] : 0) * nudgeScale;
-
-      const metric = this.pinMetrics.get(info.id) || {
-        halfW: Math.max(30, info.shortLabel.length * 4.2 + 18),
-        halfH: 15
-      };
-      const priority = this.selectedLandmarkId === info.id ? 4 : highPrioritySet.has(info.id) ? 2 : 1;
-
-      candidates.push({
-        id: info.id,
-        btn,
-        origSx: rawSx,
-        origSy: rawSy,
-        sx: rawSx + nudgeX,
-        sy: rawSy + nudgeY,
-        halfW: metric.halfW,
-        halfH: metric.halfH,
-        priority
-      });
-    }
-
-    const maxTether = isShortLandscape ? 20 : (stageW <= 560 ? 28 : 66);
-    for (let iter = 0; iter < 28; iter++) {
-      for (let i = 0; i < candidates.length; i++) {
-        for (let j = i + 1; j < candidates.length; j++) {
-          const a = candidates[i];
-          const b = candidates[j];
-          const reqX = a.halfW + b.halfW + 3;
-          const reqY = a.halfH + b.halfH + 3;
-          const dx = b.sx - a.sx;
-          const dy = b.sy - a.sy;
-          if (Math.abs(dx) < reqX && Math.abs(dy) < reqY) {
-            const penX = reqX - Math.abs(dx);
-            const penY = reqY - Math.abs(dy);
-            const pSum = a.priority + b.priority;
-            const moveA = b.priority / pSum;
-            const moveB = a.priority / pSum;
-            if (penY <= penX * 0.92) {
-              const dir = dy >= 0 ? 1 : -1;
-              a.sy -= penY * moveA * dir;
-              b.sy += penY * moveB * dir;
-            } else {
-              const dir = dx >= 0 ? 1 : -1;
-              a.sx -= penX * moveA * dir;
-              b.sx += penX * moveB * dir;
-            }
-          }
-        }
-      }
-      for (const c of candidates) {
-        const ox = c.sx - c.origSx;
-        const oy = c.sy - c.origSy;
-        const len = Math.hypot(ox, oy);
-        if (len > maxTether) {
-          c.sx = c.origSx + (ox / len) * maxTether;
-          c.sy = c.origSy + (oy / len) * maxTether;
-        }
-        c.sx = clamp(c.sx, c.halfW + 6, stageW - c.halfW - 6);
-        c.sy = clamp(c.sy, topSafe + c.halfH * 2, bottomSafe);
-      }
-    }
-
-    candidates.sort((a, b) => b.priority - a.priority);
-    const placed = [];
-    for (const c of candidates) {
-      const rx = Math.round(c.sx);
-      const ry = Math.round(c.sy);
-      const collides = placed.some((p) => {
-        const ix = Math.min(rx + c.halfW, p.rx + p.halfW) - Math.max(rx - c.halfW, p.rx - p.halfW);
-        const iy = Math.min(ry, p.ry) - Math.max(ry - c.halfH * 2, p.ry - p.halfH * 2);
-        return ix > 1 && iy > 1;
-      });
-      if (collides) {
-        c.btn.style.display = 'none';
-        continue;
-      }
-      c.rx = rx;
-      c.ry = ry;
-      placed.push(c);
-      c.btn.style.display = 'inline-flex';
-      c.btn.style.translate = `${rx}px ${ry}px`;
-      c.btn.classList.toggle('is-selected', this.selectedLandmarkId === c.id);
-    }
+    return { pos: target.clone().add(offset), target };
   }
 
   bindEvents() {
@@ -10502,16 +9358,10 @@ class IranAtlasApp {
       const w = this.container.clientWidth || window.innerWidth;
       const h = Math.max(1, this.container.clientHeight || window.innerHeight);
       this.syncCameraAspectAndFov(w, h);
-      this.renderer.setSize(w, h);
-      if (this.isAtOverview && !this.flyTween && !this.selectedLandmarkId) {
-        const ov = this.computeOverviewPose();
-        this.camera.position.copy(ov.pos);
-        this.controls.target.copy(ov.target);
-        this.controls.update();
-      }
-      this.measurePinSizes();
-      this.updateLandmarkPins(true);
+      this.renderer.setSize(w, h, false);
+      this.callbacks.onResize?.(w, h);
     };
+    this.resize = onResize;
     window.addEventListener('resize', onResize, { passive: true });
     this.cleanupListeners.push(() => window.removeEventListener('resize', onResize));
 
@@ -10522,69 +9372,15 @@ class IranAtlasApp {
     }
 
     const onMotionPref = (e) => {
-      if (e.matches) {
-        this.flyTween = null;
-        this.setPaused(true);
-      }
+      this.controls.enableDamping = !e.matches;
+      if (e.matches) this.setPaused(true);
     };
     this.reducedMotionQuery.addEventListener('change', onMotionPref);
     this.cleanupListeners.push(() => this.reducedMotionQuery.removeEventListener('change', onMotionPref));
 
-    const stopTween = () => {
-      this.flyTween = null;
-      this.isAtOverview = false;
-    };
-    this.controls.addEventListener('start', stopTween);
-    this.cleanupListeners.push(() => this.controls.removeEventListener('start', stopTween));
-
-    const canvas = this.renderer.domElement;
-    const onDown = (e) => { this.pointerDownPos.set(e.clientX, e.clientY); };
-    const onUp = (e) => {
-      if (Math.hypot(e.clientX - this.pointerDownPos.x, e.clientY - this.pointerDownPos.y) > 5) return;
-      const rect = canvas.getBoundingClientRect();
-      const ndc = new THREE.Vector2(
-        ((e.clientX - rect.left) / rect.width) * 2 - 1,
-        -((e.clientY - rect.top) / rect.height) * 2 + 1
-      );
-      this.raycaster.setFromCamera(ndc, this.camera);
-      const hits = this.raycaster.intersectObjects(this.monumentMeshes, false);
-      if (hits.length > 0) {
-        const hitId = hits[0].object.userData.landmarkId;
-        if (hitId) this.selectAndFlyTo(hitId, false);
-      }
-    };
-    canvas.addEventListener('pointerdown', onDown);
-    canvas.addEventListener('pointerup', onUp);
-    this.cleanupListeners.push(() => {
-      canvas.removeEventListener('pointerdown', onDown);
-      canvas.removeEventListener('pointerup', onUp);
-    });
-
-    const onKeyDown = (e) => {
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const el = e.target;
-      const tag = el?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
-          el?.closest('dialog[open]')) {
-        return;
-      }
-      this.pressedKeys.add(e.code);
-      if (e.code === 'KeyR') this.flyToOverview();
-      else if (e.code === 'BracketRight') this.stepLandmark(1);
-      else if (e.code === 'BracketLeft') this.stepLandmark(-1);
-    };
-    const onKeyUp = (e) => { this.pressedKeys.delete(e.code); };
-    const clearKeys = () => { this.pressedKeys.clear(); };
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-    window.addEventListener('blur', clearKeys);
-    document.addEventListener('visibilitychange', clearKeys);
-    this.cleanupListeners.push(() => {
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
-      window.removeEventListener('blur', clearKeys);
-      document.removeEventListener('visibilitychange', clearKeys);
-    });
+    const leaveOverview = () => { this.isAtOverview = false; };
+    this.controls.addEventListener('start', leaveOverview);
+    this.cleanupListeners.push(() => this.controls.removeEventListener('start', leaveOverview));
   }
 
   start() {
@@ -10594,7 +9390,7 @@ class IranAtlasApp {
       if (this.offscreenPaused) return;
       const dt = clamp((now - this.lastFrameMs) / 1000, 0.001, 0.05);
       this.lastFrameMs = now;
-      this.stepFrame(dt);
+      this.stepFrame(dt, now);
     };
     this.rafId = requestAnimationFrame(tick);
   }
@@ -10604,28 +9400,33 @@ class IranAtlasApp {
     if (!flag) this.lastFrameMs = performance.now();
   }
 
-  stepFrame(dt) {
+  stepFrame(dt, now = performance.now()) {
     if (!this.paused) this.simTimeSec += dt;
 
-    if (this.flyTween) {
-      const tw = this.flyTween;
-      tw.elapsed += dt;
-      const u = Math.min(1, tw.elapsed / tw.duration);
-      const ease = 1 - Math.pow(1 - u, 3);
-      this.camera.position.lerpVectors(tw.startPos, tw.endPos, ease);
-      this.controls.target.lerpVectors(tw.startTarget, tw.endTarget, ease);
-      if (u >= 1) this.flyTween = null;
-    } else {
-      this.applyKeyboardCameraControl(dt);
-    }
+    // The UI controller animates camera flights here, before the controls settle the view.
+    this.callbacks.onBeforeUpdate?.(now);
+    this.controls.update();
 
+    // Keep the view over the map: move the camera with the target so clamping never swings the view.
+    const t = this.controls.target;
     const boundX = GRID.halfW + 10;
     const boundZ = GRID.halfD + 10;
-    this.controls.target.x = clamp(this.controls.target.x, -boundX, boundX);
-    this.controls.target.z = clamp(this.controls.target.z, -boundZ, boundZ);
-    this.controls.target.y = clamp(this.controls.target.y, 2, 58);
+    const cx = clamp(t.x, -boundX, boundX);
+    const cy = clamp(t.y, 2, 58);
+    const cz = clamp(t.z, -boundZ, boundZ);
+    this.camera.position.x += cx - t.x;
+    this.camera.position.y += cy - t.y;
+    this.camera.position.z += cz - t.z;
+    t.set(cx, cy, cz);
+    const cp = this.camera.position;
+    if (Math.abs(cp.x) < GRID.halfW && Math.abs(cp.z) < GRID.halfD) {
+      const floorY = this.terrain.getGroundYAtWorld(cp.x, cp.z) + 2.5;
+      if (cp.y < floorY) cp.y = floorY;
+    } else if (cp.y < 3) {
+      cp.y = 3;
+    }
+    this.camera.lookAt(t);
 
-    this.controls.update();
     this.updateShadowFrustum();
 
     const { sunDir, sunColor, skyColor, nightFactor } = this.computeSolarState(this.timeHours);
@@ -10634,40 +9435,7 @@ class IranAtlasApp {
     this.renderer.render(this.scene, this.camera);
     this.lastDrawCalls = this.renderer.info.render.calls;
     this.lastTriangles = this.renderer.info.render.triangles;
-    this.updateLandmarkPins();
-  }
-
-  applyKeyboardCameraControl(dt) {
-    if (this.pressedKeys.size === 0) return;
-    const dist = this.camera.position.distanceTo(this.controls.target);
-    const panSpeed = Math.max(12, dist * 0.45) * dt;
-    const fwd = new THREE.Vector3();
-    this.camera.getWorldDirection(fwd);
-    fwd.y = 0;
-    if (fwd.lengthSq() > 1e-5) fwd.normalize();
-    const right = new THREE.Vector3(-fwd.z, 0, fwd.x);
-    const move = new THREE.Vector3();
-    if (this.pressedKeys.has('KeyW')) move.addScaledVector(fwd, panSpeed);
-    if (this.pressedKeys.has('KeyS')) move.addScaledVector(fwd, -panSpeed);
-    if (this.pressedKeys.has('KeyD')) move.addScaledVector(right, panSpeed);
-    if (this.pressedKeys.has('KeyA')) move.addScaledVector(right, -panSpeed);
-    if (move.lengthSq() > 0) {
-      this.camera.position.add(move);
-      this.controls.target.add(move);
-    }
-    if (this.pressedKeys.has('KeyQ') || this.pressedKeys.has('KeyE')) {
-      const dir = this.pressedKeys.has('KeyQ') ? 1 : -1;
-      const rel = this.camera.position.clone().sub(this.controls.target);
-      rel.applyAxisAngle(new THREE.Vector3(0, 1, 0), dir * dt * 1.15);
-      this.camera.position.copy(this.controls.target).add(rel);
-    }
-    if (this.pressedKeys.has('Equal') || this.pressedKeys.has('NumpadAdd')) {
-      const toTarget = this.controls.target.clone().sub(this.camera.position);
-      if (toTarget.length() > 9) this.camera.position.addScaledVector(toTarget, dt * 1.6);
-    } else if (this.pressedKeys.has('Minus') || this.pressedKeys.has('NumpadSubtract')) {
-      const fromTarget = this.camera.position.clone().sub(this.controls.target);
-      if (fromTarget.length() < 620) this.camera.position.addScaledVector(fromTarget, dt * 1.6);
-    }
+    this.callbacks.onAfterRender?.(now);
   }
 
   updateShadowFrustum() {
@@ -10774,98 +9542,17 @@ class IranAtlasApp {
     if (this.isLightTheme === next) return;
     this.isLightTheme = next;
     this.applyLightingForTime(this.timeHours);
-    this.measurePinSizes();
     this.forceRender();
   }
 
   emitState() {
-    const selected = LANDMARKS.find((l) => l.id === this.selectedLandmarkId) ?? null;
-    this.callbacks.onStateChange({
+    this.callbacks.onStateChange?.({
       lens: this.currentLens,
       eraFilter: this.activeEraFilter,
       timeHours: this.timeHours,
       labelsVisible: this.labelsVisible,
-      paused: this.paused,
-      selectedLandmark: selected
+      paused: this.paused
     });
-  }
-
-  shouldInstantJump() {
-    return this.paused || this.reducedMotionQuery.matches;
-  }
-
-  selectAndFlyTo(idOrIndex, forceInstant = false) {
-    const mon = typeof idOrIndex === 'number'
-      ? this.monuments[idOrIndex]
-      : this.monuments.find((m) => m.info.id === idOrIndex);
-    if (!mon) return null;
-
-    this.selectedLandmarkId = mon.info.id;
-    this.lastVisitedLandmark = mon.info;
-    this.isAtOverview = false;
-    this.callbacks.onSelectLandmark(mon.info);
-    this.emitState();
-
-    const { pos, target } = this.computeLandmarkPose(mon);
-    if (forceInstant || this.shouldInstantJump()) {
-      this.flyTween = null;
-      this.camera.position.copy(pos);
-      this.controls.target.copy(target);
-      this.controls.update();
-      this.forceRender();
-    } else {
-      this.flyTween = {
-        startPos: this.camera.position.clone(),
-        endPos: pos,
-        startTarget: this.controls.target.clone(),
-        endTarget: target,
-        elapsed: 0,
-        duration: 0.88
-      };
-    }
-    return mon.info.name;
-  }
-
-  dismissInspector() {
-    this.selectedLandmarkId = null;
-    this.callbacks.onSelectLandmark(null, this.lastVisitedLandmark);
-    this.emitState();
-    this.updateLandmarkPins(true);
-  }
-
-  stepLandmark(delta) {
-    const curId = this.selectedLandmarkId ?? this.lastVisitedLandmark?.id ?? null;
-    const curIdx = LANDMARKS.findIndex((l) => l.id === curId);
-    const nextIdx = curIdx === -1
-      ? (delta >= 0 ? 0 : LANDMARKS.length - 1)
-      : (curIdx + delta + LANDMARKS.length) % LANDMARKS.length;
-    this.selectAndFlyTo(nextIdx, false);
-  }
-
-  flyToOverview(forceInstant = false) {
-    this.selectedLandmarkId = null;
-    this.lastVisitedLandmark = null;
-    this.isAtOverview = true;
-    this.callbacks.onSelectLandmark(null, null);
-    this.emitState();
-    const { pos, target } = this.computeOverviewPose();
-    if (forceInstant || this.shouldInstantJump()) {
-      this.flyTween = null;
-      this.camera.position.copy(pos);
-      this.controls.target.copy(target);
-      this.controls.update();
-      this.forceRender();
-    } else {
-      this.flyTween = {
-        startPos: this.camera.position.clone(),
-        endPos: pos,
-        startTarget: this.controls.target.clone(),
-        endTarget: target,
-        elapsed: 0,
-        duration: 0.86
-      };
-    }
-    this.callbacks.onStatusAnnounce('Camera reset to full Iran overview');
   }
 
   setLens(lens) {
@@ -10877,7 +9564,6 @@ class IranAtlasApp {
       mon.meshHandle.applyLens(lens, this.activeEraFilter);
     }
     this.water.applyLens(lens);
-    this.updateLandmarkPins(true);
     this.emitState();
     this.forceRender();
   }
@@ -10888,8 +9574,7 @@ class IranAtlasApp {
       for (const mon of this.monuments) {
         mon.meshHandle.applyLens('heritage', this.activeEraFilter);
       }
-      this.updateLandmarkPins(true);
-      this.emitState();
+        this.emitState();
       this.forceRender();
     }
   }
@@ -10907,7 +9592,6 @@ class IranAtlasApp {
 
   setLabelsVisible(v) {
     this.labelsVisible = Boolean(v);
-    this.updateLandmarkPins(true);
     this.emitState();
   }
 
@@ -10929,7 +9613,6 @@ class IranAtlasApp {
     this.renderer.render(this.scene, this.camera);
     this.lastDrawCalls = this.renderer.info.render.calls;
     this.lastTriangles = this.renderer.info.render.triangles;
-    this.updateLandmarkPins(true);
   }
 
   getDebugStats() {
@@ -10944,506 +9627,811 @@ class IranAtlasApp {
       currentLens: this.currentLens
     };
   }
-
-  exposeInspectionHooks() {
-    window.__IRAN_ATLAS_SITES = LANDMARKS.map((lm) => ({
-      index: lm.index,
-      id: lm.id,
-      name: lm.name,
-      faName: lm.faName,
-      era: lm.eraName,
-      lat: lm.lat,
-      lon: lm.lon
-    }));
-
-    window.__IRAN_ATLAS_JUMP = (index, instant = false) => {
-      const idx = typeof index === 'number' ? index : Number(index);
-      if (Number.isInteger(idx) && idx >= 0 && idx < this.monuments.length) {
-        return this.selectAndFlyTo(idx, Boolean(instant));
-      }
-      if (typeof index === 'string') {
-        return this.selectAndFlyTo(index, Boolean(instant));
-      }
-      return null;
-    };
-
-    window.__IRAN_ATLAS_DEBUG = () => this.getDebugStats();
-  }
 }
 
 
-// 07_ui_controller.js — Accessible Toolbar, Heritage Era Filter, Modal Sites & Help Dialogs & Hugo Host Bridge
+// 07_ui_controller.js — The interface shared with the other voxel maps (panel, place card, camera buttons, labels,
+// search, tour, deep links, host bridge), driving IranAtlasApp. Element ids and behaviour follow the Voxel Bay map.
 
-function formatSolarClock(hours) {
-  const hNorm = ((hours % 24) + 24) % 24;
-  let hh = Math.floor(hNorm);
-  let mm = Math.round((hNorm - hh) * 60);
-  if (mm === 60) {
-    hh = (hh + 1) % 24;
-    mm = 0;
-  }
-  const short = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
-  let phase = 'Iranian Plateau Day';
-  if (hNorm < 5 || hNorm >= 19.8) phase = 'Starry Persian Night';
-  else if (hNorm < 7) phase = 'Alborz Dawn';
-  else if (hNorm >= 17 && hNorm < 19.8) phase = 'Saffron Sunset';
-  else if (hNorm >= 14.5) phase = 'Golden Afternoon';
-  return { short, phase };
+(() => {
+const $ = (id) => document.getElementById(id);
+const app = $('app'), canvas = $('c');
+const hashAtLoad = new URLSearchParams(location.hash.slice(1));
+// ?cleanPreview=1 (used for share images) and #bare both show the map without any interface
+if (new URLSearchParams(location.search).get('cleanPreview') === '1') {
+  document.documentElement.classList.add('is-clean-preview');
+  app.classList.add('bare');
 }
+if (hashAtLoad.has('bare')) app.classList.add('bare');
 
-let liveAnnounceTimer = 0;
-function announcePolite(message) {
-  const el = document.getElementById('live-status');
-  if (!el) return;
-  window.clearTimeout(liveAnnounceTimer);
-  liveAnnounceTimer = window.setTimeout(() => {
-    el.textContent = message;
-  }, 180);
+let syncState = null, beforeUpdate = null, afterRender = null, onAtlasResize = null;
+let atlas;
+try {
+  atlas = new IranAtlasApp(app, canvas, {
+    onStateChange: (s) => { if (syncState) syncState(s); },
+    onBeforeUpdate: (now) => { if (beforeUpdate) beforeUpdate(now); },
+    onAfterRender: (now) => { if (afterRender) afterRender(now); },
+    onResize: () => { if (onAtlasResize) onAtlasResize(); }
+  });
+} catch (err) {
+  console.error(err);
+  $('load').hidden = true;
+  $('fail').hidden = false;
+  return;
 }
+const camera = atlas.camera, controls = atlas.controls, terrain = atlas.terrain;
+const STILL = hashAtLoad.has('still');
+let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || STILL;
+if (STILL) { atlas.setPaused(true); controls.enableDamping = false; }
 
-function renderLensLegend(app, lens, activeEraFilter) {
-  const aside = document.getElementById('lens-legend');
-  if (!aside) return;
-  if (lens === 'natural') {
-    aside.hidden = true;
-    aside.innerHTML = '';
-    delete aside.dataset.renderedLens;
+/* ---------- places ---------- */
+// Categories are the atlas's own heritage eras; their colours are the ones the Heritage lens paints with.
+const CATS = {};
+for (const e of ERA_META) CATS[e.key] = e.label;
+const ERA_ID = {};
+for (const e of ERA_META) ERA_ID[e.key] = e.id;
+// Wikipedia article for each place's card, each title checked against Wikipedia. A place made of several sites links to the first one named.
+const WIKI = {
+  tehran: 'Tehran', damavand: 'Mount Damavand', masuleh: 'Masuleh', gonbad: 'Gonbad-e Qabus (tower)', mashhad: 'Mashhad',
+  tabriz: 'Bazaar of Tabriz', 'st-thaddeus': 'Monastery of Saint Thaddeus', 'takht-e-soleyman': 'Takht-e Soleymān',
+  soltaniyeh: 'Dome of Soltaniyeh', bisotun: 'Behistun inscription', khuzestan: 'Chogha Zanbil',
+  isfahan: 'Naqsh-e Jahan Square', persepolis: 'Persepolis', shiraz: 'Shiraz', yazd: 'Yazd',
+  hormuz: 'Hormuz Island', bam: 'Arg-e Bam', lut: 'Lut Desert', sistan: 'Shahr-e Sukhteh', chabahar: 'Chabahar'
+};
+// Places labelled first when the whole country is in view (the atlas's original priority set).
+const PRI = ['tehran', 'damavand', 'isfahan', 'persepolis', 'mashhad', 'tabriz', 'yazd', 'khuzestan', 'hormuz', 'shiraz', 'bam', 'sistan'];
+const P = LANDMARKS.map((lm, i) => {
+  const mon = atlas.monuments[i];
+  return {
+    i, id: lm.id, n: lm.name, s: lm.shortLabel, fa: lm.faName, w: `${lm.province} · ${lm.eraLabel}`, d: lm.summary, note: lm.architecturalNote,
+    c: ERA_BY_ID.get(lm.era).key, t: PRI.includes(lm.id) ? 1 : 2, lat: lm.lat, lon: lm.lon, elev: lm.realElevationM,
+    x: mon.worldX, z: mon.worldZ, gy: mon.worldY, top: mon.worldY + (lm.pinAnchorDY || 5.6), r: (lm.footprintRadius || 5) + 0.9, mon
+  };
+});
+const KM = (a, b) => {
+  const R = 6371, f = Math.PI / 180, dla = (b.lat - a.lat) * f, dlo = (b.lon - a.lon) * f;
+  const h = Math.sin(dla / 2) ** 2 + Math.cos(a.lat * f) * Math.cos(b.lat * f) * Math.sin(dlo / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+};
+
+/* ---------- camera ---------- */
+const world = (lat, lon, y = GRID.seaLevelY) => { const p = project(lat, lon); return new THREE.Vector3(p.x, y, p.z); };
+const homePose = () => {
+  const ov = atlas.computeOverviewPose(), o = ov.pos.clone().sub(ov.target), t = ov.target.clone();
+  let d = o.length();
+  const az = Math.atan2(o.x, o.z), el = Math.asin(o.y / d), w = app.clientWidth || innerWidth, h = app.clientHeight || innerHeight;
+  // on wide screens the panel covers the left edge: stand back a little and centre the country in the space beside it
+  if (w >= 900 && !app.classList.contains('bare') && !$('top').classList.contains('shut')) { d *= 1.12; t.x -= 2 * d * Math.tan(camera.fov * Math.PI / 360) * (w / h) * (173 / w); }
+  return { t, d, az, el };
+};
+let fly = null;
+const view = () => {
+  const o = camera.position.clone().sub(controls.target), d = o.length();
+  return { d, az: Math.atan2(o.x, o.z), el: Math.asin(Math.max(-1, Math.min(1, o.y / (d || 1)))) };
+};
+function flyTo(target, dist, az, el, home) {
+  const v = view();
+  if (az === undefined) az = v.az;
+  if (el === undefined) el = dist > 300 ? 0.74 : Math.max(0.5, Math.min(0.8, v.el));
+  dist = Math.max(controls.minDistance, Math.min(controls.maxDistance, dist));
+  const to = target.clone().add(new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(dist));
+  atlas.isAtOverview = false;
+  if (reduce) { fly = null; controls.target.copy(target); camera.position.copy(to); camera.lookAt(target); atlas.isAtOverview = !!home; dirty = true; return; }
+  fly = { t0: performance.now(), a: controls.target.clone(), b: target.clone(), p: camera.position.clone(), q: to, lift: Math.min(70, camera.position.distanceTo(to) * 0.18), home: !!home };
+}
+// Slide a view so that its subject sits fx of the width right of centre and fy of the height below it (the camera angle is kept).
+function slide(tg, dd, az, el, fx, fy) {
+  const vh = 2 * dd * Math.tan(camera.fov * Math.PI / 360), vw = vh * (app.clientWidth || 1) / (app.clientHeight || 1);
+  tg.x += -Math.cos(az) * fx * vw - Math.sin(az) * Math.sin(el) * fy * vh;
+  tg.y += Math.cos(el) * fy * vh;
+  tg.z += Math.sin(az) * fx * vw - Math.cos(az) * Math.sin(el) * fy * vh;
+  return tg;
+}
+// how far right of centre the middle of the space beside the open panel is, as a fraction of the width (0 on phones)
+const besidePanel = () => { const w = app.clientWidth || 1; return w >= 900 && !$('top').classList.contains('shut') && !app.classList.contains('bare') ? ($('top').getBoundingClientRect().right - app.getBoundingClientRect().left) / 2 / w : 0; };
+const goHome = () => { const h = homePose(); flyTo(h.t, h.d, h.az, h.el, true); };
+const stopFly = () => { fly = null; atlas.isAtOverview = false; };
+canvas.addEventListener('pointerdown', stopFly);
+// the point of the ground plane (at the height the camera is looking at) under a pointer event
+const wRay = new THREE.Raycaster(), wNdc = new THREE.Vector2(), wP = new THREE.Vector3();
+function groundAt(e) {
+  const r = canvas.getBoundingClientRect();
+  wNdc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+  wRay.setFromCamera(wNdc, camera);
+  const o = wRay.ray.origin, d = wRay.ray.direction;
+  if (d.y > -1e-4) return false;
+  const t = (controls.target.y - o.y) / d.y;
+  if (!(t > 0)) return false;
+  wP.copy(d).multiplyScalar(t).add(o);
+  return true;
+}
+app.addEventListener('wheel', (e) => {
+  if (e.target !== canvas) return;
+  e.preventDefault(); e.stopPropagation(); stopFly(); hideHint();
+  let dy = e.deltaY * (e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 400 : 1);
+  if (e.ctrlKey) dy *= 5;
+  dy = Math.max(-160, Math.min(160, dy));
+  const f = Math.exp(dy * 0.0022), d = view().d * f;
+  if (d < controls.minDistance || d > controls.maxDistance) return;
+  if (!groundAt(e)) wP.copy(controls.target);
+  { const lim = view().d * 1.2, dd = wP.distanceTo(controls.target); if (dd > lim) wP.sub(controls.target).multiplyScalar(lim / dd).add(controls.target); }
+  controls.target.sub(wP).multiplyScalar(f).add(wP);
+  camera.position.sub(wP).multiplyScalar(f).add(wP);
+}, { capture: true, passive: false });
+canvas.addEventListener('dblclick', (e) => {
+  if (groundAt(e) && Math.abs(wP.x) < GRID.halfW + 20 && Math.abs(wP.z) < GRID.halfD + 20) flyTo(wP.clone(), Math.max(controls.minDistance, view().d * 0.5));
+});
+function nav(dz, daz, del = 0) {
+  if (fly && !fly.orbit) { controls.target.copy(fly.b); camera.position.copy(fly.q); fly = null; }
+  const b = fly && fly.orbit ? fly.to : view();
+  atlas.isAtOverview = false;
+  fly = { orbit: true, t0: performance.now(), dur: reduce ? 1 : 280, from: view(), to: { d: Math.max(controls.minDistance, Math.min(controls.maxDistance, b.d * dz)), az: b.az + daz, el: Math.max(0.16, Math.min(1.42, b.el + del)) } };
+}
+function panKey(k) {
+  const v = view(), st = v.d * 0.09, fx = -Math.sin(v.az), fz = -Math.cos(v.az);
+  const m = { ArrowUp: [fx, fz], ArrowDown: [-fx, -fz], ArrowLeft: [fz, -fx], ArrowRight: [-fz, fx] }[k];
+  if (!m) return false;
+  stopFly();
+  controls.target.x += m[0] * st; controls.target.z += m[1] * st; camera.position.x += m[0] * st; camera.position.z += m[1] * st;
+  return true;
+}
+$('zin').onclick = () => nav(0.7, 0); $('zout').onclick = () => nav(1.43, 0);
+$('rl').onclick = () => nav(1, -Math.PI / 8); $('rr').onclick = () => nav(1, Math.PI / 8);
+$('home').onclick = goHome;
+$('nav').addEventListener('click', (e) => { if (e.detail > 0) canvas.focus({ preventScroll: true }); });
+// The day/night button drives the atlas's own sun: it switches between the afternoon the map opens on and night.
+const DAY = 15.75, NIGHT = 21.5;
+const isNight = () => atlas.computeSolarState(atlas.getTimeOfDay()).nightFactor >= 0.5;
+$('dusk').onclick = () => { const n = isNight(); atlas.setTimeOfDay(n ? DAY : NIGHT); $('say').textContent = n ? 'Day view' : 'Night view'; };
+$('tilt').onclick = () => { const v = fly && fly.orbit ? fly.to : view(), top = v.el < 1.2; nav(1, 0, (top ? 1.45 : 0.74) - v.el); $('tilt').textContent = top ? '3D' : '2D'; };
+$('north').onclick = () => nav(1, -(fly && fly.orbit ? fly.to : view()).az);
+addEventListener('keydown', (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey || (e.target && e.target.tagName === 'INPUT')) return;
+  { const ae = document.activeElement, onMap = !ae || ae === document.body || ae === canvas || labels.contains(ae) || $('card').contains(ae); if (!onMap && /^[a-z\[\]+\-=]$/i.test(e.key)) return; }
+  if (e.key === '?') { $('help').click(); return; }
+  if ((e.key === 'l' || e.key === 'L') && !labels.contains(document.activeElement)) { const b = [...labels.querySelectorAll('.lb:not(.off)')][0]; if (b) { b.focus(); e.preventDefault(); return; } }
+  if (sel && (e.key === 'n' || e.key === 'N' || e.key === ']')) { $('next').click(); return; }
+  if (sel && (e.key === 'p' || e.key === 'P' || e.key === '[')) { $('prev').click(); return; }
+  if (e.key.startsWith('Arrow')) {
+    const tg = e.target;
+    if (tg && tg.closest && tg.closest('#card') && $('card').scrollHeight > $('card').clientHeight) return;
+    stopFly();
+    if (!(tg && tg.closest && tg.closest('#list')) && panKey(e.key)) e.preventDefault();
     return;
   }
+  if (e.key === 'r' || e.key === 'R') { nav(1, 0, 0.15); e.preventDefault(); return; }
+  if (e.key === 'f' || e.key === 'F') { nav(1, 0, -0.15); e.preventDefault(); return; }
+  const m = { '+': 'zin', '=': 'zin', '-': 'zout', '_': 'zout', q: 'rl', Q: 'rl', e: 'rr', E: 'rr', h: 'home', H: 'home' }[e.key];
+  if (m) { $(m).click(); e.preventDefault(); }
+});
 
-  if (lens === 'heritage') {
-    // Preserve keyboard focus by mutating aria-pressed in place when already showing Heritage era pills!
-    if (aside.dataset.renderedLens === 'heritage') {
-      aside.hidden = false;
-      aside.querySelectorAll('button[data-era]').forEach((btn) => {
-        const eraId = Number(btn.dataset.era) || 0;
-        btn.setAttribute('aria-pressed', String(eraId === activeEraFilter));
-      });
-      return;
-    }
+/* ---------- labels and UI ---------- */
+const labels = $('labels'), active = {};
+Object.keys(CATS).forEach((c) => { active[c] = true; });
+const items = [];
+let sel = null, dirty = true;
+for (const L of P) {
+  const el = document.createElement('button');
+  el.className = 'lb off'; el.style.setProperty('--c', `var(--${L.c})`); el.dataset.c = L.c;
+  el.innerHTML = '<i></i>'; el.append(L.s); el.setAttribute('aria-label', `${L.n}, ${CATS[L.c]}`);
+  el.addEventListener('click', (e) => select(L, e.detail === 0)); labels.append(el);
+  const dot = document.createElement('button');
+  dot.className = 'dot off'; dot.addEventListener('click', () => dotGo(items[L.i]));
+  dot.style.setProperty('--c', `var(--${L.c})`); dot.dataset.c = L.c; dot.setAttribute('aria-label', L.n); labels.append(dot);
+  items.push({ el, dot, L, tier: L.t, pos: new THREE.Vector3(L.x, L.top, L.z) });
+}
+// Names of seas, lakes and ranges, placed from the coordinates the terrain itself is generated from.
+{
+  const AREAS = [];
+  for (const [kind, name] of [['caspian', 'CASPIAN SEA'], ['gulf', 'PERSIAN GULF'], ['oman', 'GULF OF OMAN']]) {
+    const cells = terrain.waterCells.filter((c) => c.kind === kind);
+    if (!cells.length) continue;
+    let mx = 0, mz = 0;
+    for (const c of cells) { mx += c.gx; mz += c.gz; }
+    mx /= cells.length; mz /= cells.length;
+    let best = cells[0], bd = 1e9;
+    for (const c of cells) { const d = (c.gx - mx) ** 2 + (c.gz - mz) ** 2; if (d < bd) { bd = d; best = c; } }
+    AREAS.push([name, new THREE.Vector3(best.gx - GRID.halfW, best.waterY + 0.6, best.gz - GRID.halfD), 1]);
+  }
+  const ll = (name, lat, lon, water) => { const p = project(lat, lon); AREAS.push([name, new THREE.Vector3(p.x, terrain.getGroundYAtWorld(p.x, p.z) + 0.6, p.z), water]); };
+  { let la = 0, lo = 0; for (const q of GEO_VECTORS.urmiaPoly) { la += q[0]; lo += q[1]; } ll('LAKE URMIA', la / GEO_VECTORS.urmiaPoly.length, lo / GEO_VECTORS.urmiaPoly.length, 1); }
+  { let la = 0, lo = 0; for (const q of GEO_VECTORS.straitBridgePoly) { la += q[0]; lo += q[1]; } ll('STRAIT OF HORMUZ', la / GEO_VECTORS.straitBridgePoly.length, lo / GEO_VECTORS.straitBridgePoly.length, 1); }
+  for (const lk of ENDORHEIC_ELLIPSES) {
+    const name = { namak: 'NAMAK LAKE', hamun_puzak: 'HAMUN' }[lk.id];
+    if (name) ll(name, lk.lat, lk.lon, 1);
+  }
+  ll('ALBORZ', 36.45, 50.40); ll('ZAGROS', 32.37, 50.08); ll('SABALAN', 38.27, 47.84); ll('KOPET DAG', 37.30, 58.45); ll('TAFTAN', 28.60, 61.13);
+  for (const A of AREAS) {
+    const el = document.createElement('span');
+    el.className = 'off area' + (A[2] ? ' water' : ''); el.textContent = A[0]; el.setAttribute('aria-hidden', 'true'); labels.append(el);
+    items.push({ el, area: true, major: /SEA|GULF|ALBORZ|ZAGROS/.test(A[0]), tier: 9, pos: A[1] });
+  }
+}
+function measure() { for (const it of items) { it.el.hidden = false; it.w = it.el.offsetWidth; it.h = it.el.offsetHeight; } dirty = true; }
+measure(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
-    const pills = [
-      { id: 0, label: 'All Eras', color: '#eab854' },
-      ...ERA_META.map((e) => ({ id: e.id, label: e.label, color: e.hexStr }))
-    ];
-    aside.innerHTML = `
-      <p class="lens-legend__title">Heritage Eras (Filter)</p>
-      <div class="era-filter-group" role="group" aria-label="Filter landmarks by historical era">
-        ${pills.map((p) => `
-          <button type="button" class="era-pill-btn" data-era="${p.id}" aria-pressed="${String(activeEraFilter === p.id)}">
-            <span class="lens-legend__swatch" style="background:${p.color}" aria-hidden="true"></span>
-            <span>${p.label}</span>
-          </button>
-        `).join('')}
-      </div>
-    `;
-    aside.dataset.renderedLens = 'heritage';
-    aside.hidden = false;
-    aside.querySelectorAll('button[data-era]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const nextEra = Number(btn.dataset.era) || 0;
-        app.setEraFilter(nextEra);
-        announcePolite(nextEra === 0 ? 'Showing all heritage eras' : `Filtered heritage sites to ${btn.textContent.trim()}`);
-      });
+// In the Heritage lens, leaving a single category switched on isolates that era on the models (the atlas's era filter).
+function tint() {
+  const on = Object.keys(CATS).filter((c) => active[c]);
+  const era = atlas.getLens() === 'heritage' && on.length === 1 ? ERA_ID[on[0]] : 0;
+  if (atlas.getEraFilter() !== era) atlas.setEraFilter(era);
+}
+const chips = $('chips');
+for (const c in CATS) {
+  const b = document.createElement('button');
+  b.className = 'chip'; b.style.setProperty('--c', `var(--${c})`); b.dataset.c = c; b.setAttribute('aria-pressed', 'true');
+  b.innerHTML = '<i></i>'; b.append(CATS[c] + ' ');
+  { const n = document.createElement('b'); n.textContent = P.filter((L) => L.c === c).length; b.append(n); }
+  b.addEventListener('click', () => {
+    if (!applying) { pushNext = true; setTimeout(writeHash, 0); }
+    active[c] = !active[c]; b.setAttribute('aria-pressed', active[c]);
+    if (sel && !active[sel.c]) select(null);
+    tint(); renderList(); dirty = true;
+  });
+  chips.append(b);
+}
+// Regions are framed around the landmarks that stand in them.
+const JUMPS = [['Whole country'], ['Northwest', 'tabriz', 'st-thaddeus', 'takht-e-soleyman', 'soltaniyeh'], ['Caspian & Alborz', 'tehran', 'damavand', 'masuleh', 'gonbad'],
+  ['Khorasan', 'mashhad', 'gonbad'], ['Zagros & Khuzestan', 'bisotun', 'khuzestan', 'isfahan'], ['Fars & Yazd', 'persepolis', 'shiraz', 'yazd'], ['Southeast & Gulf', 'hormuz', 'bam', 'lut', 'sistan', 'chabahar']];
+function frameOf(Ls) {
+  let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, y = 0;
+  for (const L of Ls) { x0 = Math.min(x0, L.x); x1 = Math.max(x1, L.x); z0 = Math.min(z0, L.z); z1 = Math.max(z1, L.z); y += L.gy / Ls.length; }
+  return { c: new THREE.Vector3((x0 + x1) / 2, y, (z0 + z1) / 2), span: Math.hypot(x1 - x0, z1 - z0) };
+}
+for (const J of JUMPS) {
+  const b = document.createElement('button'); b.className = 'jump'; b.textContent = J[0];
+  b.addEventListener('click', () => {
+    pushNext = true;
+    if (J.length === 1) goHome();
+    else { const f = frameOf(J.slice(1).map((id) => P.find((L) => L.id === id))), dd = Math.max(70, Math.min(controls.maxDistance, f.span * 1.5 + 60)), az = homePose().az; flyTo(slide(f.c, dd, az, 0.74, besidePanel(), 0), dd, az, 0.74); }
+    shutMenu();
+  });
+  $('jumps').append(b);
+}
+const list = $('list'), find = $('find');
+{ const left = new Set(P); let cur = P[0], n = 0; while (cur) { left.delete(cur); cur.ord = n++; let best = null, bd = 1e9; for (const q of left) { const d = KM(q, cur); if (d < bd) { bd = d; best = q; } } cur = best; } }
+const fold = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+for (const L of P) L.hay = fold([L.n, L.s, L.fa, L.w, L.d, L.note, CATS[L.c]].join(' '));
+const rank = (L, q) => { const n = fold(L.n); return n.startsWith(q) ? 0 : n.includes(' ' + q) ? 1 : n.includes(q) ? 2 : fold(L.w).includes(q) ? 3 : 4; };
+const ed = (a, b) => {
+  const m = a.length, n = b.length; if (Math.abs(m - n) > 2) return 3;
+  let p2 = null, p = Array.from({ length: n + 1 }, (_, k) => k);
+  for (let i = 1; i <= m; i++) {
+    const c = [i];
+    for (let j = 1; j <= n; j++) { c[j] = Math.min(p[j] + 1, c[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); if (p2 && i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) c[j] = Math.min(c[j], p2[j - 2] + 1); }
+    p2 = p; p = c;
+  }
+  return p[n];
+};
+const fuzzy = (L, q, deep) => {
+  const toks = fold(L.n + ' ' + L.s + ' ' + L.w + (deep ? ' ' + L.d + ' ' + L.note : '')).split(/[^a-z0-9]+/).filter(Boolean);
+  return q.split(/\s+/).filter(Boolean).every((w) => toks.some((t) => t.includes(w) || (w.length > 2 && [w.length - 1, w.length, w.length + 1].some((n) => ed(t.slice(0, n), w) <= (w.length >= 8 ? 2 : 1)))));
+};
+// The guided tour visits all twenty landmarks in the atlas's own order, from Tehran round to Chabahar.
+const STOPS = P.slice();
+let touring = false;
+const tour = () => (touring ? STOPS : find.value.trim() ? shown : P.filter((L) => active[L.c]).sort((a, b) => a.ord - b.ord));
+let tourNav = false;
+let tourK = 0;
+const tourPaused = () => touring && (!sel || STOPS.indexOf(sel) < 0);
+function tourLabel() {
+  const p = tourPaused();
+  STOPS.forEach((L, k) => {
+    const el = items[L.i] && items[L.i].el;
+    if (el) { if (touring) el.dataset.stop = k + 1; else delete el.dataset.stop; el.setAttribute('aria-label', `${L.n}, ${CATS[L.c]}${touring ? ', tour stop ' + (k + 1) : ''}`); }
+  });
+  for (const id of ['tourb', 'tourh']) $(id).textContent = !touring ? 'Take the tour' : p ? 'Resume the tour' : 'End the tour';
+  $('tourm').textContent = !touring ? 'Tour' : p ? 'Resume' : 'End tour';
+  $('tourx').hidden = !p;
+  if (touring !== tourLabel.was) { tourLabel.was = touring; measure(); }
+}
+function setTour(on) {
+  touring = on; if (on) tourK = 0;
+  $('next').innerHTML = on ? 'Next stop &rsaquo;' : 'Next &rsaquo;';
+  if (on) {
+    for (const b of chips.querySelectorAll('[aria-pressed="false"]')) b.click();
+    if (find.value) { find.value = ''; searching = false; renderList(); }
+    stepNav = tourNav = true; select(STOPS[0], true); showHint(false);
+  }
+  tourLabel(); updatePos();
+}
+function updatePos() {
+  tourLabel(); if (!sel) return;
+  const T = tour(), k = T.indexOf(sel); if (touring && k >= 0) tourK = k;
+  const q = find.value.trim(), tail = q && !small() ? ` matching “${q}”` : '';
+  $('ctag').textContent = touring && k >= 0 ? `Tour · stop ${k + 1} of ${T.length}` : CATS[sel.c];
+  if (touring) $('next').innerHTML = k < 0 ? 'Back to the tour &rsaquo;' : k === T.length - 1 ? 'Finish tour' : 'Next stop &rsaquo;';
+  $('prev').disabled = touring && k <= 0;
+  $('pos').textContent = touring ? (k < 0 ? 'off the tour' : '') : k < 0 ? (q ? 'not in this search' : '') : q ? `${k + 1} of ${T.length}${tail}` : `${k + 1} of ${T.length}`;
+}
+let shown = [];
+function renderList() {
+  const q = fold(find.value.trim()); list.textContent = '';
+  shown = P.filter((L) => active[L.c] && (!q || L.hay.includes(q))).sort((a, b) => (q ? rank(a, q) - rank(b, q) : 0) || (q ? a.t - b.t : 0) || a.n.localeCompare(b.n));
+  if (q && shown.length && q.length > 2 && shown.every((L) => rank(L, q) === 4)) { const fz = P.filter((L) => active[L.c] && !shown.includes(L) && fuzzy(L, q)); shown = [...shown, ...fz]; }
+  if (q && !shown.length && q.length > 2) shown = P.filter((L) => active[L.c] && fuzzy(L, q)).sort((a, b) => a.t - b.t || a.n.localeCompare(b.n));
+  if (q && shown.length < 3 && q.length > 3) { const more = P.filter((L) => active[L.c] && !shown.includes(L) && fuzzy(L, q, true)).sort((a, b) => a.t - b.t || a.n.localeCompare(b.n)); if (more.length && !P.some((L) => L.hay.includes(q))) shown = [...shown, ...more]; }
+  {
+    const raw = find.value.trim(), off = Object.keys(CATS).filter((c) => !active[c]).length, p = $('pill');
+    p.hidden = !raw && !off;
+    p.textContent = raw ? `${shown.length} matching “${raw}”  ✕` : `${off} ${off === 1 ? 'category' : 'categories'} hidden  ✕`;
+    p.setAttribute('aria-label', (raw ? `Showing ${shown.length} places matching ${raw}` : `${off} categories hidden`) + '. Clear filters');
+  }
+  tint();
+  $('cnt').textContent = q ? `${shown.length} of ${P.length} places match · only these are labelled on the map` : '';
+  if (q) $('say').textContent = shown.length === 1 ? '1 place' : `${shown.length} places`;
+  shown.forEach((L) => {
+    const b = document.createElement('button'); b.style.setProperty('--c', `var(--${L.c})`); b.dataset.c = L.c; b.innerHTML = '<i></i>'; b.append(L.n);
+    { const vh = document.createElement('span'); vh.className = 'vh'; vh.textContent = ', ' + CATS[L.c] + ', '; b.append(vh); }
+    const s = document.createElement('span');
+    const txt = [L.d, L.note].find((t) => fold(t).includes(q)), sn = q && rank(L, q) === 4 && txt && fold(txt).length === txt.length;
+    if (sn) {
+      s.className = 'snip'; b.classList.add('hassnip');
+      const d = txt, at = fold(d).indexOf(q), a = d.lastIndexOf(' ', Math.max(0, at - 18)) + 1; let z = d.indexOf(' ', at + q.length + 18); if (z < 0) z = d.length;
+      const mk = document.createElement('mark'); mk.textContent = d.slice(at, at + q.length);
+      s.append((a > 0 ? '…' : '') + d.slice(a, at), mk, d.slice(at + q.length, z).replace(/[.,;]$/, '') + (z < d.length ? '…' : ''));
+    } else s.textContent = L.w.split(' · ')[0].replace(' Province', '');
+    b.append(s); b.addEventListener('click', (e) => select(L, e.detail === 0)); L.lbtn = b; b.tabIndex = -1;
+    if (L === sel) { b.classList.add('cur'); b.setAttribute('aria-current', 'true'); }
+    list.append(b);
+  });
+  { const f = list.querySelector('.cur') || list.querySelector('button'); if (f) f.tabIndex = 0; }
+  if (!list.children.length) { const e = document.createElement('p'); e.className = 'sub'; e.style.cssText = 'display:block;margin:6px'; e.textContent = 'No places match. Try a shorter search or turn a category back on.'; list.append(e); }
+  updatePos();
+}
+find.placeholder = `Search ${P.length} places`;
+$('tourx').onclick = () => setTour(false);
+$('tourb').onclick = $('tourh').onclick = $('tourm').onclick = () => { if (tourPaused()) { stepNav = tourNav = true; select(STOPS[tourK], true); } else { if (!touring) pushNext = true; setTour(!touring); } };
+$('pill').onclick = () => { pushNext = true; find.value = ''; for (const b of chips.querySelectorAll('[aria-pressed="false"]')) b.click(); renderList(); updatePos(); dirty = true; };
+let frameT = 0;
+// after typing stops, move the camera so every match is in view
+let searching = false;
+function frameMatches() {
+  if (!find.value.trim() || !shown.length) return;
+  if (!searching) { pushNext = true; searching = true; }
+  const f = frameOf(shown), dd = Math.max(45, Math.min(controls.maxDistance, f.span * 1.5 + 40)), az = dd > 300 ? homePose().az : view().az, el = dd > 300 ? 0.74 : Math.max(0.5, Math.min(0.8, view().el));
+  flyTo(slide(f.c, dd, az, el, besidePanel(), 0), dd, az, el);
+}
+find.addEventListener('input', () => { dirty = true; if (!find.value.trim()) searching = false; clearTimeout(frameT); frameT = setTimeout(frameMatches, 450); if ($('places').hidden && find.value.trim()) $('toggle').click(); renderList(); updatePos(); });
+$('sbtn').onclick = () => { if (getComputedStyle($('body')).display === 'none') $('menu').click(); find.focus(); };
+find.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { if (find.value) { find.value = ''; renderList(); updatePos(); dirty = true; searching = false; } else find.blur(); e.stopPropagation(); return; }
+  if (e.key === 'ArrowDown') { const b = list.querySelector('button'); if (b) { e.preventDefault(); b.focus(); } }
+});
+list.addEventListener('keydown', (e) => {
+  if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+  const b = document.activeElement; if (!b || b.parentNode !== list) return;
+  e.preventDefault(); e.stopPropagation();
+  const n = e.key === 'Home' ? list.firstElementChild : e.key === 'End' ? list.lastElementChild : e.key === 'ArrowDown' ? b.nextElementSibling : b.previousElementSibling;
+  (n || (e.key === 'ArrowUp' ? find : b)).focus();
+});
+addEventListener('keydown', (e) => { if (e.key === '/' && !e.ctrlKey && !e.metaKey && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) { e.preventDefault(); if (getComputedStyle($('body')).display === 'none') $('menu').click(); find.focus(); } });
+find.addEventListener('keydown', (e) => { if (e.key === 'Enter' && shown.length) { e.preventDefault(); select(shown[0]); } });
+$('toggle').addEventListener('click', () => {
+  const p = $('places'), open = p.hidden; p.hidden = !open;
+  $('toggle').setAttribute('aria-expanded', open); $('toggle').textContent = open ? 'Hide the list' : `Browse all ${P.length} places`;
+  $('top').classList.toggle('listing', open); dirty = true; updatePos();
+  if (open && small()) showHint(false);
+  if (dock()) select(null);
+});
+$('toggle').textContent = `Browse all ${P.length} places`;
+const small = () => matchMedia('(max-width:640px)').matches;
+function shutMenu() { if (small()) { if ($('body').contains(document.activeElement)) canvas.focus({ preventScroll: true }); setMenu(true); } }
+const setMenu = (shut) => {
+  $('top').classList.toggle('shut', shut); $('menu').setAttribute('aria-expanded', !shut); $('menu').textContent = shut ? 'Menu' : 'Hide';
+  dirty = true; updatePos();
+  if (!shut) { if (small()) showHint(false); if (dock()) select(null); }
+  // the whole-country view is framed beside the panel, so it follows the panel opening and closing
+  if (atlas.isAtOverview && !fly) { if (started) goHome(); else resize(); }
+};
+let started = false;
+$('menu').addEventListener('click', () => setMenu(!$('top').classList.contains('shut')));
+const coarse = matchMedia('(pointer:coarse)').matches;
+$('hintt').textContent = coarse
+  ? 'Drag to move · pinch to zoom · drag two fingers to rotate and tilt · tap a label or a monument. Dots are more places; numbered dots zoom in when you pick them. Menu has lenses, filters, the sun, regions and the full list.'
+  : 'Drag to move · right-drag or Shift-drag to rotate · scroll to zoom · click a label or a monument. Dots are more places; numbered dots zoom in when you pick them. Keys: arrows move, + and − zoom, Q and E rotate, R and F tilt, H resets the view. N and P step through places, L moves to the first label, / searches, Esc closes.';
+const HFULL = $('hintt').textContent;
+$('hintt').textContent = coarse ? 'Drag to move · pinch to zoom · tap a label. Dots are more places. Menu has search.' : 'Drag to move · right-drag to rotate · scroll to zoom · click a label or monument. Dots are more places.';
+let hintT = 0;
+const showHint = (on) => {
+  if (!on && !$('hint').classList.contains('gone')) { hintT = performance.now(); setTimeout(() => { dirty = true; }, 700); }
+  $('hint').classList.toggle('gone', !on); $('help').setAttribute('aria-expanded', on); dirty = true;
+};
+let used = false;
+const hideHint = (e) => { if (e && e.target && e.target.closest && e.target.closest('#help')) return; if (!used) { used = true; setTimeout(() => showHint(false), 1500); } };
+const HKEYS = [['Drag', 'move'], ['Right-drag / Shift-drag', 'rotate and tilt'], ['Scroll', 'zoom'], ['Arrows', 'move'], ['+  −', 'zoom'], ['Q  E', 'rotate'], ['R  F', 'tilt'], ['H', 'reset the view'], ['N  P', 'next / previous place'], ['L', 'jump to the first label'], ['/', 'search'], ['Esc', 'close']];
+$('help').addEventListener('click', () => {
+  used = true;
+  if (coarse) $('hintt').textContent = HFULL;
+  else { const dl = document.createElement('dl'); dl.id = 'keys'; for (const [k, v] of HKEYS) { const dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = v; dl.append(dt, dd); } $('hintt').replaceChildren(dl); }
+  showHint($('hint').classList.contains('gone'));
+});
+app.addEventListener('pointerdown', hideHint); canvas.addEventListener('wheel', hideHint, { passive: true }); canvas.addEventListener('keydown', hideHint);
+let seen = false;
+try { seen = localStorage.getItem('iran-atlas-hint') === '1'; localStorage.setItem('iran-atlas-hint', '1'); } catch (e) {}
+setTimeout(hideHint, seen ? 2500 : coarse ? 8000 : 14000);
+
+/* ---------- atlas controls in the panel: lenses, sun, pause, labels ---------- */
+const LENS_KEYS = {
+  hydrology: [['#0ea5e9', 'Caspian, Gulf & rivers'], ['#1feaf9', 'Persian qanat chains'], ['#f43f8e', 'Maharlu, Urmia & salt lakes'], ['#22c55e', 'Oases, paddies & Khuzestan']],
+  elevation: [['#2470ad', '−28 m Caspian depression'], ['#4db89e', '0–250 m Gulf & Khuzestan'], ['#d6e88f', '250–900 m Lut & Kavir basins'], ['#f2bd61', '1,000–2,000 m central plateau'], ['#d17042', '2,000–3,800 m Zagros & Alborz'], ['#f7faff', '5,610 m Mt. Damavand cone']]
+};
+const lensBtns = [...$('lenses').querySelectorAll('button')];
+for (const b of lensBtns) b.addEventListener('click', () => { if (!applying) pushNext = true; atlas.setLens(b.dataset.lens); tint(); $('say').textContent = `${b.textContent} lens`; });
+$('time').addEventListener('input', () => atlas.setTimeOfDay(Number($('time').value)));
+$('pause').addEventListener('click', () => { atlas.setPaused(!atlas.isPaused()); $('say').textContent = atlas.isPaused() ? 'Scene motion paused' : 'Scene motion playing'; });
+$('lbl').addEventListener('click', () => { atlas.setLabelsVisible(!atlas.getLabelsVisible()); $('say').textContent = atlas.getLabelsVisible() ? 'Map labels shown' : 'Map labels hidden'; });
+const clock = (hours) => {
+  const h = ((hours % 24) + 24) % 24; let hh = Math.floor(h), mm = Math.round((h - hh) * 60); if (mm === 60) { hh = (hh + 1) % 24; mm = 0; }
+  const phase = h < 5 || h >= 19.8 ? 'starry Persian night' : h < 7 ? 'Alborz dawn' : h >= 17 ? 'saffron sunset' : h >= 14.5 ? 'golden afternoon' : 'Iranian plateau day';
+  return [`${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`, phase];
+};
+const SUN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>';
+const MOON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>';
+let lensShown = null;
+syncState = (s) => {
+  for (const b of lensBtns) b.setAttribute('aria-pressed', String(b.dataset.lens === s.lens));
+  if (lensShown !== s.lens) {
+    lensShown = s.lens; const leg = $('lensleg'); leg.textContent = ''; leg.hidden = s.lens === 'natural';
+    if (s.lens === 'heritage') leg.textContent = 'Models are coloured by era, as in the categories below. Leave one category on to isolate its era.';
+    for (const [col, txt] of LENS_KEYS[s.lens] || []) { const w = document.createElement('span'); w.className = 'nw'; const i = document.createElement('i'); i.className = 'sw'; i.style.background = col; w.append(i, txt); leg.append(w); }
+  }
+  const t = $('time'), v = String(Math.round(s.timeHours * 4) / 4); if (t.value !== v) t.value = v;
+  const [hm, phase] = clock(s.timeHours); $('timeo').textContent = hm; t.setAttribute('aria-valuetext', `${hm}, ${phase}`);
+  $('pause').setAttribute('aria-pressed', String(s.paused));
+  $('lbl').setAttribute('aria-pressed', String(s.labelsVisible)); labels.hidden = !s.labelsVisible;
+  const night = isNight(), dk = $('dusk');
+  if (dk.dataset.n !== String(night)) { dk.dataset.n = String(night); dk.innerHTML = night ? SUN : MOON; dk.title = night ? 'Switch to day' : 'Switch to night'; dk.setAttribute('aria-pressed', String(night)); }
+  dirty = true; writeHash();
+};
+
+function dock() {
+  const card = $('card'); if (card.hidden) return false;
+  if (!small() && app.clientWidth >= 1100 && app.clientHeight >= 720 && !$('places').hidden && !$('top').classList.contains('shut')) { card.classList.add('side'); return false; }
+  card.classList.remove('side');
+  const a = $('top').getBoundingClientRect(), b = card.getBoundingClientRect();
+  if (!(a.bottom > b.top - 4 && a.right > b.left)) return false;
+  if (!small() && app.clientWidth >= 1000 && app.clientHeight >= 720) { card.classList.add('side'); dirty = true; return false; }
+  return true;
+}
+new ResizeObserver(() => dock()).observe($('top'));
+function step(d) {
+  const T = tour(); if (!sel || !T.length) return;
+  if (touring && T.indexOf(sel) < 0) { if (d > 0) { stepNav = tourNav = true; select(STOPS[tourK], true); } return; }
+  if (touring && d < 0 && T.indexOf(sel) === 0) return;
+  stepNav = true; tourNav = touring;
+  if (touring && d > 0 && T.indexOf(sel) === T.length - 1) {
+    tourNav = false; setTour(false); select(null); $('home').click();
+    const msg = `That was the tour. Browse all ${P.length} places from the menu, or search for one.`;
+    $('hintt').textContent = msg; $('say').textContent = msg; showHint(true); canvas.focus({ preventScroll: true }); return;
+  }
+  const k = T.indexOf(sel); select(T[k < 0 ? (d > 0 ? 0 : T.length - 1) : (k + d + T.length) % T.length], true);
+}
+$('prev').addEventListener('click', () => step(-1)); $('next').addEventListener('click', () => step(1));
+let invoker = null;
+let dockShut = false, azBefore = null;
+const TITLE = document.title;
+function select(L, kb) {
+  tourNav = false; if (L && pushNext && !applying) writeHash(true); if (!L && sel) setTimeout(writeHash, 0);
+  for (const q of list.querySelectorAll('.cur')) { q.classList.remove('cur'); q.removeAttribute('aria-current'); }
+  if (L && L.lbtn && L.lbtn.isConnected) { L.lbtn.classList.add('cur'); L.lbtn.setAttribute('aria-current', 'true'); }
+  if (sel) items[sel.i].el.classList.remove('on');
+  { const ae = document.activeElement; if (L && ae && ae.tagName === 'BUTTON' && (labels.contains(ae) || list.contains(ae))) invoker = ae; }
+  sel = L; dirty = true; document.title = L ? `${L.s} · ${TITLE}` : TITLE; const card = $('card');
+  $('say').textContent = L && !kb ? `${L.n}. ${L.w}. ${L.d}` : '';
+  if (!L) {
+    card.hidden = true; tourLabel();
+    if (azBefore !== null) { const a = azBefore; azBefore = null; if (!touring) nav(1, a - view().az); }
+    if (dockShut && !small()) { dockShut = false; setMenu(false); }
+    return;
+  }
+  items[L.i].el.classList.add('on');
+  card.style.setProperty('--c', `var(--${L.c})`); card.dataset.c = L.c; $('ctag').textContent = CATS[L.c]; $('cname').textContent = L.n.replace(/-/g, '\u2011'); $('cfa').textContent = L.fa; $('cwhere').textContent = L.w;
+  $('cgeo').textContent = `${Math.abs(L.lat).toFixed(2)}° ${L.lat < 0 ? 'S' : 'N'}, ${Math.abs(L.lon).toFixed(2)}° ${L.lon < 0 ? 'W' : 'E'} · ${L.elev.toLocaleString('en-US')} m above sea level`;
+  $('cdesc').textContent = L.d; $('cnote').textContent = L.note; $('cmore').open = !small() && app.clientHeight > 620;
+  $('clink').href = `https://www.openstreetmap.org/?mlat=${L.lat}&mlon=${L.lon}#map=11/${L.lat}/${L.lon}`;
+  $('cwiki').hidden = !WIKI[L.id]; if (WIKI[L.id]) $('cwiki').href = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(WIKI[L.id].replace(/ /g, '_'));
+  {
+    const nb = $('near'); nb.textContent = 'Nearby:';
+    P.filter((q) => q !== L && active[q.c]).map((q) => [KM(q, L), q]).sort((a, b) => a[0] - b[0]).slice(0, 3).forEach(([d, q]) => {
+      const b = document.createElement('button'); b.textContent = `${q.s} · ${Math.round(d / 10) * 10} km`; b.setAttribute('aria-label', `${q.n}, about ${Math.round(d / 10) * 10} kilometres away`);
+      b.addEventListener('click', (e) => select(q, e.detail === 0)); nb.append(b);
     });
-    return;
   }
-
-  let title = '';
-  let items = [];
-  if (lens === 'hydrology') {
-    title = 'Hydrology & Qanats';
-    items = [
-      { color: '#0ea5e9', label: 'Caspian, Gulf & Rivers' },
-      { color: '#1feaf9', label: 'Persian Qanat Chains' },
-      { color: '#f43f8e', label: 'Maharlu, Urmia & Salt Lakes' },
-      { color: '#22c55e', label: 'Oases, Paddies & Khuzestan' }
-    ];
-  } else if (lens === 'elevation') {
-    title = 'Hypsometric Relief';
-    items = [
-      { color: '#2470ad', label: '−28m Caspian Depression' },
-      { color: '#4db89e', label: '0–250m Gulf & Khuzestan' },
-      { color: '#d6e88f', label: '250–900m Lut & Kavir Basins' },
-      { color: '#f2bd61', label: '1,000–2,000m Central Plateau' },
-      { color: '#d17042', label: '2,000–3,800m Zagros & Alborz' },
-      { color: '#f7faff', label: '5,610m Mt. Damavand Cone' }
-    ];
+  card.hidden = false; card.scrollTop = 0; writeHash();
+  updatePos();
+  if (dock()) { const inBody = $('body').contains(document.activeElement); if (!small() && !$('top').classList.contains('shut')) dockShut = true; setMenu(true); if (inBody) kb = true; }
+  if (kb && !card.contains(document.activeElement)) card.focus({ preventScroll: true });
+  shutMenu(); if (small()) showHint(false);
+  {
+    // Each landmark has a hand-tuned viewing pose. The view is then slid so the landmark sits in the middle of the
+    // space the card (and, on phones, the title bar) leaves free, instead of behind the card.
+    const pose = atlas.computeLandmarkPose(L.mon), o = pose.pos.clone().sub(pose.target), d0 = o.length();
+    const az = Math.atan2(o.x, o.z), el = Math.asin(o.y / d0), dd = d0 * (small() ? 1.22 : 1), tg = pose.target.clone();
+    if (azBefore === null && Math.abs(az - view().az) > 0.3) azBefore = view().az;
+    const ar = app.getBoundingClientRect(), cr = card.getBoundingClientRect(), W = ar.width || 1, H = ar.height || 1;
+    let fx = 0, fy = 0;
+    if (small()) fy = ((64 + Math.max(200, cr.top - ar.top)) / 2 - H / 2) / H;
+    else if (cr.top - ar.top < H * 0.62) fx = ((cr.right - ar.left + W) / 2 - W / 2) / W;
+    flyTo(slide(tg, dd, az, el, fx, fy), dd, az, el);
   }
+}
+$('close').addEventListener('click', () => { select(null); (invoker && invoker.isConnected && invoker.offsetParent && !invoker.classList.contains('off') ? invoker : canvas).focus({ preventScroll: true }); });
+addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !(e.target && e.target.tagName === 'INPUT')) {
+    if (small() && !$('top').classList.contains('shut') && !sel) { setMenu(true); return; }
+    const inCard = $('card').contains(document.activeElement); select(null);
+    if (inCard) (invoker && invoker.isConnected && invoker.offsetParent && !invoker.classList.contains('off') ? invoker : canvas).focus({ preventScroll: true });
+  }
+});
+canvas.addEventListener('pointerleave', () => { hoverE = null; if (hov) { items[hov.i].el.classList.remove('hov'); hov = null; } canvas.style.cursor = ''; });
 
-  aside.innerHTML = `
-    <p class="lens-legend__title">${title}</p>
-    <ul class="lens-legend__list" role="list">
-      ${items.map((it) => `
-        <li class="lens-legend__item">
-          <span class="lens-legend__swatch" style="background:${it.color}" aria-hidden="true"></span>
-          <span>${it.label}</span>
-        </li>
-      `).join('')}
-    </ul>
-  `;
-  aside.dataset.renderedLens = lens;
-  aside.hidden = false;
+function labelAt(e) {
+  const lp = coarse ? 7 : 0, r = app.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  for (const it of items) if (it.on && !it.area && it.rect && x >= it.rect[0] - lp && x <= it.rect[2] + lp && y >= it.rect[1] - lp && y <= it.rect[3] + 9) return it.L;
+  lastDot = null; const hr = coarse ? 20 : 11;
+  if (hov && items[hov.i].dx !== undefined && !items[hov.i].dotOn && items[hov.i].on && Math.abs(x - items[hov.i].dx) <= hr && Math.abs(y - items[hov.i].dy) <= hr) return hov;
+  let bd = 1e9;
+  for (const it of items) if (it.dotOn) { const d = Math.hypot(x - it.dx, y - it.dy); if (d <= hr && d < bd) { bd = d; lastDot = it; } }
+  return lastDot && lastDot.n === 1 ? lastDot.L : null;
+}
+let lastDot = null;
+// true when a mountain stands between the camera and a point (marched over the terrain's height grid)
+const SY = terrain.surfaceY;
+function occluded(p) {
+  const c = camera.position, n = 30;
+  for (let q = 2; q < n - 4; q++) {
+    const t = q / n, x = c.x + (p.x - c.x) * t, y = c.y + (p.y - c.y) * t, z = c.z + (p.z - c.z) * t, i = Math.round(x + GRID.halfW), j = Math.round(z + GRID.halfD);
+    if (i >= 0 && j >= 0 && i < GRID.gridW && j < GRID.gridD && SY[j * GRID.gridW + i] + 1 > y + 0.3) return true;
+  }
+  return false;
+}
+canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); $('fail').textContent = 'The browser reset the 3D view. Reload the page to bring it back.'; $('fail').hidden = false; });
+canvas.addEventListener('webglcontextrestored', () => { $('fail').hidden = true; dirty = true; });
+// click a model to select it; mountains block clicks on models hidden behind them
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(); let down = null;
+function pick(e) {
+  const r = canvas.getBoundingClientRect(); ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ptr, camera);
+  const hit = ray.intersectObjects(atlas.monumentMeshes, false)[0];
+  if (hit && !occluded(hit.point)) { const L = P.find((q) => q.id === hit.object.userData.landmarkId); if (L && active[L.c] && (!find.value.trim() || shown.includes(L) || L === sel)) return L; }
+  return null;
+}
+function clusterCentre(m) { const c = new THREE.Vector3(); let rr = 0; m.forEach((q) => c.add(q.pos)); c.multiplyScalar(1 / m.length); m.forEach((q) => { rr = Math.max(rr, Math.hypot(q.pos.x - c.x, q.pos.z - c.z)); }); return [c, rr]; }
+const ptrs = new Set(); let multi = false;
+canvas.addEventListener('pointerdown', (e) => { ptrs.add(e.pointerId); if (ptrs.size > 1) multi = true; down = [e.clientX, e.clientY]; });
+for (const ev of ['pointerup', 'pointercancel']) addEventListener(ev, (e) => { if (ev === 'pointerup' && e.target === canvas) return; ptrs.delete(e.pointerId); if (!ptrs.size) multi = false; });
+canvas.addEventListener('pointerup', (e) => {
+  ptrs.delete(e.pointerId); if (multi) { if (!ptrs.size) multi = false; return; }
+  if (e.button !== 0 || !down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > (e.pointerType === 'touch' ? 12 : 5)) return;
+  let L = atlas.getLabelsVisible() ? labelAt(e) : null;
+  if (!L && lastDot && lastDot.n > 1 && atlas.getLabelsVisible()) {
+    const m = lastDot.mem, [c, rr] = clusterCentre(m);
+    if (view().d <= 44) { select(m[(m.findIndex((q) => q.L === sel) + 1) % m.length].L); return; }
+    flyTo(c, Math.max(36, Math.min(125, rr * 2.6 + 34))); return;
+  }
+  L = L || pick(e); if (L) select(L);
+});
+let hoverE = null, hoverT = 0, hov = null;
+canvas.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && !e.buttons) hoverE = e; });
+
+/* ---------- resize, layout, loop ---------- */
+let VW = 1, VH = 1;
+function resize() {
+  VW = app.clientWidth || innerWidth; VH = app.clientHeight || innerHeight; dirty = true;
+  // while the whole country is in view, keep it framed as the window changes shape
+  if (atlas.isAtOverview && !fly) { const h = homePose(), r = reduce; reduce = true; flyTo(h.t, h.d, h.az, h.el, true); reduce = r; }
+  if (sel) dock();
+}
+onAtlasResize = resize; resize();
+
+const v = new THREE.Vector3(), pri = (it) => { const q = it.L ? PRI.indexOf(it.L.id) : -1; return q < 0 ? 99 : q; };
+const order = items.slice().sort((a, b) => (a.tier - b.tier) || (pri(a) - pri(b))), lastP = new THREE.Vector3(), lastQ = new THREE.Quaternion();
+function layout() {
+  const placed = [], ar = app.getBoundingClientRect();
+  for (const id of ['top', 'card', 'nav', 'hint']) {
+    const e = $(id); if (e.hidden || (e.classList.contains('gone') && performance.now() - hintT > 650)) continue;
+    const r = e.getBoundingClientRect(); if (!r.width) continue;
+    placed.push([r.left - ar.left - 6, r.top - ar.top - 6, r.right - ar.left + 6, r.bottom - ar.top + 6]);
+  }
+  const hud = placed.slice();
+  order.sort((a, b) => (a.tier - b.tier) || ((b.on ? 1 : 0) - (a.on ? 1 : 0)));
+  const top2 = [sel, hov && hov !== sel ? hov : null].filter(Boolean).map((L) => items[L.i]), seq = [...top2, ...order.filter((o) => !top2.includes(o))], foc = document.activeElement; lastPlaced = placed;
+  const qs = find.value.trim() ? new Set(shown) : null, cap = Math.max(8, Math.round(VW * VH / 46000)), plR = [], K = 2 * Math.tan(camera.fov * Math.PI / 360); let nPl = 0;
+  for (const it of seq) {
+    const pl = !it.area; let show = it.area || (active[it.L.c] && (!qs || qs.has(it.L) || it.L === sel)), far = false, x = 0, y = 0;
+    if (show) {
+      const d = camera.position.distanceTo(it.pos);
+      if (pl && !qs && it.L !== sel && it.L !== hov && !(touring && STOPS.includes(it.L)) && it.tier === 2 && d > (small() ? 320 : 560)) far = true;
+      if (it.area && (d < 60 || (!it.major && d > 400))) show = false;
+    }
+    if (show) { v.copy(it.pos).project(camera); if (v.z > 1 || v.z < -1) { show = false; } else { x = (v.x * 0.5 + 0.5) * VW; y = (-v.y * 0.5 + 0.5) * VH; } }
+    if (show && !it.area && it.L !== sel && it.L !== hov && occluded(it.pos)) show = false;
+    const vis = show; if (far) show = false;
+    if (show) {
+      const w = it.w, h = it.h, isSel = !it.area && (it.L === sel || it.L === hov); let l = x - w / 2, t = it.area ? y - h / 2 : y - h - 9;
+      if (isSel) { l = Math.max(4, Math.min(VW - w - 4, l)); t = Math.max(4, Math.min(VH - h - 4, t)); for (const q of placed) if (l < q[2] && l + w > q[0] && t < q[3] && t + h > q[1]) { if (q[1] - h - 4 > 4) t = q[1] - h - 4; else l = Math.min(VW - w - 4, q[2] + 4); } }
+      else if (l < 2 || t < 2 || l + w > VW - 2 || t + h > VH - 2 || (pl && nPl >= cap)) show = false;
+      if (show && !isSel) {
+        const hit = (q) => { for (const p of placed) if (q < p[2] + 4 && q + w + 4 > p[0] && t < p[3] + 3 && t + h + 3 > p[1]) return true; return false; };
+        if (hit(l)) { if (it.area) show = false; else { const c = [x - 14, x - w + 14].find((q) => q >= 2 && q + w <= VW - 2 && !hit(q)); if (c === undefined) show = false; else l = c; } }
+      }
+      if (show && isSel) {
+        v.set(it.L.x, it.L.gy, it.L.z).project(camera); const gy = (-v.y * 0.5 + 0.5) * VH, gx2 = (v.x * 0.5 + 0.5) * VW;
+        it.el.style.setProperty('--lh', (camera.position.distanceTo(it.pos) > 110 ? Math.max(9, Math.min(400, gy - t - h)) : 9) + 'px');
+        if (it.L === sel) { const rp = Math.max(14, it.L.r * VH / (K * camera.position.distanceTo(it.pos)) * 0.8); placed.push([gx2 - rp, t + h + 2, gx2 + rp, gy + rp * 0.4]); }
+      }
+      if (show) { if (pl) { nPl++; plR.push([l, t, l + w, t + h]); } placed.push([l, t, l + w, t + h]); it.rect = [l, t, l + w, t + h]; it.el.style.transform = `translate(${Math.round(l)}px,${Math.round(t)}px)`; if (!it.area) it.el.style.setProperty('--lx', Math.max(4, Math.min(w - 4, x - l)) + 'px'); }
+    }
+    if (pl) {
+      let dot = vis && !show && x > 6 && y > 6 && x < VW - 6 && y < VH - 6; if (dot) for (const q of hud) if (x > q[0] && x < q[2] && y > q[1] && y < q[3]) { dot = false; break; }
+      it.dotOn = dot; it.dot.classList.toggle('off', !dot); if (dot) { it.dx = x; it.dy = y; it.dot.style.transform = `translate(${Math.round(x - 4)}px,${Math.round(y - 4)}px)`; }
+    }
+    if (!show && it.el === foc) canvas.focus({ preventScroll: true });
+    it.on = show; it.el.classList.toggle('off', !show);
+  }
+}
+let lastMove = 0, lastLay = 0, needOrder = true;
+// Once the view settles, put the label buttons in reading order so Tab moves across the map top to bottom, left to right.
+function tabOrder() {
+  needOrder = false; writeHash(); if (labels.contains(document.activeElement)) return;
+  items.filter((it) => it.L && ((it.on && it.rect) || it.dotOn)).map((it) => (it.on && it.rect ? [it.rect[1], it.rect[0], it.el] : [it.dy, it.dx, it.dot])).sort((a, b) => (Math.round(a[0] / 24) - Math.round(b[0] / 24)) || (a[1] - b[1])).forEach((q) => labels.append(q[2]));
+}
+let lastPlaced = [];
+function dotGo(it) {
+  const m = it.n > 1 && it.mem ? it.mem : null; if (!m) { select(it.L, true); return; }
+  const [c, rr] = clusterCentre(m);
+  if (view().d <= 44) { select(m[(m.findIndex((q) => q.L === sel) + 1) % m.length].L, true); return; }
+  flyTo(c, Math.max(36, Math.min(125, rr * 2.6 + 34)));
+  setTimeout(() => { const f = m.map((q) => (q.on ? q.el : q.dotOn ? q.dot : null)).find(Boolean); if (f && (document.activeElement === canvas || document.activeElement === document.body)) f.focus({ preventScroll: true }); }, 1700);
+}
+function clusterDots() {
+  const sh = [], fd = document.activeElement && document.activeElement.classList.contains('dot') ? document.activeElement : null;
+  if (fd) setTimeout(() => { if (document.activeElement === document.body || fd.classList.contains('off')) { const it = items.find((q) => q.dot === fd); (it && it.on ? it.el : canvas).focus({ preventScroll: true }); } }, 0);
+  for (const it of items) {
+    if (!it.dotOn) continue;
+    if (!find.value.trim() && lastPlaced.some((q) => it.dx > q[0] - 12 && it.dx < q[2] + 12 && it.dy > q[1] - 12 && it.dy < q[3] + 12)) { it.dotOn = false; it.dot.classList.add('off'); continue; }
+    const c = sh.find((q) => Math.abs(q.cx - it.dx) < 22 && Math.abs(q.cy - it.dy) < 22);
+    if (c) { c.m.push(it); c.cx += (it.dx - c.cx) / c.m.length; c.cy += (it.dy - c.cy) / c.m.length; it.dotOn = false; it.dot.classList.add('off'); } else sh.push({ cx: it.dx, cy: it.dy, m: [it] });
+  }
+  for (let again = true; again;) {
+    again = false;
+    for (let a = 0; a < sh.length && !again; a++) for (let b = a + 1; b < sh.length; b++) if (Math.abs(sh[a].cx - sh[b].cx) < 24 && Math.abs(sh[a].cy - sh[b].cy) < 24) {
+      const A = sh[a], B = sh[b], n = A.m.length + B.m.length; A.cx = (A.cx * A.m.length + B.cx * B.m.length) / n; A.cy = (A.cy * A.m.length + B.cy * B.m.length) / n;
+      B.m[0].dotOn = false; B.m[0].dot.classList.add('off'); A.m.push(...B.m); sh.splice(b, 1); again = true; break;
+    }
+  }
+  for (const c of sh) if (c.m.length > 1) for (const q of lastPlaced) if (c.cx > q[0] - 12 && c.cx < q[2] + 12 && c.cy > q[1] - 12 && c.cy < q[3] + 12) { c.cy = q[3] + 14; break; }
+  for (const c of sh) {
+    const it = c.m[0], n = c.m.length; it.n = n; it.mem = c.m;
+    if (n > 1) { it.dx = c.cx; it.dy = c.cy; it.dot.style.transform = `translate(${Math.round(c.cx - 4)}px,${Math.round(c.cy - 4)}px)`; }
+    if (it.dn !== n) { it.dn = n; it.dot.textContent = n > 1 ? n : ''; it.dot.classList.toggle('many', n > 1); }
+    { const lab = n > 1 ? `${n} places: ${c.m.slice(0, 3).map((q) => q.L.n).join(', ')}${n > 3 ? ' and more' : ''}. Zoom in` : it.L.n; if (it.dl !== lab) { it.dl = lab; it.dot.setAttribute('aria-label', lab); } }
+  }
+}
+// camera flights, run before the controls settle each frame
+beforeUpdate = (now) => {
+  if (fly && fly.orbit) {
+    const u = Math.max(0, Math.min(1, (now - fly.t0) / fly.dur)), e = 1 - (1 - u) * (1 - u), f = fly.from, t = fly.to, d = f.d * Math.pow(t.d / f.d, e), az = f.az + (t.az - f.az) * e, el = f.el + (t.el - f.el) * e;
+    camera.position.copy(controls.target).add(v.set(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(d)); if (u >= 1) fly = null;
+  } else if (fly) {
+    const u = Math.max(0, Math.min(1, (now - fly.t0) / 1200)), e = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+    controls.target.lerpVectors(fly.a, fly.b, e); camera.position.lerpVectors(fly.p, fly.q, e); camera.position.y += Math.sin(Math.PI * e) * fly.lift;
+    if (u >= 1) { atlas.isAtOverview = fly.home; fly = null; }
+  }
+};
+afterRender = (now) => {
+  if (!$('load').hidden) $('load').hidden = true;
+  if (hoverE && now - hoverT > 90) {
+    const hl = atlas.getLabelsVisible() ? labelAt(hoverE) : (lastDot = null), hp = hl || (lastDot ? null : pick(hoverE)); canvas.style.cursor = hp || lastDot ? 'pointer' : '';
+    if (hov !== hp) { dirty = true; if (hov) items[hov.i].el.classList.remove('hov'); hov = hp; if (hov) items[hov.i].el.classList.add('hov'); }
+    hoverE = null; hoverT = now;
+  }
+  // damping eases out for seconds in ever smaller steps: treat the view as settled once those are invisible
+  const moved = lastP.distanceToSquared(camera.position) > 1e-7 || 1 - Math.abs(lastQ.dot(camera.quaternion)) > 1e-10;
+  if (moved || fly) lastMove = now;
+  if ((dirty || moved) && (dirty || now - lastLay > 40)) {
+    layout(); needOrder = true; lastP.copy(camera.position); lastQ.copy(camera.quaternion); dirty = false; lastLay = now; clusterDots();
+    { const top = view().el > 1.2; $('tilt').textContent = top ? '3D' : '2D'; $('tilt').title = top ? 'Top-down view (switch to tilted)' : 'Tilted view (switch to top-down)'; }
+    $('nord').style.transform = `rotate(${view().az}rad)`;
+  }
+  if (needOrder && now - lastMove > 700 && now - lastLay > 300) tabOrder();
+};
+
+/* ---------- deep links ---------- */
+// #cam=lat,lon,distance[,azimuth,elevation,height]  #place=Name  #q=search  #off=categories  #tour=stop  #lens=  #sun=hours  #labels=0
+// The address keeps the view, the open place, the search, hidden categories and the atlas's lens and sun, so a copied link reopens the same map.
+let hashT = 0;
+let hashSel = null, applying = false, pushNext = false, stepNav = false;
+$('copy').onclick = () => {
+  writeHash(true);
+  const b = $('copy'), done = (t) => { b.textContent = t; $('say').textContent = t === 'Copied' ? 'Link copied' : t; setTimeout(() => { b.textContent = 'Copy link'; }, 1600); };
+  try { navigator.clipboard.writeText(HOST ? HOST.location.origin + HOST.location.pathname + location.hash : location.href).then(() => done('Copied'), () => done('Copy the address bar')); } catch (e) { done('Copy the address bar'); }
+};
+function writeHash(now) {
+  if (applying) return; if (!isFinite(camera.position.x + camera.position.y + controls.target.x)) return; clearTimeout(hashT);
+  const go = () => {
+    const vw = view(), ll = unproject(controls.target.x, controls.target.z), h = new URLSearchParams(location.hash.slice(1)), o = [];
+    if (sel) o.push('place=' + encodeURIComponent(sel.s));
+    o.push(`cam=${ll.lat.toFixed(4)},${ll.lon.toFixed(4)},${Math.round(vw.d)},${vw.az.toFixed(2)},${vw.el.toFixed(2)},${controls.target.y.toFixed(1)}`);
+    if (find.value.trim()) o.push('q=' + encodeURIComponent(find.value.trim()));
+    const off = Object.keys(CATS).filter((c) => !active[c]); if (off.length) o.push('off=' + off.join(','));
+    if (touring) o.push('tour=' + (tourK + 1));
+    if (atlas.getLens() !== 'natural') o.push('lens=' + atlas.getLens());
+    if (Math.abs(atlas.getTimeOfDay() - DAY) > 0.01) o.push('sun=' + atlas.getTimeOfDay());
+    if (!atlas.getLabelsVisible()) o.push('labels=0');
+    if (h.has('still')) o.push('still=1'); if (h.has('bare')) o.push('bare=1');
+    try { history[pushNext || (sel !== hashSel && sel && !stepNav) ? 'pushState' : 'replaceState'](null, '', '#' + o.join('&')); } catch (e) {}
+    if (HOST) try { HOST.history.replaceState(null, '', HOST.location.pathname + HOST.location.search + '#' + o.join('&')); } catch (e) {}
+    hashSel = sel; pushNext = false; stepNav = false;
+  };
+  if (now === true) go(); else hashT = setTimeout(go, 500);
+}
+function fromHash() {
+  const h = new URLSearchParams(location.hash.slice(1)), c = (h.get('cam') || '').split(',').map(Number), r = reduce;
+  const camOK = c.length >= 3 && c.every(isFinite), camGo = () => flyTo(world(c[0], c[1], c.length > 5 ? c[5] : GRID.seaLevelY), c[2], c[3], c[4]);
+  reduce = true;
+  if (camOK) camGo();
+  applying = true;
+  { const lens = h.get('lens') || 'natural'; if (lensBtns.some((b) => b.dataset.lens === lens) && atlas.getLens() !== lens) atlas.setLens(lens); }
+  { const sun = h.has('sun') ? Number(h.get('sun')) : DAY; if (isFinite(sun) && Math.abs(atlas.getTimeOfDay() - sun) > 0.01) atlas.setTimeOfDay(sun); }
+  { const lab = h.get('labels') !== '0'; if (atlas.getLabelsVisible() !== lab) atlas.setLabelsVisible(lab); }
+  { const off = (h.get('off') || '').split(','); for (const b of chips.querySelectorAll('.chip')) if (off.includes(b.dataset.c) === (b.getAttribute('aria-pressed') === 'true')) b.click(); }
+  tint();
+  if ((h.get('q') || '') !== find.value.trim()) { find.value = h.get('q') || ''; renderList(); if (find.value && $('places').hidden) $('toggle').click(); if (find.value && !camOK) frameMatches(); }
+  { const tk = parseInt(h.get('tour'), 10); if (tk >= 1 && tk <= STOPS.length && !touring) { touring = true; tourK = tk - 1; $('next').innerHTML = 'Next stop &rsaquo;'; } }
+  if (touring && !h.has('tour')) { tourNav = false; setTour(false); }
+  const want = (h.get('place') || '').toLowerCase();
+  const L = (want && P.find((p) => p.s.toLowerCase() === want || p.n.toLowerCase() === want || p.id === want)) || (touring && h.get('tour') && !h.get('place') ? STOPS[tourK] : null);
+  if (L) { if (touring) stepNav = tourNav = true; select(L); }
+  else if (sel && !h.get('place') && !h.get('tour')) select(null);
+  else if (h.get('place')) { $('say').textContent = `No place called ${h.get('place')} on this map`; $('hintt').textContent = `No place called “${h.get('place')}” here. Try the search.`; showHint(true); }
+  if (L && camOK) camGo();
+  applying = false; hashSel = sel;
+  reduce = r; dirty = true; labels.classList.add('snap'); if (!h.has('still')) setTimeout(() => labels.classList.remove('snap'), 400);
 }
 
-function updateInspectorCard(landmark, lastVisited) {
-  const card = document.getElementById('landmark-inspector');
-  const tourLabel = document.getElementById('tour-current-label');
-  const detailsEl = document.getElementById('inspector-details');
-  if (!landmark) {
-    card.hidden = true;
-    tourLabel.textContent = lastVisited ? `Near ${lastVisited.shortLabel}` : 'Full Iran Overview';
-    return;
-  }
-  card.hidden = false;
-  if (detailsEl) {
-    detailsEl.open = window.innerWidth > 860 && window.innerHeight > 540;
-  }
-  document.getElementById('inspector-prov').textContent = landmark.province;
-  document.getElementById('inspector-title').textContent = landmark.name;
-  document.getElementById('inspector-fa').textContent = landmark.faName;
-  document.getElementById('inspector-era').textContent = landmark.eraLabel;
-  document.getElementById('inspector-summary').textContent = landmark.summary;
-  document.getElementById('inspector-arch').textContent = landmark.architecturalNote;
-  document.getElementById('inspector-coords').textContent = `${landmark.lat.toFixed(2)}°N, ${landmark.lon.toFixed(2)}°E`;
-  document.getElementById('inspector-elev').textContent = `${landmark.realElevationM.toLocaleString()} m ASL`;
-  tourLabel.textContent = `${landmark.index + 1}/20 · ${landmark.shortLabel}`;
-}
-
-function initUIAndHostBridge() {
-  if (new URLSearchParams(window.location.search).get('cleanPreview') === '1') {
-    document.documentElement.classList.add('is-clean-preview');
-  }
-
-  let atlasAppRef = null;
-
-  // 1. Hugo Host Iframe Bridge (__applyHostTheme, __applyHostViewport, __onHostMaximizedChange)
-  const applyEmbeddedHeight = (hPx) => {
-    const clamped = Math.max(240, Math.min(1440, Math.floor(hPx)));
-    document.documentElement.style.setProperty('--embed-height', `${clamped}px`);
-  };
-
-  window.__applyHostTheme = (isDark) => {
-    const dark = Boolean(isDark);
-    document.documentElement.classList.toggle('dark', dark);
-    document.documentElement.classList.toggle('light', !dark);
-    document.documentElement.dataset.hostTheme = dark ? 'dark' : 'light';
-  };
-
-  window.__applyHostViewport = (hPx) => {
-    applyEmbeddedHeight(hPx);
-  };
-
-  if (window.self !== window.top) {
+// ---- Full screen, and the bridge to a host page that frames this map (same origin, offering __setArtifactMaximized).
+let HOST = null;
+try { if (window.self !== window.top && window.parent && typeof window.parent.__setArtifactMaximized === 'function') HOST = window.parent; } catch (e) {}
+{
+  const root = document.documentElement, btn = $('full'); let maxed = false;
+  const ICON = (m) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="${m ? 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' : 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5'}"/></svg>`;
+  const sync = (m) => { maxed = !!m; btn.innerHTML = ICON(maxed); btn.setAttribute('aria-pressed', maxed); btn.title = maxed ? 'Leave full screen' : 'Full screen'; btn.setAttribute('aria-label', btn.title); dirty = true; };
+  // The atlas keeps its own dark gallery look whatever the host's theme; the attribute is recorded as on the other maps.
+  window.__applyHostTheme = (d) => { root.setAttribute('data-theme', d ? 'dark' : 'light'); };
+  window.__applyHostViewport = (h) => { root.classList.add('is-embedded'); root.style.setProperty('--embed-height', Math.max(240, Math.round(h)) + 'px'); atlas.resize(); };
+  window.__onHostMaximizedChange = sync;
+  const nativeOK = !!(document.fullscreenEnabled && root.requestFullscreen);
+  sync(false); btn.hidden = !(HOST || nativeOK);
+  btn.onclick = () => { if (HOST) { try { sync(HOST.__setArtifactMaximized(!maxed)); } catch (e) {} } else if (document.fullscreenElement) document.exitFullscreen(); else root.requestFullscreen().catch(() => {}); };
+  document.addEventListener('fullscreenchange', () => { if (!HOST) sync(!!document.fullscreenElement); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && maxed && HOST && !sel && !find.value.trim()) try { HOST.__setArtifactMaximized(false); } catch (x) {} });
+  if (HOST) {
     try {
-      const parentWin = window.parent;
-      const frameEl = window.frameElement;
-      if (!frameEl || frameEl.id === 'artifact-frame') {
-        document.documentElement.classList.add('is-embedded');
-        const parentDoc = parentWin?.document?.documentElement;
-        if (parentDoc) {
-          const isParentLight = parentDoc.classList.contains('light');
-          const isParentDark = parentDoc.classList.contains('dark') || (!isParentLight && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          document.documentElement.classList.toggle('dark', isParentDark);
-          document.documentElement.classList.toggle('light', !isParentDark);
-        }
-        if (parentWin && frameEl) {
-          const syncFromParent = () => {
-            const vh = parentWin.visualViewport?.height || parentWin.innerHeight;
-            const vw = parentWin.visualViewport?.width || parentWin.innerWidth;
-            if (typeof parentWin.__isArtifactMaximized === 'function' && parentWin.__isArtifactMaximized()) {
-              applyEmbeddedHeight(vh);
-              return;
-            }
-            const isShortLandscape = vh <= 520 && vw > vh;
-            const top = Math.max(0, frameEl.getBoundingClientRect().top + parentWin.scrollY);
-            applyEmbeddedHeight(isShortLandscape ? vh : vh - top - 16);
-          };
-          syncFromParent();
-          parentWin.addEventListener('resize', syncFromParent, { passive: true });
-          parentWin.visualViewport?.addEventListener('resize', syncFromParent, { passive: true });
-        }
-      }
-    } catch (_) {
-      document.documentElement.classList.add('is-embedded');
-    }
+      const fe = window.frameElement; if (fe) window.__applyHostViewport(Math.max(320, HOST.innerHeight - (fe.getBoundingClientRect().top + HOST.scrollY) - 16));
+      const hd = HOST.document.documentElement; window.__applyHostTheme(hd.classList.contains('dark') || (!hd.classList.contains('light') && matchMedia('(prefers-color-scheme: dark)').matches));
+      if (location.hash.length <= 1 && HOST.location.hash.length > 1) history.replaceState(null, '', HOST.location.hash);
+    } catch (e) {}
   }
-
-  // 2. Instantiate 3D Voxel Atlas
-  let syncUIState = null;
-  let lastTriggerEl = null;
-
-  const canvasHost = document.getElementById('canvas-host');
-  const pinLayer = document.getElementById('pin-layer');
-  const app = new IranAtlasApp(canvasHost, pinLayer, {
-    onSelectLandmark: (lm, prev) => {
-      updateInspectorCard(lm, prev);
-      if (lm) announcePolite(`Inspecting ${lm.name}`);
-    },
-    onStateChange: (state) => {
-      syncUIState?.(state);
-    },
-    onStatusAnnounce: (msg) => announcePolite(msg),
-    onPinActivate: (btn) => {
-      lastTriggerEl = btn;
-      requestAnimationFrame(() => inspectorCloseBtn.focus());
-    }
-  });
-  atlasAppRef = app;
-
-  // 3. Wire Accessible Toolbar & Gated Focusgroup Fallback
-  const toolbar = document.getElementById('atlas-toolbar');
-  const lensBtns = Array.from(toolbar.querySelectorAll('button[data-lens]'));
-  const toggleLabelsBtn = document.getElementById('toggle-labels-btn');
-  const resetOverviewBtn = document.getElementById('reset-overview-btn');
-  const timeSlider = document.getElementById('time-slider');
-  const timeReadout = document.getElementById('time-readout');
-  const motionToggleBtn = document.getElementById('motion-toggle-btn');
-  const drawer = document.getElementById('landmarks-drawer');
-  const drawerTriggerBtn = document.getElementById('landmarks-trigger-btn');
-  const landmarksList = document.getElementById('landmarks-list');
-  const helpOpenBtn = document.getElementById('help-open-btn');
-  const helpDialog = document.getElementById('help-dialog');
-  const maximizeBtn = document.getElementById('maximize-btn');
-  const tourPrevBtn = document.getElementById('tour-prev-btn');
-  const tourNextBtn = document.getElementById('tour-next-btn');
-  const inspectorCard = document.getElementById('landmark-inspector');
-  const inspectorCloseBtn = document.getElementById('inspector-close-btn');
-  const drawerItemBtns = new Map();
-
-  // Gated roving-tabindex fallback when native HTML focusgroup is absent
-  if (!('focusgroup' in HTMLElement.prototype || 'focusGroup' in HTMLElement.prototype)) {
-    const tbButtons = Array.from(toolbar.querySelectorAll('button'));
-    tbButtons.forEach((btn, idx) => {
-      btn.tabIndex = idx === 0 ? 0 : -1;
-    });
-    toolbar.addEventListener('focusin', ({ target }) => {
-      if (target instanceof HTMLButtonElement && tbButtons.includes(target)) {
-        tbButtons.forEach((b) => { b.tabIndex = b === target ? 0 : -1; });
-      }
-    });
-    toolbar.addEventListener('keydown', (e) => {
-      const idx = tbButtons.indexOf(document.activeElement);
-      if (idx === -1) return;
-      const isRtl = getComputedStyle(toolbar).direction === 'rtl';
-      const step = { ArrowRight: isRtl ? -1 : 1, ArrowLeft: isRtl ? 1 : -1 };
-      let next = null;
-      if (e.key in step) next = (idx + step[e.key] + tbButtons.length) % tbButtons.length;
-      else if (e.key === 'Home') next = 0;
-      else if (e.key === 'End') next = tbButtons.length - 1;
-      if (next !== null) {
-        e.preventDefault();
-        tbButtons[next].focus();
-      }
-    });
-  }
-
-  let prevRenderedLens = null;
-  let prevRenderedEra = null;
-
-  syncUIState = (state) => {
-    for (const btn of lensBtns) {
-      btn.setAttribute('aria-pressed', String(btn.dataset.lens === state.lens));
-    }
-    if (state.lens !== prevRenderedLens || state.eraFilter !== prevRenderedEra) {
-      prevRenderedLens = state.lens;
-      prevRenderedEra = state.eraFilter;
-      renderLensLegend(app, state.lens, state.eraFilter);
-    }
-    toggleLabelsBtn.setAttribute('aria-pressed', String(state.labelsVisible));
-
-    const roundedTime = String(Math.round(state.timeHours * 4) / 4);
-    if (timeSlider.value !== roundedTime) timeSlider.value = roundedTime;
-    timeSlider.style.setProperty('--attr-min', timeSlider.min || '0');
-    timeSlider.style.setProperty('--attr-max', timeSlider.max || '24');
-    timeSlider.style.setProperty('--control-value', String(state.timeHours));
-    const { short, phase } = formatSolarClock(state.timeHours);
-    timeReadout.textContent = short;
-    timeSlider.setAttribute('aria-valuetext', `${short} — ${phase}`);
-
-    motionToggleBtn.setAttribute('aria-pressed', String(state.paused));
-
-    for (const [id, btn] of drawerItemBtns) {
-      if (state.selectedLandmark?.id === id) btn.setAttribute('aria-current', 'location');
-      else btn.removeAttribute('aria-current');
-    }
-  };
-
-  for (const btn of lensBtns) {
-    btn.addEventListener('click', () => {
-      const lens = btn.dataset.lens;
-      app.setLens(lens);
-      announcePolite(`Map lens switched to ${btn.textContent.trim()}`);
-    });
-  }
-
-  toggleLabelsBtn.addEventListener('click', () => {
-    app.setLabelsVisible(!app.getLabelsVisible());
-    announcePolite(app.getLabelsVisible() ? 'Map labels shown' : 'Map labels hidden');
-  });
-
-  resetOverviewBtn.addEventListener('click', () => {
-    app.flyToOverview(false);
-  });
-
-  timeSlider.addEventListener('input', () => {
-    app.setTimeOfDay(Number(timeSlider.value));
-  });
-
-  motionToggleBtn.addEventListener('click', () => {
-    app.setPaused(!app.isPaused());
-    announcePolite(app.isPaused() ? 'World motion paused' : 'World motion playing');
-  });
-
-  if (!('commandForElement' in HTMLButtonElement.prototype)) {
-    drawerTriggerBtn.addEventListener('click', () => {
-      if (!drawer.open) {
-        drawer.returnValue = '';
-        drawer.showModal();
-      }
-    });
-
-    helpOpenBtn.addEventListener('click', () => {
-      if (!helpDialog.open) helpDialog.showModal();
-    });
-  }
-
-  drawer.addEventListener('close', () => {
-    if (drawer.returnValue !== 'select') {
-      requestAnimationFrame(() => drawerTriggerBtn.focus());
-    }
-  });
-
-  helpDialog.addEventListener('close', () => {
-    requestAnimationFrame(() => helpOpenBtn.focus());
-  });
-
-  // Maximize / Fullscreen Integration (enabled across both desktop & mobile!)
-  let isMaximizedState = false;
-  const canHostMaximize = () => {
-    try {
-      return window.self !== window.top && Boolean(window.parent && typeof window.parent.__setArtifactMaximized === 'function');
-    } catch (_) {
-      return false;
-    }
-  };
-  const canNativeFullscreen = () => Boolean(document.fullscreenEnabled && document.documentElement.requestFullscreen);
-
-  const syncMaximizedUI = (active) => {
-    isMaximizedState = Boolean(active);
-    document.documentElement.classList.toggle('is-maximized', isMaximizedState);
-    if (maximizeBtn) {
-      maximizeBtn.setAttribute('aria-pressed', String(isMaximizedState));
-    }
-    requestAnimationFrame(() => app.forceRender());
-  };
-
-  window.__onHostMaximizedChange = syncMaximizedUI;
-
-  if (maximizeBtn) {
-    if (!canHostMaximize() && !canNativeFullscreen()) {
-      maximizeBtn.hidden = true;
-    } else {
-      maximizeBtn.addEventListener('click', () => {
-        if (canHostMaximize()) {
-          const next = window.parent.__setArtifactMaximized(!isMaximizedState);
-          syncMaximizedUI(next);
-        } else if (canNativeFullscreen()) {
-          if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-          else document.documentElement.requestFullscreen().catch(() => {});
-        }
-      });
-    }
-  }
-
-  document.addEventListener('fullscreenchange', () => {
-    if (!canHostMaximize()) syncMaximizedUI(Boolean(document.fullscreenElement));
-  });
-
-  // Populate 20 Iranian Landmarks in Modal <dialog> Directory
-  landmarksList.innerHTML = '';
-  for (const lm of LANDMARKS) {
-    const li = document.createElement('li');
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'landmark-item-btn';
-    const faShort = lm.faName.split(' — ')[0];
-    btn.innerHTML = `
-      <span class="landmark-item-btn__top">
-        <span>${lm.index + 1}. ${lm.shortLabel}</span>
-        <span class="landmark-item-btn__fa" lang="fa" dir="rtl">${faShort}</span>
-      </span>
-      <span class="landmark-item-btn__sub">${lm.province.replace(' Province', '')} · ${lm.eraName}</span>
-    `;
-    btn.addEventListener('click', () => {
-      lastTriggerEl = drawerTriggerBtn;
-      if (drawer.open) drawer.close('select');
-      app.selectAndFlyTo(lm.id, false);
-      requestAnimationFrame(() => inspectorCloseBtn.focus());
-    });
-    drawerItemBtns.set(lm.id, btn);
-    li.appendChild(btn);
-    landmarksList.appendChild(li);
-  }
-
-  tourPrevBtn.addEventListener('click', () => {
-    lastTriggerEl = tourPrevBtn;
-    app.stepLandmark(-1);
-  });
-
-  tourNextBtn.addEventListener('click', () => {
-    lastTriggerEl = tourNextBtn;
-    app.stepLandmark(1);
-  });
-
-  const closeInspectorAndReturnFocus = () => {
-    app.dismissInspector();
-    requestAnimationFrame(() => {
-      const canFocusTrigger = lastTriggerEl && !lastTriggerEl.closest('[hidden]') && lastTriggerEl.offsetParent !== null;
-      (canFocusTrigger ? lastTriggerEl : tourNextBtn).focus();
-    });
-  };
-
-  inspectorCloseBtn.addEventListener('click', closeInspectorAndReturnFocus);
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (helpDialog.open || drawer.open) return;
-      if (!inspectorCard.hidden) {
-        e.preventDefault();
-        closeInspectorAndReturnFocus();
-      } else if (isMaximizedState && canHostMaximize()) {
-        e.preventDefault();
-        window.parent.__setArtifactMaximized(false);
-        syncMaximizedUI(false);
-      }
-    }
-  });
-
-  syncUIState({
-    lens: app.getLens(),
-    eraFilter: app.getEraFilter(),
-    timeHours: app.getTimeOfDay(),
-    labelsVisible: app.getLabelsVisible(),
-    paused: app.isPaused(),
-    selectedLandmark: null
-  });
-
-  // Offscreen render throttling
-  const stageEl = document.getElementById('viewport-stage');
-  stageEl.addEventListener('contentvisibilityautostatechange', (e) => {
-    app.setOffscreenPaused(Boolean(e.skipped));
-  });
-  if (!('contentVisibility' in document.documentElement.style) && 'IntersectionObserver' in window) {
-    new IntersectionObserver((entries) => {
-      for (const entry of entries) app.setOffscreenPaused(!entry.isIntersecting);
-    }, { rootMargin: '200px' }).observe(stageEl);
-  }
-
-  app.start();
 }
 
-initUIAndHostBridge();
+/* ---------- start ---------- */
+renderList();
+setMenu(app.clientWidth < 900); matchMedia('(max-width:640px)').addEventListener('change', () => setMenu(small()));
+atlas.emitState();
+if (location.hash.length > 1) fromHash();
+addEventListener('hashchange', fromHash);
+// rest the renderer while the map is scrolled out of view
+if ('IntersectionObserver' in window) new IntersectionObserver((es) => { for (const en of es) atlas.setOffscreenPaused(!en.isIntersecting); }, { rootMargin: '200px' }).observe(app);
+atlas.start();
+started = true;
+
+// Test hooks: step the view by hand when the tab is in the background and animation frames are paused; jump to a site.
+window.__step = (ms) => { const t = performance.now() + (ms || 0); atlas.stepFrame(0.016, t); atlas.stepFrame(0.016, t + 50); };
+window.__IRAN_ATLAS_SITES = P.map((L) => ({ index: L.i, id: L.id, name: L.n, faName: L.fa, era: CATS[L.c], lat: L.lat, lon: L.lon }));
+window.__IRAN_ATLAS_JUMP = (k, instant) => { const L = typeof k === 'number' ? P[k] : P.find((q) => q.id === k); if (!L) return null; const r = reduce; if (instant) reduce = true; select(L); reduce = r; return L.n; };
+window.__IRAN_ATLAS_DEBUG = () => atlas.getDebugStats();
+})();
 
   </script>
 </body>
