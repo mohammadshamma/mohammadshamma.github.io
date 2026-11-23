@@ -212,12 +212,15 @@ html.is-embedded,html.is-embedded body{height:var(--embed-height,680px)}
   <div id="fail" hidden>This map needs WebGL and the three.js library, and one of them did not load.</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"}}
+</script>
+<script type="module" onerror="document.getElementById('load').hidden=true;document.getElementById('fail').hidden=false">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 (() => {
 const $ = id => document.getElementById(id);
-if (!window.THREE || !THREE.OrbitControls) { $('fail').hidden = false; return; }
+if (!THREE || !OrbitControls) { $('load').hidden = true; $('fail').hidden = false; return; }
 
 /* ---------- geography grid ---------- */
 const W=-122.62, E=-121.78, S=37.22, N=38.08, CELL=0.25, HSTEP=80;  // km per block, metres per level
@@ -576,7 +579,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.shadowMap.autoUpdate=false;
 const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0xcfe6f0,420,1500);
 const camera=new THREE.PerspectiveCamera(40,1,2,3200);
-const hemi=new THREE.HemisphereLight(0xffffff,0x8a94a0,.5), sun=new THREE.DirectionalLight(0xfff0d6,.72);
+const hemi=new THREE.HemisphereLight(0xffffff,0x8a94a0,1.57), sun=new THREE.DirectionalLight(0xfff0d6,2.26);
 sun.castShadow=true;{const c=sun.shadow.camera;c.left=-260;c.right=260;c.top=260;c.bottom=-260;c.near=20;c.far=1100;
   const sm=Math.min(innerWidth,innerHeight)<700?2048:4096;sun.shadow.mapSize.set(sm,sm);sun.shadow.bias=-.0012;sun.shadow.normalBias=.05}
 const sunDir=new THREE.Vector3(-.7,.82,.45).normalize(),shC=new THREE.Vector3();let shH=260,shT=0;
@@ -590,7 +593,8 @@ scene.add(hemi,sun,sun.target);
 // terrain mesh: top face per cell (darkened beside taller neighbours), side faces only where a neighbour is lower
 let terrain;
 {const pos=[],nor=[],col=[];
- const quad=(p,n,c)=>{for(const v of[0,1,2,0,2,3]){pos.push(p[v*3],p[v*3+1],p[v*3+2]);nor.push(n[0],n[1],n[2]);col.push(c[0],c[1],c[2])}};
+ const lin=c=>{c=Math.max(0,Math.min(1,c));return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4)};
+ const quad=(p,n,c)=>{const lr=lin(c[0]),lg=lin(c[1]),lb=lin(c[2]);for(const v of[0,1,2,0,2,3]){pos.push(p[v*3],p[v*3+1],p[v*3+2]);nor.push(n[0],n[1],n[2]);col.push(lr,lg,lb)}};
  const hAt=(i,j)=>(!inGrid(i,j)||!land[idx(i,j)])?0:HH[idx(i,j)];
  for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=idx(i,j);if(!land[k])continue;
    const h=HH[k],x=i-NX/2,z=j-NZ/2,x1=x+1,z1=z+1;let c=colorOf(i,j),occ=0;
@@ -616,7 +620,7 @@ let shim,waterMat;
    if(dLand[k]===1)c=mix(c,foam,ocean[k]?.6:.12);else if(dLand[k]===2&&ocean[k])c=mix(c,foam,.18);
    
    im.data[k*4]=(c[0]+r)*255;im.data[k*4+1]=(c[1]+r)*255;im.data[k*4+2]=(c[2]+r)*255;im.data[k*4+3]=255}
- cx.putImageData(im,0,0);const tx=new THREE.CanvasTexture(cv);tx.magFilter=THREE.NearestFilter;tx.minFilter=THREE.LinearFilter;
+ cx.putImageData(im,0,0);const tx=new THREE.CanvasTexture(cv);tx.colorSpace=THREE.SRGBColorSpace;tx.magFilter=THREE.NearestFilter;tx.minFilter=THREE.LinearFilter;
  waterMat=new THREE.MeshLambertMaterial({map:tx});const w=new THREE.Mesh(new THREE.PlaneGeometry(NX,NZ),waterMat);w.rotation.x=-Math.PI/2;w.position.y=.6;w.receiveShadow=true;scene.add(w);
  const d2=new Uint8Array(64*64*4).fill(255);for(let q=3;q<d2.length;q+=4)d2[q]=0;
  for(let n=0;n<80;n++){const x0=Math.floor(hash(n,2,40)*64),y0=Math.floor(hash(n,3,40)*64),len=1+Math.floor(hash(n,4,40)*3);for(let q=0;q<len;q++)d2[(y0*64+(x0+q)%64)*4+3]=Math.floor((.25+hash(n,1,40)*.5)*255)}
@@ -757,7 +761,7 @@ const OH=Float32Array.from(HH);for(const b of lmB.concat(scB)){const top=b[1]+b[
 const glow=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0xffffff,fog:false}),glB.length);
 {const m=new THREE.Matrix4(),gc=new THREE.Color(),GC=[0xffd27a,0xffb35c,0xfff0c8,0xffc46b];glB.forEach((b,n)=>{m.makeScale(b[3],b[4],b[5]);m.setPosition(b[0],b[1],b[2]);glow.setMatrixAt(n,m);glow.setColorAt(n,gc.set(GC[n%4]))});if(glow.instanceColor)glow.instanceColor.needsUpdate=true;glow.instanceMatrix.needsUpdate=true;glow.visible=false;scene.add(glow)}
 const halo=new THREE.Group();{const hc=document.createElement('canvas');hc.width=hc.height=64;const hg=hc.getContext('2d'),gr=hg.createRadialGradient(32,32,2,32,32,32);gr.addColorStop(0,'rgba(255,160,80,.55)');gr.addColorStop(1,'rgba(255,160,80,0)');hg.fillStyle=gr;hg.fillRect(0,0,64,64);
-  const hm=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(hc),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,fog:false});
+  const htx=new THREE.CanvasTexture(hc);htx.colorSpace=THREE.SRGBColorSpace;const hm=new THREE.MeshBasicMaterial({map:htx,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,fog:false});
   for(const D of DENS.concat([[37.52,-122.27,0,2.5],[37.36,-121.95,0,3],[37.70,-122.13,0,2.5],[37.55,-121.99,0,2.5],[37.97,-122.52,0,1.6],[37.94,-122.35,0,2],[37.68,-121.90,0,2]])){const m=new THREE.Mesh(new THREE.PlaneGeometry(1,1),hm),sz=Math.min(44,D[3]*11+8);m.rotation.x=-Math.PI/2;m.scale.set(sz,sz,1);m.position.set(gx(D[1])-NX/2,4.5,gz(D[0])-NZ/2);halo.add(m)}
   halo.visible=false;scene.add(halo)}
 
@@ -795,7 +799,7 @@ const ring=new THREE.Group();{const rm=new THREE.MeshBasicMaterial({color:0xff5a
   ring.visible=false;scene.add(ring)}
 
 /* ---------- camera ---------- */
-const controls=new THREE.OrbitControls(camera,canvas);
+const controls=new OrbitControls(camera,canvas);
 controls.enableDamping=!reduce;controls.dampingFactor=.09;controls.screenSpacePanning=false;
 controls.maxPolarAngle=1.42;controls.minDistance=7;controls.maxDistance=1300;controls.zoomSpeed=1.1;
 controls.mouseButtons={LEFT:THREE.MOUSE.PAN,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.ROTATE};
@@ -988,13 +992,13 @@ canvas.addEventListener('pointerup',e=>{ptrs.delete(e.pointerId);if(multi){if(!p
 let hoverE=null,hoverT=0,hov=null;canvas.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&!e.buttons)hoverE=e});
 
 /* ---------- theme, resize, loop ---------- */
-function skyTex(a,b){const c=document.createElement('canvas');c.width=2;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,a);gr.addColorStop(1,b);g.fillStyle=gr;g.fillRect(0,0,2,256);return new THREE.CanvasTexture(c)}
+function skyTex(a,b){const c=document.createElement('canvas');c.width=2;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,a);gr.addColorStop(1,b);g.fillStyle=gr;g.fillRect(0,0,2,256);const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;return tx}
 const SKY={day:skyTex('#6fb0e0','#d6ebf3'),dusk:skyTex('#070d22','#b8644c')};
 function theme(){const r=document.documentElement,t=r.getAttribute('data-theme'),dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);
   $('dusk').innerHTML=dark?'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>':'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>';$('dusk').title=dark?'Switch to day':'Switch to dusk';$('dusk').setAttribute('aria-pressed',dark);
   scene.background=dark?SKY.dusk:SKY.day;scene.fog.color.set(dark?0x5a4a68:0xcfe6f0);glow.visible=halo.visible=dark;
-  hemi.intensity=dark?.64:.62;hemi.color.set(dark?0x9fb4f0:0xe6efff);hemi.groundColor.set(dark?0x5a5670:0xb4bcc8);
-  sun.intensity=dark?.52:.76;sun.color.set(dark?0xff8a4a:0xfff0d6);
+  hemi.intensity=dark?2.01:1.95;hemi.color.set(dark?0x9fb4f0:0xe6efff);hemi.groundColor.set(dark?0x5a5670:0xb4bcc8);
+  sun.intensity=dark?1.63:2.39;sun.color.set(dark?0xff8a4a:0xfff0d6);
   sunDir.set(dark?-1:-.7,dark?.3:.82,dark?.3:.45).normalize();fitShadow(0,true);
   fogMesh.material.opacity=dark?.28:.4;stars.visible=dark;orb.material.color.set(dark?0xe8ecff:0xfff2c0);orb.scale.setScalar(dark?.6:1);orb.position.copy(dark?new THREE.Vector3(.55,.42,-.72):new THREE.Vector3(-.7,.6,.45)).normalize().multiplyScalar(2300);clouds.children[0].material.opacity=dark?.4:.6;clouds.children[0].material.color.set(dark?0xd9b3a6:0xffffff);waterMat.color.set(dark?0xffdcc8:0xffffff);shim.material.color.set(dark?0x4f6fa8:0xffffff);renderer.shadowMap.needsUpdate=true;dirty=true}
 {const r=document.documentElement,t=r.getAttribute('data-theme');$('dusk').setAttribute('aria-pressed',t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))}
